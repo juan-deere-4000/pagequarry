@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
 import { RenderPage } from "@/components/renderers/render-page";
-import { homePage } from "@/content/pages";
+import { guidePage } from "@/content/pages";
 
-export const metadata: Metadata = homePage.meta;
+export const metadata: Metadata = guidePage.meta;
 
 export default function Page() {
-  return <RenderPage page={homePage} />;
+  return <RenderPage page={guidePage} />;
 }

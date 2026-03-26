@@ -1,5 +1,33 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+# bkk ai lab poc agent rules
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
+this repo is a constrained frontend system. the point is to make future ai edits predictable.
+
+## next.js note
+
+this repo is on Next.js 16. if you touch framework behavior you are not fully sure about, read the relevant guide in `node_modules/next/dist/docs/` first.
+
+## do not improvise styling
+
+- do not add page-specific css
+- do not add css modules
+- do not add inline styles
+- do not add raw hex colors outside `app/globals.css`
+- do not add arbitrary tailwind values in page files
+- do not tune margins/padding one page at a time
+
+## approved control surfaces
+
+- tokens: `app/globals.css`
+- typography: `components/site/text.tsx`
+- shared layout primitives: `components/site/*`
+- global brand/nav/footer copy: `content/site.ts`
+- page content: `content/pages.ts`
+- block catalog: `components/blocks/registry.ts`
+- template catalog: `components/templates/registry.ts`
+
+## extension rules
+
+- if content needs a new visual pattern, add a block component and register it
+- if a new page family is needed, add a template and register it
+- route files should stay thin and should not contain layout logic
+- keep the system editorial, light, serif-led, and text-first

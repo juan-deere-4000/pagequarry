@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# bkk ai lab poc
 
-## Getting Started
+editorial proof-of-concept for the future `bkk-ai-lab` site.
 
-First, run the development server:
+the point of this repo is not just to show some sample pages. it is to prove a frontend shape that future ai agents can extend without inventing new spacing, colors, or component patterns on every page.
+
+## control surfaces
+
+if you need to change the site globally, start here:
+
+- `app/globals.css`: color and font tokens
+- `components/site/text.tsx`: typography recipes
+- `components/site/button.tsx`: button recipe
+- `components/site/section.tsx`: section spacing and tone rules
+- `components/site/page-container.tsx`: content widths
+- `content/site.ts`: site-wide metadata, nav, footer copy
+- `components/blocks/registry.ts`: available block components
+- `components/templates/registry.ts`: available page templates
+
+## architecture
+
+- `content/pages.ts` holds typed page entries
+- each page entry declares its `template`, `path`, and `meta`
+- `components/renderers/render-page.tsx` resolves the template from the registry
+- templates assemble an ordered list of approved blocks
+- `components/renderers/render-block.tsx` resolves each block from the block registry
+- page route files should stay thin: metadata + one content entry
+
+## working rules
+
+- do not style route files directly
+- do not add page-specific css
+- if a visual treatment is new, add or edit a shared recipe/block/template
+- keep content decisions in `content/*` and visual decisions in `components/site/*` or block files
+
+## pages in the poc
+
+- `/`
+- `/services`
+- `/how-it-works`
+- `/howto/productivity/email-triage`
+- `/case-studies/individuals/personal-health-ai`
+- `/contact`
+
+## commands
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run build
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
