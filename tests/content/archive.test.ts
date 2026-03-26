@@ -57,12 +57,14 @@ describe("generated archive pages", () => {
     expect(caseStudies.slug).toBe("/case-studies");
     expect(howto.blocks[0]).toMatchObject({ type: "hero", title: "all published how-to articles." });
     expect(caseStudies.blocks[0]).toMatchObject({ type: "hero", title: "all published case studies." });
-    expect(howto.blocks[2]).toMatchObject({ type: "sectionCopy", title: "health" });
-    expect(howto.blocks[3]).toMatchObject({ type: "sectionCopy", title: "productivity" });
-    expect(caseStudies.blocks[2]).toMatchObject({ type: "sectionCopy", title: "individuals" });
-    expect(caseStudies.blocks[3]).toMatchObject({ type: "sectionCopy", title: "business" });
+    expect(howto.blocks.some((block) => block.type === "metrics")).toBe(false);
+    expect(caseStudies.blocks.some((block) => block.type === "metrics")).toBe(false);
+    expect(howto.blocks[1]).toMatchObject({ type: "sectionCopy", title: "health" });
+    expect(howto.blocks[2]).toMatchObject({ type: "sectionCopy", title: "productivity" });
+    expect(caseStudies.blocks[1]).toMatchObject({ type: "sectionCopy", title: "individuals" });
+    expect(caseStudies.blocks[2]).toMatchObject({ type: "sectionCopy", title: "business" });
 
-    const healthSection = howto.blocks[2];
+    const healthSection = howto.blocks[1];
     if (healthSection.type !== "sectionCopy" || !healthSection.links) throw new Error("unexpected section shape");
     expect(healthSection.links[0]).toMatchObject({ href: "/howto/health/bloodwork-tracking", label: "bloodwork tracking" });
   });

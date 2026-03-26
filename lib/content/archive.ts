@@ -32,7 +32,6 @@ const archiveConfig = {
     groupOrder: ["individuals", "business"],
     groupPrefix: "audience",
     pageId: "case-studies-archive",
-    primaryMetricLabel: "published case studies",
     seoTitle: "case studies archive",
     slug: "/case-studies",
     summary:
@@ -52,7 +51,6 @@ const archiveConfig = {
     groupOrder: ["health", "productivity", "knowledge", "operations"],
     groupPrefix: "domain",
     pageId: "howto-archive",
-    primaryMetricLabel: "published guides",
     seoTitle: "how-to archive",
     slug: "/howto",
     summary:
@@ -83,15 +81,6 @@ function latestTimestamp(pages: ManagedPage[]) {
     .filter((value) => Number.isFinite(value));
   if (!stamps.length) return undefined;
   return new Date(Math.max(...stamps)).toISOString();
-}
-
-function formatDate(value?: string) {
-  if (!value) return "not available";
-  return new Intl.DateTimeFormat("en", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(value)).toLowerCase();
 }
 
 function hashValue(input: string) {
@@ -131,9 +120,8 @@ function buildGroups(kind: ArchiveKind, pages: ManagedPage[]): ArchiveGroup[] {
     }));
 }
 
-function buildBlocks(kind: ArchiveKind, groups: ArchiveGroup[], updatedAt?: string): ManagedPage["blocks"] {
+function buildBlocks(kind: ArchiveKind, groups: ArchiveGroup[]): ManagedPage["blocks"] {
   const config = archiveConfig[kind];
-  const totalEntries = groups.reduce((sum, group) => sum + group.entries.length, 0);
   const groupBlocks = groups.length
     ? groups.map((group) => ({
         type: "sectionCopy" as const,
@@ -161,14 +149,6 @@ function buildBlocks(kind: ArchiveKind, groups: ArchiveGroup[], updatedAt?: stri
       deck: config.deck,
       action: { href: "/contact", label: "book a consultation" },
     },
-    {
-      type: "metrics",
-      items: [
-        { label: config.primaryMetricLabel, value: String(totalEntries) },
-        { label: "sections", value: String(groups.length) },
-        { label: "latest update", value: formatDate(updatedAt) },
-      ],
-    },
     ...groupBlocks,
     {
       type: "cta",
@@ -187,7 +167,7 @@ export function buildGeneratedArchivePage(kind: ArchiveKind, pages: ManagedPage[
   const sourceHash = hashValue(JSON.stringify(archivePages.map((page) => [page.pageId, page.sourceHash, page.meta.updatedAt || null])));
 
   return {
-    blocks: buildBlocks(kind, groups, updatedAt),
+    blocks: buildBlocks(kind, groups),
     meta: {
       author: siteConfig.metadata.defaultAuthor,
       canonicalUrl: new URL(config.slug, siteConfig.siteUrl).toString(),
