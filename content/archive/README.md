@@ -16,6 +16,8 @@ important:
 - direct edits here do not publish anything
 - if you edit files here directly, the pipeline will restore the accepted version and move your edit into `content/recovered-drafts/`
 - if a page slug changes, this archive moves with the new canonical url on the next rebuild
+- `current.md` is the latest accepted revision, which may be a `draft`
+- the live site uses the newest accepted `published` revision for that page
 
 use this for:
 
