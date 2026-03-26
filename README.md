@@ -1,6 +1,6 @@
 # siam ai lab poc
 
-editorial proof-of-concept for the future `bkk-ai-lab` site.
+editorial proof-of-concept for the future `siam-ai-lab` site.
 
 the point of this repo is not just to show some sample pages. it is to prove a frontend shape that future ai agents can extend without inventing new spacing, colors, or component patterns on every page.
 
@@ -19,6 +19,7 @@ if you need to change the site globally, start here:
 
 ## architecture
 
+- authoring guide: `content/AUTHORING.md`
 - raw authoring starts in `content/submit-here/`
 - accepted markdown is mirrored into `content/archive/`
 - rescued mistakes land in `content/recovered-drafts/`
@@ -34,6 +35,7 @@ if you need to change the site globally, start here:
 
 ## working rules
 
+- for site-level vs template-level vs page-level editing, read `content/AUTHORING.md`
 - do not style route files directly
 - do not add page-specific css
 - if a visual treatment is new, add or edit a shared recipe/block/template

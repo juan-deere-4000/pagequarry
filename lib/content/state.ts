@@ -621,6 +621,7 @@ function repairRevisionPair(
 function auditVisibleMarkdown(paths: ContentPaths, audit: AuditSummary) {
   const visible = gatherMarkdownFiles(paths.contentRoot);
   const allowed = new Set([
+    toPosix(path.join(paths.contentRoot, "AUTHORING.md")),
     toPosix(path.join(paths.archiveDir, "README.md")),
     toPosix(path.join(paths.submitDir, "README.md")),
     toPosix(path.join(paths.recoveryDir, "README.md")),

@@ -254,9 +254,10 @@ describe("content state pipeline", () => {
     expect(recovery).toEqual([]);
   });
 
-  it("ignores internal state markdown and documented readme paths during audit", () => {
+  it("ignores internal state markdown and documented doc paths during audit", () => {
     const rootDir = createTempRoot();
     writeFile(rootDir, "content/.state/ignored.md", "# hidden");
+    writeFile(rootDir, "content/AUTHORING.md", "authoring docs");
     writeFile(rootDir, "content/archive/README.md", "archive docs");
     writeFile(rootDir, "content/submit-here/README.md", "submit docs");
     writeFile(rootDir, "content/recovered-drafts/README.md", "recovery docs");

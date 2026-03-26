@@ -14,6 +14,9 @@ describe("content cli", () => {
     expect(result.output).toContain("content/archive/");
     expect(result.output).toContain("content/submit-here/");
     expect(result.output).toContain("content/recovered-drafts/");
+    expect(result.output).toContain("edit <file>              alias of submit");
+    expect(result.output).toContain("seed <dir>               bulk-submit every .md file in a directory");
+    expect(result.output).toContain("bkk_content mirrors this cli 1:1");
   });
 
   it("lists templates", async () => {

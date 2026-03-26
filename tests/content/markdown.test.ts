@@ -50,7 +50,7 @@ describe("parseDraftSource", () => {
       "social_description: local-first email triage with strict workflow control",
       "social_image: guide",
       "twitter_card: summary_large_image",
-      "author: bkk ai lab",
+      "author: siam ai lab",
       "published_at: 2026-03-26T00:00:00Z",
       "updated_at: 2026-03-27T00:00:00Z",
       "redirect_from:",
@@ -85,7 +85,7 @@ describe("parseDraftSource", () => {
       expect(result.page.meta.social.title).toBe("private email triage");
       expect(result.page.meta.social.imageVariant).toBe("guide");
       expect(result.page.meta.social.twitterCard).toBe("summary_large_image");
-      expect(result.page.meta.author).toBe("bkk ai lab");
+      expect(result.page.meta.author).toBe("siam ai lab");
       expect(result.page.meta.publishedAt).toBe("2026-03-26T00:00:00Z");
       expect(result.page.meta.updatedAt).toBe("2026-03-27T00:00:00Z");
     }

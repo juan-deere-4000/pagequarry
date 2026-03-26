@@ -12,17 +12,16 @@ function guidePage(overrides: Partial<ManagedPage> = {}): ManagedPage {
   return {
     blocks: [],
     meta: {
-      author: "bkk ai lab",
+      author: "siam ai lab",
       canonicalUrl:
-        "https://bkk-ai-lab-poc-20260326152341.pages.dev/howto/productivity/email-triage",
+        "https://siamailab.com/howto/productivity/email-triage",
       description: "private inbox routing without another saas dependency",
       publishedAt: "2026-03-26T00:00:00Z",
       robots: { follow: true, index: true },
       seoTitle: "private email triage for personal and executive inboxes",
       social: {
         description: "local-first email triage with strict workflow control",
-        image:
-          "https://bkk-ai-lab-poc-20260326152341.pages.dev/og/guide.svg",
+        image: "https://siamailab.com/og/guide.svg",
         imageVariant: "guide",
         title: "private email triage",
         twitterCard: "summary_large_image",
@@ -50,13 +49,11 @@ describe("content metadata helpers", () => {
 
     expect(metadata.title).toBe("private email triage for personal and executive inboxes");
     expect(metadata.alternates?.canonical).toBe(
-      "https://bkk-ai-lab-poc-20260326152341.pages.dev/howto/productivity/email-triage"
+      "https://siamailab.com/howto/productivity/email-triage"
     );
     expect(metadata.robots).toEqual({ follow: true, index: true });
     expect(metadata.openGraph?.type).toBe("article");
-    expect(metadata.openGraph?.images?.[0]?.url).toBe(
-      "https://bkk-ai-lab-poc-20260326152341.pages.dev/og/guide.svg"
-    );
+    expect(metadata.openGraph?.images?.[0]?.url).toBe("https://siamailab.com/og/guide.svg");
     expect(metadata.twitter?.card).toBe("summary_large_image");
   });
 
@@ -74,8 +71,7 @@ describe("content metadata helpers", () => {
     const draft = guidePage({
       meta: {
         ...guidePage().meta,
-        canonicalUrl:
-          "https://bkk-ai-lab-poc-20260326152341.pages.dev/howto/productivity/draft",
+        canonicalUrl: "https://siamailab.com/howto/productivity/draft",
       },
       pageId: "draft-guide",
       redirectFrom: ["/draft-guide-old"],
@@ -85,8 +81,7 @@ describe("content metadata helpers", () => {
     const noindex = guidePage({
       meta: {
         ...guidePage().meta,
-        canonicalUrl:
-          "https://bkk-ai-lab-poc-20260326152341.pages.dev/howto/productivity/private",
+        canonicalUrl: "https://siamailab.com/howto/productivity/private",
         robots: { follow: true, index: false },
       },
       pageId: "private-guide",
@@ -101,7 +96,7 @@ describe("content metadata helpers", () => {
     expect(redirects).not.toContain("/draft-guide-old");
     expect(redirects).toContain("/private-guide-old /howto/productivity/private 301");
     expect(sitemap).toEqual([
-      "https://bkk-ai-lab-poc-20260326152341.pages.dev/howto/productivity/email-triage",
+      "https://siamailab.com/howto/productivity/email-triage",
     ]);
   });
 });
