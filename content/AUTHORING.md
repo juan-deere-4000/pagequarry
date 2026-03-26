@@ -43,9 +43,10 @@ if you need a new block, a new template, a new metadata rule, or a styling chang
 important:
 
 - the header and mobile menu are code-owned in `content/site.ts`
-- nested urls are supported, but nested markdown pages do not auto-populate the menu
-- publishing `/howto/...` or `/case-studies/...` pages does not add them to nav by itself
-- if a page should appear in the menu, a coding agent must update `content/site.ts`
+- the header is flat. top-level links are `home`, `services`, `how it works`, `how-to`, `case studies`, and `contact`
+- publishing `/howto/...` or `/case-studies/...` pages does not add child links to nav by itself
+- `/howto` and `/case-studies` are generated archive indexes in code until real markdown pages exist at those slugs
+- if a page should appear as a top-level nav item, a coding agent must update `content/site.ts`
 
 ### template-level
 

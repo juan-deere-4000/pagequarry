@@ -9,8 +9,7 @@ export type LinkItem = ActionLink & {
 
 export type SiteNavigationItem = {
   label: string;
-  href?: string;
-  items?: SiteNavigationItem[];
+  href: string;
 };
 
 export type PageStatus = "draft" | "published";
