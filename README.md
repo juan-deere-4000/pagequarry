@@ -19,19 +19,23 @@ if you need to change the site globally, start here:
 
 ## architecture
 
-- `content/pages.ts` holds typed page entries
-- each page entry declares its `template`, `path`, and `meta`
+- raw authoring starts in `content/submit-here/`
+- rescued mistakes land in `content/recovered-drafts/`
+- `lib/content/markdown.ts` parses and validates the closed `Markdoc` block grammar
+- `lib/content/state.ts` accepts revisions, rebuilds generated state, and quarantines bad direct writes
+- `lib/content/runtime.ts` reads only the generated live index
 - `components/renderers/render-page.tsx` resolves the template from the registry
-- templates assemble an ordered list of approved blocks
-- `components/renderers/render-block.tsx` resolves each block from the block registry
-- page route files should stay thin: metadata + one content entry
+- page route files stay thin and render by slug from generated content state
 
 ## working rules
 
 - do not style route files directly
 - do not add page-specific css
 - if a visual treatment is new, add or edit a shared recipe/block/template
-- keep content decisions in `content/*` and visual decisions in `components/site/*` or block files
+- raw drafts belong in `content/submit-here/`
+- use `npm run content -- check <file>` before `submit` when a draft is uncertain
+- if work disappears, check `content/recovered-drafts/` before assuming it is lost
+- keep visual decisions in `components/site/*` or block files
 
 ## pages in the poc
 
@@ -47,5 +51,8 @@ if you need to change the site globally, start here:
 ```bash
 npm run dev
 npm run lint
+npm run test
+npm run test:coverage
+npm run content -- usage
 npm run build
 ```

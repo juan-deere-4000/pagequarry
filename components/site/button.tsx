@@ -17,7 +17,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "solid",
+      variant: "ghost",
     },
   }
 );

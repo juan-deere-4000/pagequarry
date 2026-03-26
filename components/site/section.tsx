@@ -6,8 +6,8 @@ const sectionVariants = cva("", {
   variants: {
     tone: {
       default: "",
-      subtle: "bg-surface/80",
-      accent: "bg-accent-soft/70",
+      subtle: "",
+      accent: "",
     },
     spacing: {
       hero: "py-16 sm:py-24",

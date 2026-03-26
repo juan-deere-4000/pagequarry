@@ -21,7 +21,10 @@ this repo is on Next.js 16. if you touch framework behavior you are not fully su
 - typography: `components/site/text.tsx`
 - shared layout primitives: `components/site/*`
 - global brand/nav/footer copy: `content/site.ts`
-- page content: `content/pages.ts`
+- authoring inbox docs: `content/submit-here/README.md`
+- recovery docs: `content/recovered-drafts/README.md`
+- content pipeline logic: `lib/content/*`
+- example markdown fixtures: `content/examples/seed/*`
 - block catalog: `components/blocks/registry.ts`
 - template catalog: `components/templates/registry.ts`
 
@@ -30,4 +33,6 @@ this repo is on Next.js 16. if you touch framework behavior you are not fully su
 - if content needs a new visual pattern, add a block component and register it
 - if a new page family is needed, add a template and register it
 - route files should stay thin and should not contain layout logic
+- do not make raw markdown files routable directly
+- treat publication as a content-pipeline concern, not a route-file concern
 - keep the system editorial, light, serif-led, and text-first

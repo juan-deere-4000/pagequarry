@@ -69,69 +69,48 @@ export type ContentBlock = {
   [K in BlockKey]: { type: K } & BlockPropsMap[K];
 }[BlockKey];
 
-type PageBase<TTemplate extends string> = {
-  template: TTemplate;
-  path: string;
+export type PageTemplateKey =
+  | "caseStudy"
+  | "guide"
+  | "home"
+  | "hub"
+  | "narrative";
+
+export type ManagedPage = {
+  pageId: string;
+  slug: string;
+  template: PageTemplateKey;
   meta: PageMeta;
+  blocks: ContentBlock[];
+  revisionId: string;
+  sourceHash: string;
 };
 
-export type HomePage = PageBase<"home"> & {
-  hero: HeroBlockData;
-  metrics: MetricStripBlockData;
-  sections: SectionCopyBlockData[];
-  process: ProcessBlockData;
-  quote: QuoteBlockData;
-  cta: CtaBlockData;
+export type AcceptedRevision = {
+  acceptedAt: string;
+  page: ManagedPage;
+  pageId: string;
+  revisionId: string;
+  source: string;
+  sourceHash: string;
+  slug: string;
+  template: PageTemplateKey;
 };
 
-export type HubPage = PageBase<"hub"> & {
-  hero: HeroBlockData;
-  sections: SectionCopyBlockData[];
-  cta: CtaBlockData;
+export type PageCurrentState = {
+  currentRevisionId: string;
+  page: ManagedPage;
+  pageId: string;
+  sourceHash: string;
+  updatedAt: string;
 };
 
-export type NarrativePage = PageBase<"narrative"> & {
-  hero: HeroBlockData;
-  sections: SectionCopyBlockData[];
-  process?: ProcessBlockData;
-  cta: CtaBlockData;
+export type LiveContentIndex = {
+  generatedAt: string;
+  pages: ManagedPage[];
 };
 
-export type GuidePage = PageBase<"guide"> & {
-  hero: HeroBlockData;
-  whatItIs: string;
-  architecture: string;
-  personalIntro: string;
-  personalUseCases: string[];
-  businessIntro: string;
-  businessUseCases: string[];
-  relatedIntro: string;
-  relatedLinks: LinkItem[];
-  cta: CtaBlockData;
+export type TemplateRule = {
+  description: string;
+  steps: string[];
 };
-
-export type CaseStudyPage = PageBase<"caseStudy"> & {
-  hero: HeroBlockData;
-  metrics: MetricStripBlockData;
-  challengeIntro: string;
-  challenge: string[];
-  solutionIntro: string;
-  solution: string[];
-  resultIntro: string;
-  results: string[];
-  configuration: string;
-  relatedLinks: LinkItem[];
-  cta: CtaBlockData;
-};
-
-export type PageTemplateMap = {
-  caseStudy: CaseStudyPage;
-  guide: GuidePage;
-  home: HomePage;
-  hub: HubPage;
-  narrative: NarrativePage;
-};
-
-export type PageTemplateKey = keyof PageTemplateMap;
-
-export type SitePage = PageTemplateMap[PageTemplateKey];

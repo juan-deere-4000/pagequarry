@@ -8,7 +8,7 @@ import type { CtaBlockData } from "@/content/types";
 
 export function CtaBlock({ title, body, action }: CtaBlockData) {
   return (
-    <Section spacing="cta" tone="accent">
+    <Section spacing="cta">
       <PageContainer className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
         <div className="max-w-3xl">
           <Text as="h2" className="sm:text-5xl" variant="sectionTitle">

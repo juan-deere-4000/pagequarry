@@ -12,6 +12,11 @@
 
 # testing
 /coverage
+/content/.state/
+/content/submit-here/*
+!/content/submit-here/README.md
+/content/recovered-drafts/*
+!/content/recovered-drafts/README.md
 
 # next.js
 /.next/

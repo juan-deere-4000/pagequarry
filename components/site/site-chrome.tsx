@@ -22,7 +22,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             ))}
           </nav>
 
-          <Button asChild className="hidden md:inline-flex" variant="ghost">
+          <Button asChild className="hidden md:inline-flex">
             <Link href="/contact">book a consultation</Link>
           </Button>
         </PageContainer>
