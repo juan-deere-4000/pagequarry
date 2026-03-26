@@ -7,6 +7,7 @@ import type {
   ManagedPage,
   PageTemplateKey,
 } from "@/content/types";
+import { resolvePageMeta } from "@/lib/content/metadata";
 import {
   contentBlockSchema,
   frontmatterSchema,
@@ -167,6 +168,24 @@ function lineOf(node: MarkdocNode) {
 
 function issue(message: string, line?: number): LintIssue {
   return line ? { line, message } : { message };
+}
+
+function normalizeYamlValue(value: unknown): unknown {
+  if (value instanceof Date) {
+    return value.toISOString().replace(".000Z", "Z");
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((entry) => normalizeYamlValue(entry));
+  }
+
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, entry]) => [key, normalizeYamlValue(entry)])
+    );
+  }
+
+  return value;
 }
 
 function textFromNode(node: MarkdocNode): string {
@@ -351,7 +370,7 @@ function parseFrontmatter(ast: MarkdocNode, errors: LintIssue[]) {
 
   let loaded: unknown;
   try {
-    loaded = yaml.load(raw);
+    loaded = normalizeYamlValue(yaml.load(raw));
   } catch (error) {
     errors.push(issue(`frontmatter is invalid yaml: ${(error as Error).message}`));
     return null;
@@ -366,6 +385,26 @@ function parseFrontmatter(ast: MarkdocNode, errors: LintIssue[]) {
   ) {
     errors.push(issue(`slug ${loaded.slug} is reserved.`));
     return null;
+  }
+
+  if (
+    loaded &&
+    typeof loaded === "object" &&
+    "redirect_from" in loaded &&
+    Array.isArray(loaded.redirect_from)
+  ) {
+    const redirectFrom = loaded.redirect_from.filter(
+      (entry): entry is string => typeof entry === "string"
+    );
+    const slug = "slug" in loaded && typeof loaded.slug === "string" ? loaded.slug : null;
+
+    if (slug && redirectFrom.includes(slug)) {
+      errors.push(issue("frontmatter redirect_from: must not include the current slug."));
+    }
+
+    if (new Set(redirectFrom).size !== redirectFrom.length) {
+      errors.push(issue("frontmatter redirect_from: must not contain duplicates."));
+    }
   }
 
   const parsed = frontmatterSchema.safeParse(loaded);
@@ -421,14 +460,31 @@ export function parseDraftSource(input: {
 
   const page: ManagedPage = {
     blocks,
-    meta: {
+    meta: resolvePageMeta({
+      author: frontmatter.author,
+      canonicalUrl: frontmatter.canonical_url,
       description: frontmatter.description,
+      publishedAt: frontmatter.published_at,
+      revisionId: input.revisionId,
+      robots: frontmatter.robots,
+      seoTitle: frontmatter.seo_title,
+      slug: frontmatter.slug,
+      socialDescription: frontmatter.social_description,
+      socialImage: frontmatter.social_image,
+      socialTitle: frontmatter.social_title,
+      status: frontmatter.status,
+      summary: frontmatter.summary,
+      template: frontmatter.template as PageTemplateKey,
       title: frontmatter.title,
-    },
+      twitterCard: frontmatter.twitter_card,
+      updatedAt: frontmatter.updated_at,
+    }),
     pageId: frontmatter.page_id ?? slugToPageId(frontmatter.slug),
+    redirectFrom: frontmatter.redirect_from ?? [],
     revisionId: input.revisionId,
     slug: frontmatter.slug,
     sourceHash: input.sourceHash,
+    status: frontmatter.status,
     template: frontmatter.template as PageTemplateKey,
   };
 

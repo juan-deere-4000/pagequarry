@@ -9,6 +9,10 @@ import type {
   PageCurrentState,
 } from "@/content/types";
 import { managedPageSchema } from "@/lib/content/contracts";
+import {
+  acceptedAtFromRevisionId,
+  buildRedirectsFile,
+} from "@/lib/content/metadata";
 import { parseDraftSource } from "@/lib/content/markdown";
 import {
   archiveCurrentPath,
@@ -280,14 +284,6 @@ function buildRevisionId(source: string) {
   return `${timestampForId()}-${shortHash(source)}`;
 }
 
-function acceptedAtFromRevisionId(revisionId: string) {
-  const match = revisionId.match(/^(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})(\d{2})(\d{3})-/);
-  if (!match) return new Date(0).toISOString();
-
-  const [, year, month, day, hour, minute, second, millisecond] = match;
-  return `${year}-${month}-${day}T${hour}:${minute}:${second}.${millisecond}Z`;
-}
-
 function revisionPaths(paths: ContentPaths, pageId: string, revisionId: string) {
   const base = path.join(pageRevisionsDir(paths, pageId), revisionId);
   return {
@@ -393,6 +389,32 @@ function writeLiveIndex(
   writeAtomic(paths.liveIndexPath, nextContent);
   integrity.files[generatedKey(paths, paths.liveIndexPath)] = hashText(nextContent);
   audit.regenerated.push(relativeFromRoot(paths, paths.liveIndexPath));
+}
+
+function writeRedirectsFile(
+  paths: ContentPaths,
+  pages: ManagedPage[],
+  audit: AuditSummary,
+  integrity: IntegrityState
+) {
+  const nextContent = buildRedirectsFile(pages);
+
+  quarantineTamperedGeneratedFile(
+    paths,
+    integrity,
+    paths.redirectsPath,
+    "redirects",
+    "tampered-redirects",
+    "generated redirects were replaced with the latest published aliases.",
+    audit
+  );
+  if (compareContent(paths.redirectsPath, nextContent)) {
+    integrity.files[generatedKey(paths, paths.redirectsPath)] = hashText(nextContent);
+    return;
+  }
+  writeAtomic(paths.redirectsPath, nextContent);
+  integrity.files[generatedKey(paths, paths.redirectsPath)] = hashText(nextContent);
+  audit.regenerated.push(relativeFromRoot(paths, paths.redirectsPath));
 }
 
 function expectedArchiveFiles(paths: ContentPaths, pages: ArchiveProjection[]) {
@@ -616,6 +638,7 @@ function auditVisibleMarkdown(paths: ContentPaths, audit: AuditSummary) {
 export function ensureContentScaffold(rootDir = process.cwd()) {
   const paths = resolveContentPaths(rootDir);
   ensureDir(paths.archiveDir);
+  ensureDir(paths.publicDir);
   ensureDir(paths.submitDir);
   ensureDir(paths.recoveryDir);
   ensureDir(paths.stateDir);
@@ -647,29 +670,36 @@ export function rebuildContentState(rootDir = process.cwd()): AuditSummary {
       .sort()
       .reverse();
 
-    let latest: AcceptedRevision | null = null;
+    let latestAccepted: AcceptedRevision | null = null;
+    let latestPublished: AcceptedRevision | null = null;
     const acceptedRevisions: AcceptedRevision[] = [];
 
     for (const revisionId of revisionIds) {
       const accepted = repairRevisionPair(paths, pageId, revisionId, audit);
       if (!accepted) continue;
       acceptedRevisions.push(accepted);
-      if (!latest) latest = accepted;
+      if (!latestAccepted) latestAccepted = accepted;
+      if (!latestPublished && accepted.page.status === "published") {
+        latestPublished = accepted;
+      }
     }
 
-    if (!latest) continue;
-    writeCurrentState(paths, latest, audit, integrity);
+    if (!latestAccepted) continue;
+    writeCurrentState(paths, latestAccepted, audit, integrity);
     archivePages.push({
-      latest,
+      latest: latestAccepted,
       revisions: acceptedRevisions,
     });
-    if (Date.parse(latest.acceptedAt) > Date.parse(latestAcceptedAt)) {
-      latestAcceptedAt = latest.acceptedAt;
+    if (Date.parse(latestAccepted.acceptedAt) > Date.parse(latestAcceptedAt)) {
+      latestAcceptedAt = latestAccepted.acceptedAt;
     }
-    pages.push(latest.page);
+    if (latestPublished) {
+      pages.push(latestPublished.page);
+    }
   }
 
   writeLiveIndex(paths, pages, audit, integrity, latestAcceptedAt);
+  writeRedirectsFile(paths, pages, audit, integrity);
   syncArchive(paths, archivePages, audit, integrity);
   writeIntegrity(paths, integrity);
   audit.livePages = pages.length;
@@ -692,6 +722,47 @@ export function listPages(rootDir = process.cwd()) {
   return loadLiveIndex(rootDir).pages.sort((a, b) => a.slug.localeCompare(b.slug));
 }
 
+function listCurrentAcceptedPages(rootDir = process.cwd()) {
+  const paths = ensureContentScaffold(rootDir);
+  return listDirs(paths.pagesDir)
+    .map((pageId) => {
+      const current = readJson<PageCurrentState>(pageCurrentPath(paths, pageId));
+      const parsed = managedPageSchema.safeParse(current?.page);
+      if (!parsed.success) return null;
+      return parsed.data;
+    })
+    .filter(Boolean) as ManagedPage[];
+}
+
+function routeClaims(page: ManagedPage) {
+  return [
+    { kind: "slug", path: page.slug },
+    ...page.redirectFrom.map((path) => ({ kind: "redirect", path })),
+  ];
+}
+
+function routeCollisionIssues(candidate: ManagedPage, existing: ManagedPage[]) {
+  const issues: Array<{ message: string }> = [];
+  const claims = new Map<string, { kind: string; pageId: string }>();
+
+  for (const page of existing) {
+    if (page.pageId === candidate.pageId) continue;
+    for (const claim of routeClaims(page)) {
+      claims.set(claim.path, { kind: claim.kind, pageId: page.pageId });
+    }
+  }
+
+  for (const claim of routeClaims(candidate)) {
+    const collision = claims.get(claim.path);
+    if (!collision) continue;
+    issues.push({
+      message: `${claim.kind} ${claim.path} conflicts with ${collision.kind} of page_id ${collision.pageId}.`,
+    });
+  }
+
+  return issues;
+}
+
 export function submitDraftFile(input: {
   filePath: string;
   rootDir?: string;
@@ -709,7 +780,7 @@ export function submitDraftFile(input: {
     };
   }
 
-  const currentPages = listPages(paths.rootDir);
+  const currentPages = listCurrentAcceptedPages(paths.rootDir);
   const slugCollision = currentPages.find(
     (page) =>
       page.slug === parsed.page.slug &&
@@ -722,6 +793,14 @@ export function submitDraftFile(input: {
           message: `slug ${parsed.page.slug} is already used by page_id ${slugCollision.pageId}.`,
         },
       ],
+      ok: false as const,
+    };
+  }
+
+  const routeIssues = routeCollisionIssues(parsed.page, currentPages);
+  if (routeIssues.length) {
+    return {
+      issues: routeIssues,
       ok: false as const,
     };
   }
@@ -779,7 +858,8 @@ export function checkDraftFile(input: {
     };
   }
 
-  const slugCollision = listPages(paths.rootDir).find(
+  const currentPages = listCurrentAcceptedPages(paths.rootDir);
+  const slugCollision = currentPages.find(
     (page) =>
       page.slug === parsed.page.slug &&
       page.pageId !== parsed.page.pageId
@@ -792,6 +872,14 @@ export function checkDraftFile(input: {
           message: `slug ${parsed.page.slug} is already used by page_id ${slugCollision.pageId}.`,
         },
       ],
+      ok: false,
+    };
+  }
+
+  const routeIssues = routeCollisionIssues(parsed.page, currentPages);
+  if (routeIssues.length) {
+    return {
+      issues: routeIssues,
       ok: false,
     };
   }

@@ -5,6 +5,7 @@ import type {
   LinkItem,
   ManagedPage,
   PageTemplateKey,
+  SocialImageVariant,
   TemplateRule,
 } from "@/content/types";
 
@@ -89,18 +90,50 @@ export const templateKeys = [
   "narrative",
 ] as const satisfies readonly PageTemplateKey[];
 
+export const pageStatusKeys = ["draft", "published"] as const;
+export const robotsKeys = ["index", "noindex"] as const;
+export const twitterCardKeys = ["summary", "summary_large_image"] as const;
+export const socialImageKeys = [
+  "site",
+  "home",
+  "hub",
+  "guide",
+  "caseStudy",
+  "narrative",
+] as const satisfies readonly SocialImageVariant[];
+
+const slugPathSchema = z
+  .string()
+  .min(1)
+  .refine((value) => value.startsWith("/"), "must start with /")
+  .refine((value) => value === "/" || !value.endsWith("/"), "must not end with /")
+  .refine((value) => !value.includes(".."), "must not contain ..")
+  .refine(
+    (value) => /^\/[a-z0-9/-]*$/.test(value) || value === "/",
+    "must contain only lowercase letters, numbers, hyphens, and slashes"
+  );
+
+const canonicalUrlSchema = z.string().min(1).refine((value) => {
+  if (value.startsWith("/")) {
+    return slugPathSchema.safeParse(value).success;
+  }
+
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}, "must be a leading-slash path or an absolute http(s) url");
+
+const isoDateTimeSchema = z.string().refine((value) => {
+  const time = Date.parse(value);
+  return Number.isFinite(time) && value.includes("T");
+}, "must be a valid iso datetime");
+
 export const frontmatterSchema = z.object({
   template: z.enum(templateKeys),
-  slug: z
-    .string()
-    .min(1)
-    .refine((value) => value.startsWith("/"), "slug must start with /")
-    .refine((value) => value === "/" || !value.endsWith("/"), "slug must not end with /")
-    .refine((value) => !value.includes(".."), "slug must not contain ..")
-    .refine(
-      (value) => /^\/[a-z0-9/-]*$/.test(value) || value === "/",
-      "slug must contain only lowercase letters, numbers, hyphens, and slashes"
-    ),
+  slug: slugPathSchema,
   title: z.string().min(1),
   description: z.string().min(1),
   page_id: z
@@ -108,15 +141,66 @@ export const frontmatterSchema = z.object({
     .min(1)
     .regex(/^[a-z0-9-]+$/)
     .optional(),
+  status: z.enum(pageStatusKeys).default("published"),
+  summary: z.string().min(1).optional(),
+  seo_title: z.string().min(1).optional(),
+  canonical_url: canonicalUrlSchema.optional(),
+  robots: z.enum(robotsKeys).default("index"),
+  social_title: z.string().min(1).optional(),
+  social_description: z.string().min(1).optional(),
+  social_image: z.enum(socialImageKeys).optional(),
+  twitter_card: z.enum(twitterCardKeys).optional(),
+  author: z.string().min(1).optional(),
+  published_at: isoDateTimeSchema.optional(),
+  updated_at: isoDateTimeSchema.optional(),
+  redirect_from: z.array(slugPathSchema).optional(),
+}).strict().superRefine((value, context) => {
+  const redirectFrom = value.redirect_from || [];
+  const unique = new Set(redirectFrom);
+
+  if (redirectFrom.includes(value.slug)) {
+    context.addIssue({
+      code: "custom",
+      message: "redirect_from must not include the current slug.",
+      path: ["redirect_from"],
+    });
+  }
+
+  if (unique.size !== redirectFrom.length) {
+    context.addIssue({
+      code: "custom",
+      message: "redirect_from must not contain duplicates.",
+      path: ["redirect_from"],
+    });
+  }
 });
 
 export const managedPageSchema: z.ZodType<ManagedPage> = z.object({
   pageId: z.string().min(1),
   slug: frontmatterSchema.shape.slug,
   template: z.enum(templateKeys),
+  status: z.enum(pageStatusKeys),
+  redirectFrom: z.array(slugPathSchema),
   meta: z.object({
+    author: z.string().min(1),
+    canonicalUrl: z.string().min(1),
     title: z.string().min(1),
     description: z.string().min(1),
+    summary: z.string().min(1),
+    seoTitle: z.string().min(1),
+    robots: z.object({
+      follow: z.boolean(),
+      index: z.boolean(),
+    }),
+    social: z.object({
+      description: z.string().min(1),
+      image: z.string().min(1),
+      imageVariant: z.enum(socialImageKeys),
+      title: z.string().min(1),
+      twitterCard: z.enum(twitterCardKeys),
+    }),
+    publishedAt: z.string().min(1).optional(),
+    updatedAt: z.string().min(1).optional(),
   }),
   blocks: z.array(contentBlockSchema).min(1),
   revisionId: z.string().min(1),
@@ -206,7 +290,13 @@ export const blockDocs = {
   },
 } as const;
 
-export const reservedSlugs = new Set(["/_next", "/favicon.ico"]);
+export const reservedSlugs = new Set([
+  "/_next",
+  "/favicon.ico",
+  "/manifest.webmanifest",
+  "/robots.txt",
+  "/sitemap.xml",
+]);
 
 export function slugToPageId(slug: string) {
   if (slug === "/") return "home";

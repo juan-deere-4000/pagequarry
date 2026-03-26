@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { StructuredData } from "@/components/site/structured-data";
 import { RenderPage } from "@/components/renderers/render-page";
 import { siteConfig } from "@/content/site";
+import { buildNextMetadata, buildStructuredData } from "@/lib/content/metadata";
 import {
   getPageBySlug,
   nonRootPageParams,
@@ -34,10 +36,7 @@ export async function generateMetadata({
     };
   }
 
-  return {
-    description: page.meta.description,
-    title: page.meta.title,
-  };
+  return buildNextMetadata(page);
 }
 
 export default async function Page({ params }: PageProps) {
@@ -46,5 +45,10 @@ export default async function Page({ params }: PageProps) {
 
   if (!page) notFound();
 
-  return <RenderPage page={page} />;
+  return (
+    <>
+      <StructuredData items={buildStructuredData(page)} />
+      <RenderPage page={page} />
+    </>
+  );
 }

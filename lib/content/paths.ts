@@ -5,6 +5,8 @@ export type ContentPaths = ReturnType<typeof resolveContentPaths>;
 export function resolveContentPaths(rootDir = process.cwd()) {
   const contentRoot = path.join(rootDir, "content");
   const archiveDir = path.join(contentRoot, "archive");
+  const publicDir = path.join(rootDir, "public");
+  const redirectsPath = path.join(publicDir, "_redirects");
   const submitDir = path.join(contentRoot, "submit-here");
   const recoveryDir = path.join(contentRoot, "recovered-drafts");
   const examplesDir = path.join(contentRoot, "examples");
@@ -20,7 +22,9 @@ export function resolveContentPaths(rootDir = process.cwd()) {
     integrityPath,
     liveIndexPath,
     pagesDir,
+    publicDir,
     recoveryDir,
+    redirectsPath,
     rootDir,
     stateDir,
     submitDir,

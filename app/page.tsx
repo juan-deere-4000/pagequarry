@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { StructuredData } from "@/components/site/structured-data";
 import { RenderPage } from "@/components/renderers/render-page";
 import { siteConfig } from "@/content/site";
+import { buildNextMetadata, buildStructuredData } from "@/lib/content/metadata";
 import { getPageBySlug } from "@/lib/content/runtime";
 
 export const dynamicParams = false;
@@ -17,10 +19,7 @@ export function generateMetadata(): Metadata {
     };
   }
 
-  return {
-    description: page.meta.description,
-    title: siteConfig.title,
-  };
+  return buildNextMetadata(page);
 }
 
 export default function HomePage() {
@@ -28,5 +27,10 @@ export default function HomePage() {
 
   if (!page) notFound();
 
-  return <RenderPage page={page} />;
+  return (
+    <>
+      <StructuredData items={buildStructuredData(page)} />
+      <RenderPage page={page} />
+    </>
+  );
 }

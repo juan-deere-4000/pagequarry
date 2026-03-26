@@ -99,7 +99,7 @@ describe("content metadata helpers", () => {
 
     expect(redirects).toContain("/guides/email-triage /howto/productivity/email-triage 301");
     expect(redirects).not.toContain("/draft-guide-old");
-    expect(redirects).not.toContain("/private-guide-old");
+    expect(redirects).toContain("/private-guide-old /howto/productivity/private 301");
     expect(sitemap).toEqual([
       "https://bkk-ai-lab-poc-20260326152341.pages.dev/howto/productivity/email-triage",
     ]);

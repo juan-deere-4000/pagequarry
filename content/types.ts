@@ -7,9 +7,38 @@ export type LinkItem = ActionLink & {
   summary?: string;
 };
 
+export type PageStatus = "draft" | "published";
+
+export type SocialImageVariant =
+  | "site"
+  | "home"
+  | "hub"
+  | "guide"
+  | "caseStudy"
+  | "narrative";
+
+export type TwitterCardType = "summary" | "summary_large_image";
+
 export type PageMeta = {
   title: string;
   description: string;
+  summary: string;
+  seoTitle: string;
+  canonicalUrl: string;
+  robots: {
+    index: boolean;
+    follow: boolean;
+  };
+  social: {
+    title: string;
+    description: string;
+    image: string;
+    imageVariant: SocialImageVariant;
+    twitterCard: TwitterCardType;
+  };
+  author: string;
+  publishedAt?: string;
+  updatedAt?: string;
 };
 
 export type HeroBlockData = {
@@ -80,6 +109,8 @@ export type ManagedPage = {
   pageId: string;
   slug: string;
   template: PageTemplateKey;
+  status: PageStatus;
+  redirectFrom: string[];
   meta: PageMeta;
   blocks: ContentBlock[];
   revisionId: string;
