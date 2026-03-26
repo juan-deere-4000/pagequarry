@@ -1,5 +1,9 @@
 # submit here
 
+read this first:
+
+- `content/AUTHORING.md`
+
 put draft markdown files here, then run:
 
 ```bash
