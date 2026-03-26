@@ -11,9 +11,11 @@ import {
 
 type PageProps = {
   params: Promise<{
-    slug?: string[];
+    slug: string[];
   }>;
 };
+
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return nonRootPageParams();
@@ -34,7 +36,7 @@ export async function generateMetadata({
 
   return {
     description: page.meta.description,
-    title: page.slug === "/" ? siteConfig.title : page.meta.title,
+    title: page.meta.title,
   };
 }
 
