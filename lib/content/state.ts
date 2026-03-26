@@ -11,6 +11,8 @@ import type {
 import { managedPageSchema } from "@/lib/content/contracts";
 import { parseDraftSource } from "@/lib/content/markdown";
 import {
+  archiveCurrentPath,
+  archiveRevisionPath,
   pageCurrentPath,
   pageRevisionsDir,
   resolveContentPaths,
@@ -36,10 +38,11 @@ export type AuditSummary = {
 
 export type SubmitSummary = {
   action: "accepted";
+  archiveCurrentPath: string;
+  archiveRevisionPath: string;
   livePages: number;
   page: ManagedPage;
   quarantined: string[];
-  revisionPath: string;
 };
 
 export type CheckSummary =
@@ -56,6 +59,11 @@ export type CheckSummary =
 
 type IntegrityState = {
   files: Record<string, string>;
+};
+
+type ArchiveProjection = {
+  latest: AcceptedRevision;
+  revisions: AcceptedRevision[];
 };
 
 function stableJson(value: unknown) {
@@ -195,6 +203,24 @@ function gatherMarkdownFiles(dir: string): string[] {
   return results.sort();
 }
 
+function gatherFiles(dir: string): string[] {
+  if (!fileExists(dir)) return [];
+  const results: string[] = [];
+
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      results.push(...gatherFiles(fullPath));
+      continue;
+    }
+    if (entry.isFile()) {
+      results.push(fullPath);
+    }
+  }
+
+  return results.sort();
+}
+
 function normalizeIntegrity(candidate: unknown): IntegrityState {
   if (!candidate || typeof candidate !== "object") {
     return { files: {} };
@@ -284,6 +310,20 @@ function writeRevision(
   return files;
 }
 
+function pruneEmptyDirs(dir: string, stopDir: string) {
+  if (!fileExists(dir) || dir === stopDir) return;
+
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.isDirectory()) {
+      pruneEmptyDirs(path.join(dir, entry.name), stopDir);
+    }
+  }
+
+  if (fs.readdirSync(dir).length === 0) {
+    fs.rmdirSync(dir);
+  }
+}
+
 function compareContent(currentPath: string, nextContent: string) {
   if (!fileExists(currentPath)) return false;
   return fs.readFileSync(currentPath, "utf8") === nextContent;
@@ -353,6 +393,103 @@ function writeLiveIndex(
   writeAtomic(paths.liveIndexPath, nextContent);
   integrity.files[generatedKey(paths, paths.liveIndexPath)] = hashText(nextContent);
   audit.regenerated.push(relativeFromRoot(paths, paths.liveIndexPath));
+}
+
+function expectedArchiveFiles(paths: ContentPaths, pages: ArchiveProjection[]) {
+  const expected = new Map<string, string>();
+
+  for (const projection of pages) {
+    expected.set(
+      archiveCurrentPath(paths, projection.latest.slug),
+      projection.latest.source
+    );
+
+    for (const revision of projection.revisions) {
+      expected.set(
+        archiveRevisionPath(paths, projection.latest.slug, revision.revisionId),
+        revision.source
+      );
+    }
+  }
+
+  return expected;
+}
+
+function syncArchive(
+  paths: ContentPaths,
+  pages: ArchiveProjection[],
+  audit: AuditSummary,
+  integrity: IntegrityState
+) {
+  ensureDir(paths.archiveDir);
+
+  const expected = expectedArchiveFiles(paths, pages);
+  const archiveReadme = toPosix(path.join(paths.archiveDir, "README.md"));
+
+  for (const filePath of gatherFiles(paths.archiveDir)) {
+    const normalized = toPosix(filePath);
+    if (normalized === archiveReadme) continue;
+    if (expected.has(filePath)) continue;
+
+    const key = generatedKey(paths, filePath);
+    const expectedHash = integrity.files[key];
+    const actualHash = hashText(fs.readFileSync(filePath, "utf8"));
+
+    if (expectedHash && actualHash === expectedHash) {
+      fs.unlinkSync(filePath);
+      delete integrity.files[key];
+      continue;
+    }
+
+    const moved = quarantinePaths(
+      paths,
+      [{ filePath, preferredLabel: path.basename(filePath, path.extname(filePath)) }],
+      "unexpected-archive-file",
+      "content/archive is a generated view of accepted revisions. unexpected files were moved to recovered-drafts before the archive was rebuilt."
+    );
+    if (moved) audit.quarantined.push(...moved.files);
+    delete integrity.files[key];
+  }
+
+  for (const [filePath, nextContent] of expected) {
+    const key = generatedKey(paths, filePath);
+
+    if (compareContent(filePath, nextContent)) {
+      integrity.files[key] = hashText(nextContent);
+      continue;
+    }
+
+    if (fileExists(filePath)) {
+      const actualHash = hashText(fs.readFileSync(filePath, "utf8"));
+      const expectedHash = integrity.files[key];
+
+      if (!expectedHash || actualHash !== expectedHash) {
+        const moved = quarantinePaths(
+          paths,
+          [{ filePath, preferredLabel: path.basename(filePath, path.extname(filePath)) }],
+          "tampered-archive-file",
+          "archive files are generated from accepted revisions. direct edits were moved to recovered-drafts before the archive was rebuilt."
+        );
+        if (moved) audit.quarantined.push(...moved.files);
+      }
+    }
+
+    writeAtomic(filePath, nextContent);
+    integrity.files[key] = hashText(nextContent);
+    audit.regenerated.push(relativeFromRoot(paths, filePath));
+  }
+
+  const archivePrefix = `${relativeFromRoot(paths, paths.archiveDir)}/`;
+  for (const key of Object.keys(integrity.files)) {
+    if (!key.startsWith(archivePrefix)) continue;
+    if (!fileExists(path.join(paths.rootDir, key))) {
+      delete integrity.files[key];
+    }
+  }
+
+  for (const entry of listDirs(paths.archiveDir)) {
+    pruneEmptyDirs(path.join(paths.archiveDir, entry), paths.archiveDir);
+  }
 }
 
 function validateAcceptedRevision(candidate: unknown) {
@@ -452,6 +589,7 @@ function repairRevisionPair(
 function auditVisibleMarkdown(paths: ContentPaths, audit: AuditSummary) {
   const visible = gatherMarkdownFiles(paths.contentRoot);
   const allowed = new Set([
+    toPosix(path.join(paths.archiveDir, "README.md")),
     toPosix(path.join(paths.submitDir, "README.md")),
     toPosix(path.join(paths.recoveryDir, "README.md")),
   ]);
@@ -461,6 +599,7 @@ function auditVisibleMarkdown(paths: ContentPaths, audit: AuditSummary) {
     if (normalized.startsWith(toPosix(paths.submitDir) + "/")) continue;
     if (normalized.startsWith(toPosix(paths.recoveryDir) + "/")) continue;
     if (normalized.startsWith(toPosix(paths.examplesDir) + "/")) continue;
+    if (normalized.startsWith(toPosix(paths.archiveDir) + "/")) continue;
     if (normalized.startsWith(toPosix(paths.stateDir) + "/")) continue;
     if (allowed.has(normalized)) continue;
 
@@ -476,6 +615,7 @@ function auditVisibleMarkdown(paths: ContentPaths, audit: AuditSummary) {
 
 export function ensureContentScaffold(rootDir = process.cwd()) {
   const paths = resolveContentPaths(rootDir);
+  ensureDir(paths.archiveDir);
   ensureDir(paths.submitDir);
   ensureDir(paths.recoveryDir);
   ensureDir(paths.stateDir);
@@ -496,6 +636,7 @@ export function rebuildContentState(rootDir = process.cwd()): AuditSummary {
   auditVisibleMarkdown(paths, audit);
 
   const pages: ManagedPage[] = [];
+  const archivePages: ArchiveProjection[] = [];
   let latestAcceptedAt = new Date(0).toISOString();
 
   for (const pageId of listDirs(paths.pagesDir)) {
@@ -507,15 +648,21 @@ export function rebuildContentState(rootDir = process.cwd()): AuditSummary {
       .reverse();
 
     let latest: AcceptedRevision | null = null;
+    const acceptedRevisions: AcceptedRevision[] = [];
 
     for (const revisionId of revisionIds) {
       const accepted = repairRevisionPair(paths, pageId, revisionId, audit);
       if (!accepted) continue;
+      acceptedRevisions.push(accepted);
       if (!latest) latest = accepted;
     }
 
     if (!latest) continue;
     writeCurrentState(paths, latest, audit, integrity);
+    archivePages.push({
+      latest,
+      revisions: acceptedRevisions,
+    });
     if (Date.parse(latest.acceptedAt) > Date.parse(latestAcceptedAt)) {
       latestAcceptedAt = latest.acceptedAt;
     }
@@ -523,6 +670,7 @@ export function rebuildContentState(rootDir = process.cwd()): AuditSummary {
   }
 
   writeLiveIndex(paths, pages, audit, integrity, latestAcceptedAt);
+  syncArchive(paths, archivePages, audit, integrity);
   writeIntegrity(paths, integrity);
   audit.livePages = pages.length;
 
@@ -589,7 +737,7 @@ export function submitDraftFile(input: {
     template: parsed.page.template,
   };
 
-  const files = writeRevision(paths, accepted);
+  writeRevision(paths, accepted);
 
   if (path.resolve(input.filePath).startsWith(path.resolve(paths.submitDir) + path.sep)) {
     fs.unlinkSync(input.filePath);
@@ -599,11 +747,18 @@ export function submitDraftFile(input: {
 
   return {
     action: "accepted",
+    archiveCurrentPath: relativeFromRoot(
+      paths,
+      archiveCurrentPath(paths, accepted.page.slug)
+    ),
+    archiveRevisionPath: relativeFromRoot(
+      paths,
+      archiveRevisionPath(paths, accepted.page.slug, accepted.revisionId)
+    ),
     livePages: audit.livePages,
     ok: true as const,
     page: parsed.page,
     quarantined: audit.quarantined,
-    revisionPath: relativeFromRoot(paths, files.mdPath),
   } satisfies SubmitSummary & { ok: true };
 }
 

@@ -12,11 +12,15 @@ import {
   restoreRecoveryEntry,
   submitDraftFile,
 } from "@/lib/content/state";
-import { resolveContentPaths } from "@/lib/content/paths";
+import {
+  archiveCurrentPath,
+  archiveRevisionPath,
+  resolveContentPaths,
+} from "@/lib/content/paths";
 import { createTempRoot, copyFixture, writeFile } from "@/tests/helpers/temp-root";
 
 describe("content state pipeline", () => {
-  it("accepts a valid submit and removes it from submit-here", () => {
+  it("accepts a valid submit, removes it from submit-here, and mirrors it into archive", () => {
     const rootDir = createTempRoot();
     const filePath = copyFixture(rootDir, "home.md");
 
@@ -24,8 +28,15 @@ describe("content state pipeline", () => {
 
     expect(result.ok).toBe(true);
     if (result.ok) {
+      const paths = resolveContentPaths(rootDir);
       expect(result.page.slug).toBe("/");
       expect(fs.existsSync(filePath)).toBe(false);
+      expect(fs.existsSync(path.join(rootDir, result.archiveCurrentPath))).toBe(true);
+      expect(fs.existsSync(path.join(rootDir, result.archiveRevisionPath))).toBe(true);
+      expect(fs.readFileSync(archiveCurrentPath(paths, "/"), "utf8")).toContain("title: home");
+      expect(fs.readFileSync(archiveRevisionPath(paths, "/", result.page.revisionId), "utf8")).toContain(
+        "title: home"
+      );
       expect(listPages(rootDir)).toHaveLength(1);
     }
   });
@@ -132,12 +143,43 @@ describe("content state pipeline", () => {
   it("ignores internal state markdown and documented readme paths during audit", () => {
     const rootDir = createTempRoot();
     writeFile(rootDir, "content/.state/ignored.md", "# hidden");
+    writeFile(rootDir, "content/archive/README.md", "archive docs");
     writeFile(rootDir, "content/submit-here/README.md", "submit docs");
     writeFile(rootDir, "content/recovered-drafts/README.md", "recovery docs");
 
     const audit = rebuildContentState(rootDir);
 
     expect(audit.quarantined).toEqual([]);
+  });
+
+  it("moves the visible archive when a page slug changes", () => {
+    const rootDir = createTempRoot();
+    const first = submitDraftFile({ filePath: copyFixture(rootDir, "contact.md"), rootDir });
+    expect(first.ok).toBe(true);
+
+    const editPath = copyFixture(rootDir, "contact.md", path.join("drafts", "contact-renamed.md"));
+    const renamed = fs
+      .readFileSync(editPath, "utf8")
+      .replace("slug: /contact", "slug: /reach-out\npage_id: contact")
+      .replace("title: contact", "title: reach out");
+    fs.writeFileSync(editPath, renamed, "utf8");
+
+    const second = submitDraftFile({ filePath: editPath, rootDir });
+
+    expect(second.ok).toBe(true);
+    if (second.ok) {
+      const paths = resolveContentPaths(rootDir);
+      expect(fs.existsSync(archiveCurrentPath(paths, "/contact"))).toBe(false);
+      expect(fs.existsSync(archiveCurrentPath(paths, "/reach-out"))).toBe(true);
+      expect(
+        fs.existsSync(
+          archiveRevisionPath(paths, "/reach-out", first.ok ? first.page.revisionId : "missing")
+        )
+      ).toBe(true);
+      expect(
+        fs.existsSync(archiveRevisionPath(paths, "/reach-out", second.page.revisionId))
+      ).toBe(true);
+    }
   });
 
   it("restores a tampered revision source from the trusted revision json", () => {
@@ -189,6 +231,35 @@ describe("content state pipeline", () => {
     expect(audit.quarantined.some((item) => item.includes("live-content-index"))).toBe(true);
     const liveIndex = fs.readFileSync(paths.liveIndexPath, "utf8");
     expect(liveIndex).toContain('"pages"');
+  });
+
+  it("quarantines direct edits to archive files and restores the accepted version", () => {
+    const rootDir = createTempRoot();
+    const submit = submitDraftFile({ filePath: copyFixture(rootDir, "contact.md"), rootDir });
+    expect(submit.ok).toBe(true);
+
+    const paths = resolveContentPaths(rootDir);
+    const archivePath = archiveCurrentPath(paths, "/contact");
+    const original = fs.readFileSync(archivePath, "utf8");
+
+    fs.writeFileSync(archivePath, "tampered archive", "utf8");
+    const audit = rebuildContentState(rootDir);
+
+    expect(audit.quarantined.some((item) => item.endsWith("current.md"))).toBe(true);
+    expect(fs.readFileSync(archivePath, "utf8")).toBe(original);
+  });
+
+  it("quarantines unexpected files dropped into archive", () => {
+    const rootDir = createTempRoot();
+    submitDraftFile({ filePath: copyFixture(rootDir, "contact.md"), rootDir });
+    writeFile(rootDir, "content/archive/contact/random.md", "# stray archive file");
+
+    const audit = rebuildContentState(rootDir);
+
+    expect(audit.quarantined.some((item) => item.endsWith("random.md"))).toBe(true);
+    expect(fs.existsSync(path.join(rootDir, "content", "archive", "contact", "random.md"))).toBe(
+      false
+    );
   });
 
   it("quarantines a broken revision json when the markdown source is missing", () => {

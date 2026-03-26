@@ -20,6 +20,7 @@ if you need to change the site globally, start here:
 ## architecture
 
 - raw authoring starts in `content/submit-here/`
+- accepted markdown is mirrored into `content/archive/`
 - rescued mistakes land in `content/recovered-drafts/`
 - `lib/content/markdown.ts` parses and validates the closed `Markdoc` block grammar
 - `lib/content/state.ts` accepts revisions, rebuilds generated state, and quarantines bad direct writes
@@ -33,6 +34,7 @@ if you need to change the site globally, start here:
 - do not add page-specific css
 - if a visual treatment is new, add or edit a shared recipe/block/template
 - raw drafts belong in `content/submit-here/`
+- accepted revisions stay visible in `content/archive/`
 - use `npm run content -- check <file>` before `submit` when a draft is uncertain
 - if work disappears, check `content/recovered-drafts/` before assuming it is lost
 - keep visual decisions in `components/site/*` or block files

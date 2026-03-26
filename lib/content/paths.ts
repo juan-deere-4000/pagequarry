@@ -4,6 +4,7 @@ export type ContentPaths = ReturnType<typeof resolveContentPaths>;
 
 export function resolveContentPaths(rootDir = process.cwd()) {
   const contentRoot = path.join(rootDir, "content");
+  const archiveDir = path.join(contentRoot, "archive");
   const submitDir = path.join(contentRoot, "submit-here");
   const recoveryDir = path.join(contentRoot, "recovered-drafts");
   const examplesDir = path.join(contentRoot, "examples");
@@ -13,6 +14,7 @@ export function resolveContentPaths(rootDir = process.cwd()) {
   const liveIndexPath = path.join(stateDir, "live-content-index.json");
 
   return {
+    archiveDir,
     contentRoot,
     examplesDir,
     integrityPath,
@@ -35,4 +37,25 @@ export function pageRevisionsDir(paths: ContentPaths, pageId: string) {
 
 export function pageCurrentPath(paths: ContentPaths, pageId: string) {
   return path.join(pageDir(paths, pageId), "current.json");
+}
+
+function archiveSegmentsFromSlug(slug: string) {
+  if (slug === "/") return ["index"];
+  return slug.replace(/^\/+|\/+$/g, "").split("/").filter(Boolean);
+}
+
+export function archivePageDir(paths: ContentPaths, slug: string) {
+  return path.join(paths.archiveDir, ...archiveSegmentsFromSlug(slug));
+}
+
+export function archiveCurrentPath(paths: ContentPaths, slug: string) {
+  return path.join(archivePageDir(paths, slug), "current.md");
+}
+
+export function archiveRevisionPath(
+  paths: ContentPaths,
+  slug: string,
+  revisionId: string
+) {
+  return path.join(archivePageDir(paths, slug), "revisions", `${revisionId}.md`);
 }

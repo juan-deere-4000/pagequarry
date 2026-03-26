@@ -63,8 +63,9 @@ function usageText() {
     "writer flow:",
     "  1. put draft markdown in content/submit-here/",
     "  2. run bkk-content submit content/submit-here/<file>.md",
-    "  3. if rejected, read the lint feedback and fix the draft",
-    "  4. if your work disappeared, look in content/recovered-drafts/",
+    "  3. accepted drafts are mirrored into content/archive/ by canonical url",
+    "  4. if rejected, read the lint feedback and fix the draft",
+    "  5. if your work disappeared, look in content/recovered-drafts/",
   ].join("\n");
 }
 
@@ -140,6 +141,7 @@ function checkResult(filePath: string, context: CliContext) {
   if (!checked.ok) {
     const payload = {
       docs: [
+        "content/archive/README.md",
         "content/submit-here/README.md",
         "content/recovered-drafts/README.md",
       ],
@@ -169,6 +171,7 @@ function submitResult(filePath: string, context: CliContext) {
   if (!submitted.ok) {
     const payload = {
       docs: [
+        "content/archive/README.md",
         "content/submit-here/README.md",
         "content/recovered-drafts/README.md",
       ],
@@ -190,7 +193,8 @@ function submitResult(filePath: string, context: CliContext) {
       `template: ${submitted.page.template}`,
       `revision: ${submitted.page.revisionId}`,
       `live pages: ${submitted.livePages}`,
-      `stored at: ${submitted.revisionPath}`,
+      `archive current: ${submitted.archiveCurrentPath}`,
+      `archive revision: ${submitted.archiveRevisionPath}`,
     ].join("\n")
   );
 }

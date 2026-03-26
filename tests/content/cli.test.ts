@@ -11,6 +11,7 @@ describe("content cli", () => {
     const result = await runContentCli(["usage"]);
 
     expect(result.exitCode).toBe(0);
+    expect(result.output).toContain("content/archive/");
     expect(result.output).toContain("content/submit-here/");
     expect(result.output).toContain("content/recovered-drafts/");
   });
@@ -84,6 +85,8 @@ describe("content cli", () => {
     expect(result.exitCode).toBe(0);
     expect(payload.ok).toBe(true);
     expect(payload.page.slug).toBe("/contact");
+    expect(payload.archiveCurrentPath).toBe("content/archive/contact/current.md");
+    expect(payload.archiveRevisionPath).toContain("content/archive/contact/revisions/");
   });
 
   it("seeds a directory of markdown fixtures", async () => {
