@@ -1,5 +1,6 @@
 import type {
   PageTemplateKey,
+  SiteNavigationItem,
   SocialImageVariant,
   TwitterCardType,
 } from "@/content/types";
@@ -106,12 +107,36 @@ export const siteConfig = {
     { href: "/", label: "home" },
     { href: "/services", label: "services" },
     { href: "/how-it-works", label: "how it works" },
-    { href: "/howto/productivity/email-triage", label: "guide" },
     {
-      href: "/case-studies/individuals/personal-health-ai",
-      label: "case study",
+      label: "how-to",
+      items: [
+        {
+          label: "productivity",
+          items: [
+            {
+              href: "/howto/productivity/email-triage",
+              label: "email triage",
+            },
+          ],
+        },
+      ],
     },
-  ],
+    {
+      label: "case studies",
+      items: [
+        {
+          label: "individuals",
+          items: [
+            {
+              href: "/case-studies/individuals/personal-health-ai",
+              label: "personal health ai",
+            },
+          ],
+        },
+      ],
+    },
+    { href: "/contact", label: "contact" },
+  ] as const satisfies readonly SiteNavigationItem[],
   siteUrl: "https://siamailab.com",
   social: {
     defaultTwitterCard: "summary_large_image" as const,

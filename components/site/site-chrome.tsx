@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Button } from "@/components/site/button";
+import { DesktopNavigation } from "@/components/site/desktop-navigation";
 import { MobileMenu } from "@/components/site/mobile-menu";
 import { PageContainer } from "@/components/site/page-container";
 import { Text } from "@/components/site/text";
@@ -15,13 +16,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             {siteConfig.name}
           </Text>
 
-          <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
-            {siteConfig.navigation.map((item) => (
-              <Text as={Link} href={item.href} key={item.href} variant="nav">
-                {item.label}
-              </Text>
-            ))}
-          </nav>
+          <DesktopNavigation items={siteConfig.navigation} />
 
           <Button asChild className="hidden md:inline-flex">
             <Link href="/contact">book a consultation</Link>
