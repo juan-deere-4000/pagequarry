@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Button } from "@/components/site/button";
+import { MobileMenu } from "@/components/site/mobile-menu";
 import { PageContainer } from "@/components/site/page-container";
 import { Text } from "@/components/site/text";
 import { siteConfig } from "@/content/site";
@@ -25,6 +26,8 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           <Button asChild className="hidden md:inline-flex">
             <Link href="/contact">book a consultation</Link>
           </Button>
+
+          <MobileMenu />
         </PageContainer>
       </header>
 
