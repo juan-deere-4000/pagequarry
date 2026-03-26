@@ -17,14 +17,14 @@ export const textVariants = cva("", {
       bodySmall: "text-sm leading-6 text-muted-foreground",
       subhead: "font-serif text-xl leading-tight text-foreground",
       link:
-        "font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-accent hover:decoration-accent",
+        "font-medium text-foreground underline decoration-border underline-offset-4 hover:text-accent hover:decoration-accent",
       metricLabel:
         "text-xs uppercase tracking-[0.18em] text-muted-foreground",
       metricValue:
         "font-serif text-3xl leading-none tracking-tight text-foreground",
       quote:
         "font-serif text-3xl leading-tight tracking-tight text-foreground sm:text-4xl",
-      nav: "text-sm text-muted-foreground transition-colors hover:text-foreground",
+      nav: "text-sm text-muted-foreground hover:text-accent",
     },
   },
   defaultVariants: {

@@ -36,7 +36,6 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <div className="relative isolate min-h-screen overflow-hidden">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,rgba(20,49,74,0.08),transparent_60%)]" />
           <div className="relative flex min-h-screen flex-col">
             <SiteChrome>{children}</SiteChrome>
           </div>
