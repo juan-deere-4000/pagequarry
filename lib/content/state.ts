@@ -225,6 +225,16 @@ function gatherFiles(dir: string): string[] {
   return results.sort();
 }
 
+function hasHiddenState(paths: ContentPaths) {
+  return gatherFiles(paths.pagesDir).length > 0;
+}
+
+function archiveRevisionSources(paths: ContentPaths) {
+  return gatherMarkdownFiles(paths.archiveDir).filter((filePath) =>
+    toPosix(filePath).includes("/revisions/")
+  );
+}
+
 function normalizeIntegrity(candidate: unknown): IntegrityState {
   if (!candidate || typeof candidate !== "object") {
     return { files: {} };
@@ -635,6 +645,43 @@ function auditVisibleMarkdown(paths: ContentPaths, audit: AuditSummary) {
   }
 }
 
+function bootstrapStateFromArchive(paths: ContentPaths, audit: AuditSummary) {
+  if (hasHiddenState(paths)) return;
+
+  for (const filePath of archiveRevisionSources(paths)) {
+    const revisionId = path.basename(filePath, ".md");
+    const source = fs.readFileSync(filePath, "utf8");
+    const sourceHash = hashText(source);
+    const parsed = parseDraftSource({ revisionId, source, sourceHash });
+
+    if (!parsed.ok) {
+      const moved = quarantinePaths(
+        paths,
+        [{ filePath, preferredLabel: revisionId }],
+        "invalid-archive-revision",
+        "an accepted archive revision failed validation while rebuilding hidden state."
+      );
+      if (moved) audit.quarantined.push(...moved.files);
+      continue;
+    }
+
+    const accepted: AcceptedRevision = {
+      acceptedAt: acceptedAtFromRevisionId(revisionId),
+      page: parsed.page,
+      pageId: parsed.page.pageId,
+      revisionId,
+      slug: parsed.page.slug,
+      source,
+      sourceHash,
+      template: parsed.page.template,
+    };
+
+    const files = writeRevision(paths, accepted);
+    audit.regenerated.push(relativeFromRoot(paths, files.mdPath));
+    audit.regenerated.push(relativeFromRoot(paths, files.jsonPath));
+  }
+}
+
 export function ensureContentScaffold(rootDir = process.cwd()) {
   const paths = resolveContentPaths(rootDir);
   ensureDir(paths.archiveDir);
@@ -657,6 +704,7 @@ export function rebuildContentState(rootDir = process.cwd()): AuditSummary {
   };
 
   auditVisibleMarkdown(paths, audit);
+  bootstrapStateFromArchive(paths, audit);
 
   const pages: ManagedPage[] = [];
   const archivePages: ArchiveProjection[] = [];

@@ -130,6 +130,47 @@ describe("content state pipeline", () => {
     expect(livePages[0]!.meta.title).toBe("contact");
   });
 
+  it("rehydrates hidden state from the visible archive on a clean clone", () => {
+    const rootDir = createTempRoot();
+    submitDraftFile({ filePath: copyFixture(rootDir, "contact.md"), rootDir });
+    const paths = resolveContentPaths(rootDir);
+
+    fs.rmSync(paths.stateDir, { force: true, recursive: true });
+
+    const audit = rebuildContentState(rootDir);
+    const livePages = listPages(rootDir);
+
+    expect(audit.quarantined).toEqual([]);
+    expect(audit.livePages).toBe(1);
+    expect(livePages).toHaveLength(1);
+    expect(livePages[0]!.slug).toBe("/contact");
+    expect(fs.existsSync(path.join(paths.pagesDir, "contact", "current.json"))).toBe(true);
+  });
+
+  it("rehydrates published live state from archive revisions even when archive current is a draft", () => {
+    const rootDir = createTempRoot();
+    submitDraftFile({ filePath: copyFixture(rootDir, "contact.md"), rootDir });
+
+    const draftEdit = copyFixture(rootDir, "contact.md", path.join("drafts", "contact-draft.md"));
+    const draftSource = fs
+      .readFileSync(draftEdit, "utf8")
+      .replace("title: contact", "page_id: contact\nstatus: draft\ntitle: contact draft");
+    fs.writeFileSync(draftEdit, draftSource, "utf8");
+    submitDraftFile({ filePath: draftEdit, rootDir });
+
+    const paths = resolveContentPaths(rootDir);
+    fs.rmSync(paths.stateDir, { force: true, recursive: true });
+
+    const audit = rebuildContentState(rootDir);
+    const livePages = listPages(rootDir);
+
+    expect(audit.livePages).toBe(1);
+    expect(livePages[0]!.meta.title).toBe("contact");
+    expect(fs.readFileSync(archiveCurrentPath(paths, "/contact"), "utf8")).toContain(
+      "title: contact draft"
+    );
+  });
+
   it("generates redirects for published aliases and rejects collisions", () => {
     const rootDir = createTempRoot();
     const services = copyFixture(rootDir, "services.md");
