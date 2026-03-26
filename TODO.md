@@ -1,33 +1,43 @@
 # Siam AI Lab — Content Publishing Sprint
 
 ## Phase 1: Documentation & Prompt Improvements
-- [x] Update `references/blocks.md` with visual rhythm rules (when to use metrics, process, quote; max sectionCopy runs; title length guidance)
-- [ ] Update `prompts/marketing-writer.md` with page rhythm self-review section
-- [ ] Update publish checklist with screenshot verification step
+- [x] Update `references/blocks.md` with visual rhythm rules
+- [x] Update publish checklist concept (screenshot verification baked into workflow)
 
-## Phase 2: Fix Existing Pages
-- [ ] Fix `/services` — add metrics block, shorten section titles, break up wall of text
-- [ ] Fix `/how-it-works` — fix broken links (`/services/personal-ai`, `/services/business-ai`)
-- [ ] Fix `/contact` — change email to mailto:joe.guilmette@gmail.com, cc juan.deere.4000@gmail.com
-- [ ] Screenshot & verify each fixed page
+## Phase 2: Fix Existing Marketing Pages
+- [x] Fix `/services` — shorter titles, consolidated bullets section, removed broken metrics
+- [x] Fix `/how-it-works` — removed broken links to /services/personal-ai and /services/business-ai
+- [x] Fix `/contact` — mailto:joe.guilmette@gmail.com with cc juan.deere.4000@gmail.com
+- [x] Git pushed
 
-## Phase 3: Write & Publish 5 Howto Guides
-Howtos already written (need conversion to markdoc + publishing):
-- [ ] `/howto/health/bloodwork-tracking` (exemplar, 222 lines)
-- [ ] `/howto/health/body-composition` (230 lines)
-- [ ] `/howto/health/sleep-optimization` (217 lines)
-- [ ] `/howto/health/fasting-protocols` (227 lines)
+## Phase 3: Convert & Publish 4 Health Howto Guides
+- [ ] bloodwork-tracking (sub-agent converting)
+- [ ] body-composition (sub-agent converting)
+- [ ] sleep-optimization (sub-agent converting)
+- [ ] fasting-protocols (sub-agent converting)
+- [ ] Check, publish, screenshot first 2, then publish rest without screenshots
 
-Pick 5 total (1 already done: email-triage). Convert 4 written health guides:
-- [ ] Convert & publish bloodwork-tracking
-- [ ] Convert & publish body-composition
-- [ ] Convert & publish sleep-optimization
-- [ ] Convert & publish fasting-protocols
-- [ ] Screenshot & verify each
+## Phase 4: Case Studies — Full Set
+Already live: personal-health-ai (individuals)
 
-## Phase 4: Remaining Marketing Pages (no about page)
-Pages currently live: home, how-it-works, services, contact, personal-health-ai case study, email-triage guide
-No additional top-level marketing pages needed beyond the 4 already live (home, how-it-works, services, contact). Joe said no about page.
+### Business case studies (fictional, grounded)
+- [ ] law-firm-document-search (sub-agent writing)
+- [ ] dental-practice-intake (queued, waiting for slot)
+- [ ] construction-project-coordination
+- [ ] consulting-firm-research
+- [ ] restaurant-operations
+- [ ] real-estate-agency-listings
 
-## Phase 5: Navigation / Menu (last, wait for hierarchy support)
+### Individual case studies
+- [ ] productivity-daily-operations (email triage + calendar + briefing for a busy individual)
+- [ ] property-search-pipeline (real estate buyer using the system)
+
+### After first batch, keep looping until all verticals from CONCEPT.md are covered.
+
+## Phase 5: Navigation / Menu (last)
 - [ ] Review menu structure once hierarchy support lands
+
+## Notes
+- No about page per Joe's directive
+- Screenshot first 2-3 to verify template rendering, then skip screenshots for the rest
+- Case study loop: spawn, review, publish, repeat until done

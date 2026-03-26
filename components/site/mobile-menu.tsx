@@ -1,6 +1,5 @@
 "use client";
 
-import * as Accordion from "@radix-ui/react-accordion";
 import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
 
@@ -15,97 +14,71 @@ function hasItems(item: SiteNavigationItem) {
   return Array.isArray(item.items) && item.items.length > 0;
 }
 
-function MobileNavBranch({
-  item,
-  path,
+function MobileNavLink({
+  href,
+  label,
+  variant = "navChild",
 }: {
-  item: SiteNavigationItem;
-  path: string;
+  href: string;
+  label: string;
+  variant?: "navTop" | "navChild";
 }) {
-  if (!hasItems(item)) {
-    if (!item.href) return null;
-
-    return (
-      <Dialog.Close asChild>
-        <Link
-          className={cn(textVariants({ variant: "nav" }), "block py-1 text-base")}
-          href={item.href}
-        >
-          {item.label}
-        </Link>
-      </Dialog.Close>
-    );
-  }
-
   return (
-    <Accordion.Item className="border-b border-border/70 pb-3" value={path}>
-      <Accordion.Header>
-        <Accordion.Trigger
-          className={cn(
-            textVariants({ variant: "nav" }),
-            "flex w-full items-center justify-between py-1 text-left text-base focus-visible:outline-none"
-          )}
-        >
-          <span>{item.label}</span>
-          <span className="text-xs text-muted-foreground">+</span>
-        </Accordion.Trigger>
-      </Accordion.Header>
-
-      <Accordion.Content className="pt-3">
-        <div className="space-y-3 border-l border-border/70 pl-4">
-          {item.href ? (
-            <Dialog.Close asChild>
-              <Link
-                className={cn(
-                  textVariants({ variant: "nav" }),
-                  "block py-1 text-sm font-medium text-foreground"
-                )}
-                href={item.href}
-              >
-                {item.label} overview
-              </Link>
-            </Dialog.Close>
-          ) : null}
-
-          {item.items?.map((child, index) => (
-            <MobileNavNode
-              item={child}
-              key={`${path}-${child.label}`}
-              path={`${path}-${index}`}
-            />
-          ))}
-        </div>
-      </Accordion.Content>
-    </Accordion.Item>
+    <Dialog.Close asChild>
+      <Link className={cn(textVariants({ variant }), "block py-2")} href={href}>
+        {label}
+      </Link>
+    </Dialog.Close>
   );
 }
 
-function MobileNavNode({
-  item,
-  path,
-}: {
-  item: SiteNavigationItem;
-  path: string;
-}) {
-  if (hasItems(item)) {
-    return (
-      <Accordion.Root type="multiple">
-        <MobileNavBranch item={item} path={path} />
-      </Accordion.Root>
-    );
+function MobileNavGroup({ item }: { item: SiteNavigationItem }) {
+  if (!hasItems(item)) {
+    if (!item.href) return null;
+    return <MobileNavLink href={item.href} label={item.label} variant="navTop" />;
   }
 
-  if (!item.href) return null;
+  return (
+    <section className="space-y-3">
+      <Text as="p" variant="navTop">
+        {item.label}
+      </Text>
+
+      <div className="space-y-4 pl-4">
+        {item.href ? (
+          <MobileNavLink href={item.href} label={`${item.label} overview`} />
+        ) : null}
+
+        {item.items?.map((child) => (
+          <MobileNavSection item={child} key={`${item.label}-${child.label}`} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function MobileNavSection({ item }: { item: SiteNavigationItem }) {
+  if (!hasItems(item)) {
+    if (!item.href) return null;
+    return <MobileNavLink href={item.href} label={item.label} />;
+  }
 
   return (
-    <Dialog.Close asChild>
-      <Link
-        className={cn(textVariants({ variant: "nav" }), "block py-1 text-sm")}
-        href={item.href}
-      >
+    <div className="space-y-2">
+      <Text as="p" variant="navSection">
         {item.label}
-      </Link>
-    </Dialog.Close>
+      </Text>
+
+      <div className="space-y-1.5">
+        {item.href ? (
+          <MobileNavLink href={item.href} label={`${item.label} overview`} />
+        ) : null}
+
+        {item.items?.map((child) => (
+          <MobileNavSection item={child} key={`${item.label}-${child.label}`} />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -140,10 +113,10 @@ export function MobileMenu() {
             </PageContainer>
           </div>
 
-          <PageContainer className="flex h-full flex-col gap-6 py-6">
-            <nav className="flex flex-col gap-3">
-              {siteConfig.navigation.map((item, index) => (
-                <MobileNavNode item={item} key={`${item.label}-${index}`} path={`top-${index}`} />
+          <PageContainer className="flex h-full flex-col gap-8 py-6">
+            <nav className="space-y-6">
+              {siteConfig.navigation.map((item) => (
+                <MobileNavGroup item={item} key={item.label} />
               ))}
             </nav>
 

@@ -27,6 +27,11 @@ export const textVariants = cva("", {
       quote:
         "font-serif text-3xl leading-tight tracking-tight text-foreground sm:text-4xl",
       nav: "text-sm text-muted-foreground hover:text-accent",
+      navTop:
+        "text-sm font-medium tracking-tight text-foreground hover:text-accent",
+      navSection:
+        "text-xs uppercase tracking-[0.18em] text-muted-foreground",
+      navChild: "text-sm text-muted-foreground hover:text-foreground",
     },
   },
   defaultVariants: {
