@@ -30,6 +30,7 @@ this repo is on Next.js 16. if you touch framework behavior you are not fully su
 - example markdown fixtures: `content/examples/seed/*`
 - block catalog: `components/blocks/registry.ts`
 - template catalog: `components/templates/registry.ts`
+- writer doc entrypoint: `content/AUTHORING.md`
 
 ## extension rules
 
@@ -39,4 +40,4 @@ this repo is on Next.js 16. if you touch framework behavior you are not fully su
 - do not make raw markdown files routable directly
 - treat publication as a content-pipeline concern, not a route-file concern
 - keep the system editorial, light, serif-led, and text-first
-- the `bkk_content` OpenClaw tool mirrors `npm run content` and should be treated as the same publishing surface, with `stage` as the one extra helper
+- the OpenClaw content surface is the `content_*` tool family. use `content_stage` first, then `content_check`, then `content_submit` or `content_edit`

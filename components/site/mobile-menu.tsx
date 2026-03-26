@@ -3,7 +3,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
 
-import { Button, buttonVariants } from "@/components/site/button";
+import { buttonVariants } from "@/components/site/button";
 import { PageContainer } from "@/components/site/page-container";
 import { Text, textVariants } from "@/components/site/text";
 import { siteConfig } from "@/content/site";

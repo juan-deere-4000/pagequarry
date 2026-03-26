@@ -1,33 +1,56 @@
 # submit here
 
+this directory is the only approved place for new draft markdown.
+
+if you are writing content, start here.
+
 read this first:
 
 - `content/AUTHORING.md`
 
-put draft markdown files here, then run:
+## the short version
+
+1. put a draft markdown file here
+2. run `check`
+3. fix any errors
+4. run `submit` for a new page or `edit` for a revision
+
+## exact commands
+
+new page:
 
 ```bash
 npm run content -- check content/submit-here/<file>.md
 npm run content -- submit content/submit-here/<file>.md
 ```
 
-or, if this is a revision to an existing page:
+revision to an existing page:
 
 ```bash
+npm run content -- check content/submit-here/<file>.md
 npm run content -- edit content/submit-here/<file>.md
 ```
 
 `edit` is an alias of `submit`. it exists so revisions read clearly in logs and agent traces.
 
-for maintainers and migration work, there is also:
+## before you write
+
+inspect the current system first:
 
 ```bash
-npm run content -- seed <directory-of-md-files>
+npm run content -- pages
+npm run content -- list-templates
+npm run content -- list-blocks
 ```
 
-`seed` bulk-submits every `.md` file in a directory. normal page writing should still happen one draft at a time in `content/submit-here/`.
+that tells you:
 
-minimum valid frontmatter:
+- which pages already exist
+- which template each page uses
+- which blocks are allowed
+- what block order each template requires
+
+## minimum valid frontmatter
 
 ```yaml
 ---
@@ -38,7 +61,7 @@ description: private inbox routing without another saas dependency
 ---
 ```
 
-full metadata example:
+## full metadata example
 
 ```yaml
 ---
@@ -75,17 +98,92 @@ allowed values:
 - `social_image`: `site`, `home`, `hub`, `guide`, `caseStudy`, `narrative`
 - `twitter_card`: `summary` or `summary_large_image`
 
-important behavior:
+## exact replacement flow for an existing page
+
+1. list the live pages:
+
+```bash
+npm run content -- pages
+```
+
+2. find the current accepted source in `content/archive/.../current.md`
+3. keep the same `page_id`
+4. keep the same `slug` unless the url is intentionally changing
+5. save the revised draft here
+6. run:
+
+```bash
+npm run content -- check content/submit-here/<file>.md
+npm run content -- edit content/submit-here/<file>.md
+```
+
+## common block examples
+
+### normal internal button
+
+```md
+{% hero eyebrow="services" title="private systems, not public prompts." deck="..." actionHref="/contact" actionLabel="book a consultation" /%}
+```
+
+### email button
+
+```md
+{% hero eyebrow="contact" title="start with the real bottleneck." deck="..." actionHref="mailto:joe.guilmette@gmail.com" actionLabel="email joe" /%}
+```
+
+### email button with cc
+
+```md
+{% hero eyebrow="contact" title="start with the real bottleneck." deck="..." actionHref="mailto:joe.guilmette@gmail.com?cc=juan.deere.4000@gmail.com" actionLabel="email joe" /%}
+```
+
+### email button with cc and subject
+
+```md
+{% hero eyebrow="contact" title="start with the real bottleneck." deck="..." actionHref="mailto:joe.guilmette@gmail.com?cc=juan.deere.4000@gmail.com&subject=siam%20ai%20lab%20inquiry" actionLabel="email joe" /%}
+```
+
+important:
+
+- use `mailto:` inside `actionHref`
+- the same pattern works in `cta` blocks
+- spaces in email subjects must be `%20`
+
+## important behavior
 
 - `draft` revisions are accepted and archived, but do not replace the last published page on the live site
 - if a page has never had a published revision, `draft` keeps it off the live site entirely
 - accepted markdown appears in `content/archive/`
 - redirects are generated from `redirect_from` for published pages
-- the `bkk_content` OpenClaw tool mirrors the cli commands and adds one helper, `stage`, which writes a draft into `content/submit-here/`
+- the writer `OpenClaw` tools are `content_templates`, `content_blocks`, `content_stage`, `content_check`, `content_submit`, `content_edit`, `content_pages`, `content_recovery_list`, and `content_recovery_restore`
+- `content_stage` is the default `OpenClaw` entry point because it writes the draft here without guessing paths
 
-rules:
+## do not do these things
 
-- do not write drafts anywhere else
+- do not write drafts anywhere except `content/submit-here/`
+- do not edit `content/archive/` directly
+- do not edit `content/.state/` directly
 - do not invent extra frontmatter keys
-- if your draft gets rejected, read the lint output and fix the markdown
-- if your work seems to disappear, check `content/recovered-drafts/`
+- do not invent new block names or attrs
+
+## if something goes wrong
+
+if `check` or `submit` fails:
+
+- read the lint output carefully
+- fix the markdown
+- run `check` again
+
+if your work seems to disappear:
+
+- check `content/recovered-drafts/`
+- run `npm run content -- recovery-list`
+- run `npm run content -- recovery-restore <id>`
+
+for maintainers and migration work only:
+
+```bash
+npm run content -- seed <directory-of-md-files>
+```
+
+normal page writing should still happen one draft at a time in `content/submit-here/`.

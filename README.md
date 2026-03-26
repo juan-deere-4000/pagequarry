@@ -33,6 +33,15 @@ if you need to change the site globally, start here:
 - `components/renderers/render-page.tsx` resolves the template from the registry
 - page route files stay thin and render by slug from generated content state
 
+## writer docs in order
+
+if you are writing or editing page content, read these in this order:
+
+1. `content/AUTHORING.md`
+2. `content/submit-here/README.md`
+3. `content/archive/README.md`
+4. `content/recovered-drafts/README.md`
+
 ## working rules
 
 - for site-level vs template-level vs page-level editing, read `content/AUTHORING.md`
@@ -43,6 +52,7 @@ if you need to change the site globally, start here:
 - accepted revisions stay visible in `content/archive/`
 - metadata defaults live in `content/site.ts` and `lib/content/metadata.ts`
 - use `npm run content -- check <file>` before `submit` when a draft is uncertain
+- OpenClaw should use `content_stage` -> `content_check` -> `content_submit` or `content_edit`
 - if work disappears, check `content/recovered-drafts/` before assuming it is lost
 - keep visual decisions in `components/site/*` or block files
 

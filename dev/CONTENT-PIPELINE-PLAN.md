@@ -100,7 +100,7 @@ the cli will provide:
 
 ### 7. openclaw plugin is a narrow wrapper
 
-build a dedicated plugin that wraps the cli with a single `bkk_content` tool.
+build a dedicated plugin that exposes focused `content_*` tools for writers and keeps admin actions separate.
 
 the plugin will surface structured validation failures in a highly readable format, following the same strong-formatting pattern that works well in the hk plugin.
 
