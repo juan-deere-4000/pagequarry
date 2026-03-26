@@ -33,6 +33,117 @@ describe("parseDraftSource", () => {
     }
   });
 
+  it("accepts expanded metadata frontmatter and resolves defaults", () => {
+    const source = [
+      "---",
+      "template: guide",
+      "slug: /howto/productivity/email-triage",
+      "page_id: howto-productivity-email-triage",
+      "status: published",
+      "title: private email triage",
+      "description: private inbox routing without another saas dependency",
+      "summary: local-first email triage with strict workflow control",
+      "seo_title: private email triage for personal and executive inboxes",
+      "canonical_url: /howto/productivity/email-triage",
+      "robots: noindex",
+      "social_title: private email triage",
+      "social_description: local-first email triage with strict workflow control",
+      "social_image: guide",
+      "twitter_card: summary_large_image",
+      "author: bkk ai lab",
+      "published_at: 2026-03-26T00:00:00Z",
+      "updated_at: 2026-03-27T00:00:00Z",
+      "redirect_from:",
+      "  - /guides/email-triage",
+      "---",
+      "",
+      '{% hero eyebrow="example guide" title="private email triage" deck="..." actionHref="/contact" actionLabel="book a consultation" /%}',
+      "",
+      '{% sectionCopy eyebrow="guide" title="what it is" %}',
+      "body",
+      "{% /sectionCopy %}",
+      "",
+      '{% cta title="x" body="y" actionHref="/contact" actionLabel="book a consultation" /%}',
+    ].join("\n");
+
+    const result = parseDraftSource({
+      revisionId: "rev-metadata",
+      source,
+      sourceHash: crypto.createHash("sha256").update(source).digest("hex"),
+    });
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.page.status).toBe("published");
+      expect(result.page.redirectFrom).toEqual(["/guides/email-triage"]);
+      expect(result.page.meta.summary).toBe("local-first email triage with strict workflow control");
+      expect(result.page.meta.seoTitle).toBe(
+        "private email triage for personal and executive inboxes"
+      );
+      expect(result.page.meta.canonicalUrl).toContain("/howto/productivity/email-triage");
+      expect(result.page.meta.robots).toEqual({ follow: true, index: false });
+      expect(result.page.meta.social.title).toBe("private email triage");
+      expect(result.page.meta.social.imageVariant).toBe("guide");
+      expect(result.page.meta.social.twitterCard).toBe("summary_large_image");
+      expect(result.page.meta.author).toBe("bkk ai lab");
+      expect(result.page.meta.publishedAt).toBe("2026-03-26T00:00:00Z");
+      expect(result.page.meta.updatedAt).toBe("2026-03-27T00:00:00Z");
+    }
+  });
+
+  it("rejects invalid metadata fields and redirect aliases", () => {
+    const source = [
+      "---",
+      "template: guide",
+      "slug: /guide",
+      "status: hidden",
+      "title: guide",
+      "description: desc",
+      "canonical_url: not-a-url",
+      "robots: maybe",
+      "social_image: made-up",
+      "twitter_card: giant",
+      "published_at: yesterday",
+      "redirect_from:",
+      "  - /guide",
+      "  - /guide",
+      "---",
+      "",
+      '{% hero eyebrow="x" title="y" deck="z" /%}',
+      "",
+      '{% sectionCopy title="Body" %}',
+      "body",
+      "{% /sectionCopy %}",
+      "",
+      '{% cta title="x" body="y" actionHref="/contact" actionLabel="book a consultation" /%}',
+    ].join("\n");
+
+    const result = parseDraftSource({
+      revisionId: "rev-bad-metadata",
+      source,
+      sourceHash: crypto.createHash("sha256").update(source).digest("hex"),
+    });
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.issues.some((entry) => entry.message.includes("frontmatter status"))).toBe(true);
+      expect(result.issues.some((entry) => entry.message.includes("frontmatter canonical_url"))).toBe(
+        true
+      );
+      expect(result.issues.some((entry) => entry.message.includes("frontmatter robots"))).toBe(true);
+      expect(result.issues.some((entry) => entry.message.includes("frontmatter social_image"))).toBe(
+        true
+      );
+      expect(result.issues.some((entry) => entry.message.includes("frontmatter twitter_card"))).toBe(
+        true
+      );
+      expect(result.issues.some((entry) => entry.message.includes("frontmatter published_at"))).toBe(
+        true
+      );
+      expect(result.issues.some((entry) => entry.message.includes("redirect_from"))).toBe(true);
+    }
+  });
+
   it("rejects malformed frontmatter", () => {
     const source = [
       "---",

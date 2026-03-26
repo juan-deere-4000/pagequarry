@@ -93,6 +93,79 @@ describe("content state pipeline", () => {
     }
   });
 
+  it("keeps draft pages out of the live index while archiving them", () => {
+    const rootDir = createTempRoot();
+    const filePath = copyFixture(rootDir, "contact.md");
+    const source = fs
+      .readFileSync(filePath, "utf8")
+      .replace("title: contact", "status: draft\ntitle: contact");
+    fs.writeFileSync(filePath, source, "utf8");
+
+    const result = submitDraftFile({ filePath, rootDir });
+    const liveIndex = loadLiveIndex(rootDir);
+
+    expect(result.ok).toBe(true);
+    expect(liveIndex.pages).toEqual([]);
+    if (result.ok) {
+      expect(fs.existsSync(path.join(rootDir, result.archiveCurrentPath))).toBe(true);
+    }
+  });
+
+  it("keeps the last published revision live when a newer draft revision is accepted", () => {
+    const rootDir = createTempRoot();
+    submitDraftFile({ filePath: copyFixture(rootDir, "contact.md"), rootDir });
+
+    const draftEdit = copyFixture(rootDir, "contact.md", path.join("drafts", "contact-draft.md"));
+    const draftSource = fs
+      .readFileSync(draftEdit, "utf8")
+      .replace("title: contact", "page_id: contact\nstatus: draft\ntitle: contact draft");
+    fs.writeFileSync(draftEdit, draftSource, "utf8");
+
+    const result = submitDraftFile({ filePath: draftEdit, rootDir });
+    const livePages = listPages(rootDir);
+
+    expect(result.ok).toBe(true);
+    expect(livePages).toHaveLength(1);
+    expect(livePages[0]!.slug).toBe("/contact");
+    expect(livePages[0]!.meta.title).toBe("contact");
+  });
+
+  it("generates redirects for published aliases and rejects collisions", () => {
+    const rootDir = createTempRoot();
+    const services = copyFixture(rootDir, "services.md");
+    const servicesSource = fs
+      .readFileSync(services, "utf8")
+      .replace("description: service hub prototype showing the same private ai system through several operational lenses.", [
+        "description: service hub prototype showing the same private ai system through several operational lenses.",
+        "redirect_from:",
+        "  - /service-lines",
+      ].join("\n"));
+    fs.writeFileSync(services, servicesSource, "utf8");
+    submitDraftFile({ filePath: services, rootDir });
+
+    const paths = resolveContentPaths(rootDir);
+    const redirectsPath = path.join(rootDir, "public", "_redirects");
+    expect(fs.readFileSync(redirectsPath, "utf8")).toContain("/service-lines /services 301");
+
+    const conflict = copyFixture(rootDir, "contact.md");
+    const conflictSource = fs
+      .readFileSync(conflict, "utf8")
+      .replace("description: contact-page prototype for a direct, low-theatre consultation entry point.", [
+        "description: contact-page prototype for a direct, low-theatre consultation entry point.",
+        "redirect_from:",
+        "  - /services",
+      ].join("\n"));
+    fs.writeFileSync(conflict, conflictSource, "utf8");
+
+    const result = submitDraftFile({ filePath: conflict, rootDir });
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.issues.some((entry) => entry.message.includes("redirect"))).toBe(true);
+    }
+    expect(fs.existsSync(paths.liveIndexPath)).toBe(true);
+  });
+
   it("treats matching slug and page_id as an edit instead of a collision", () => {
     const rootDir = createTempRoot();
     submitDraftFile({ filePath: copyFixture(rootDir, "home.md"), rootDir });
