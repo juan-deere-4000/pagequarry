@@ -39,7 +39,7 @@ social_description: local-first email triage with strict workflow control
 social_image: guide
 twitter_card: summary_large_image
 
-author: bkk ai lab
+author: siam ai lab
 published_at: 2026-03-26T00:00:00Z
 updated_at: 2026-03-26T00:00:00Z
 redirect_from:

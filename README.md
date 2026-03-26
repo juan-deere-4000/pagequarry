@@ -1,4 +1,4 @@
-# bkk ai lab poc
+# siam ai lab poc
 
 editorial proof-of-concept for the future `bkk-ai-lab` site.
 

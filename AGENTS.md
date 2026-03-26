@@ -1,4 +1,4 @@
-# bkk ai lab poc agent rules
+# siam ai lab poc agent rules
 
 this repo is a constrained frontend system. the point is to make future ai edits predictable.
 

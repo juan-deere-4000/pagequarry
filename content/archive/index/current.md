@@ -3,10 +3,10 @@ template: home
 slug: /
 page_id: home
 title: home
-description: bkk ai lab builds private ai systems that run on your hardware, connect to your tools, and stay yours.
+description: siam ai lab builds private ai systems that run on your hardware, connect to your tools, and stay yours.
 ---
 
-{% hero eyebrow="private ai systems" title="your data, your hardware, your AI." deck="bkk ai lab builds private ai systems for individuals and businesses. everything runs on hardware you control. nothing leaves your building unless you decide it should." aside="the same system can manage a law firm's contract archive, run a clinic's patient intake, or track one person's health data across every wearable, lab draw, and doctor visit. one product, configured for whoever is using it." actionHref="/contact" actionLabel="book a consultation" /%}
+{% hero eyebrow="private ai systems" title="your data, your hardware, your AI." deck="siam ai lab builds private ai systems for individuals and businesses. everything runs on hardware you control. nothing leaves your building unless you decide it should." aside="the same system can manage a law firm's contract archive, run a clinic's patient intake, or track one person's health data across every wearable, lab draw, and doctor visit. one product, configured for whoever is using it." actionHref="/contact" actionLabel="book a consultation" /%}
 
 {% metrics %}
 {% metric label="deployment" value="runs on your hardware" /%}
@@ -53,6 +53,6 @@ that means the hard problems: syncing data reliably, handling edge cases in docu
 {% step title="expand from what works" body="once the first capability proves useful, the same system grows into adjacent workflows. the law firm that started with contract search adds deadline tracking. the clinic that started with intake adds insurance verification. no new vendor, no new platform." /%}
 {% /process %}
 
-{% quote quote="the best technology disappears into the work. you stop noticing it and start noticing that things are getting done." attribution="bkk ai lab" context="company philosophy" /%}
+{% quote quote="the best technology disappears into the work. you stop noticing it and start noticing that things are getting done." attribution="siam ai lab" context="company philosophy" /%}
 
 {% cta title="let's talk about what you're trying to solve." body="the consultation is free, in person in bangkok or remote. no pitch deck, no demo theatre. just a conversation about what's actually slowing you down and whether this is the right approach for it." actionHref="/contact" actionLabel="book a consultation" /%}
