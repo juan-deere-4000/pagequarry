@@ -28,9 +28,11 @@ export function SectionCopyBlock({
         </div>
 
         <div className="space-y-6">
-          <Text as="p" variant="body">
-            {body}
-          </Text>
+          {body.split(/\n\n+/).map((paragraph, i) => (
+            <Text as="p" key={i} variant="body">
+              {paragraph}
+            </Text>
+          ))}
 
           {bullets?.length ? (
             <ul className="space-y-3 border-l border-border pl-5">
