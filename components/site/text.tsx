@@ -17,7 +17,9 @@ export const textVariants = cva("", {
       bodySmall: "text-sm leading-6 text-muted-foreground",
       subhead: "font-serif text-xl leading-tight text-foreground",
       link:
-        "font-medium text-foreground underline decoration-border underline-offset-4 hover:text-accent hover:decoration-accent",
+        "font-medium text-accent underline decoration-current underline-offset-4",
+      inlineLink:
+        "text-accent underline decoration-current underline-offset-4",
       metricLabel:
         "text-xs uppercase tracking-[0.18em] text-muted-foreground",
       metricValue:

@@ -49,7 +49,8 @@ export function SectionCopyBlock({
               {links.map((link) => (
                 <div className="space-y-1" key={link.href}>
                   <Text as={Link} href={link.href} variant="link">
-                    {link.label}
+                    <span>{link.label}</span>
+                    <span aria-hidden="true"> {"→"}</span>
                   </Text>
                   {link.summary ? (
                     <Text as="p" variant="bodySmall">

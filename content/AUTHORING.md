@@ -40,6 +40,13 @@ use these when you need to change global behavior:
 
 if you need a new block, a new template, a new metadata rule, or a styling change, that is a coding task, not a writing task.
 
+important:
+
+- the header and mobile menu are code-owned in `content/site.ts`
+- nested urls are supported, but nested markdown pages do not auto-populate the menu
+- publishing `/howto/...` or `/case-studies/...` pages does not add them to nav by itself
+- if a page should appear in the menu, a coding agent must update `content/site.ts`
+
 ### template-level
 
 template choice controls the allowed page structure.
@@ -65,6 +72,18 @@ npm run content -- submit content/submit-here/<file>.md
 ```
 
 accepted drafts are mirrored into `content/archive/`. rejected drafts stay visible and return structured lint feedback. misplaced work is moved into `content/recovered-drafts/`.
+
+page-level markdown can control:
+
+- the page url via `slug`
+- page metadata
+- page body blocks
+
+page-level markdown cannot control:
+
+- the global nav or footer
+- which pages appear in the header or mobile menu
+- shared styling rules
 
 ## never touch these directly
 
