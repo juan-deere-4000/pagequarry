@@ -22,6 +22,10 @@ export const metadata: Metadata = {
   applicationName: siteConfig.manifest.name,
   authors: [{ name: siteConfig.metadata.defaultAuthor }],
   description: siteConfig.description,
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+  },
   manifest: "/manifest.webmanifest",
   metadataBase: new URL(siteConfig.siteUrl),
   openGraph: {

@@ -92,7 +92,7 @@ export const siteConfig = {
   metadata: {
     defaultAuthor: "siam ai lab",
     organization: {
-      logo: "/favicon.ico",
+      logo: "/icon.svg",
       name: "siam ai lab",
       sameAs: [] as string[],
     },
