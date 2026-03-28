@@ -44,3 +44,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+node_modules/
+.bun/
+*.db-journal
+*.db-wal
+dist/
+build/
+*.tgz
+.cache/
