@@ -50,7 +50,7 @@ describe("parseDraftSource", () => {
       "social_description: stage drafts, lint them, and accept them without touching generated runtime files",
       "social_image: guide",
       "twitter_card: summary_large_image",
-      "author: Pagequarry",
+      "author: PageQuarry",
       "published_at: 2026-04-13T00:00:00Z",
       "updated_at: 2026-04-14T00:00:00Z",
       "redirect_from:",
@@ -85,7 +85,7 @@ describe("parseDraftSource", () => {
       expect(result.page.meta.social.title).toBe("publishing workflow");
       expect(result.page.meta.social.imageVariant).toBe("guide");
       expect(result.page.meta.social.twitterCard).toBe("summary_large_image");
-      expect(result.page.meta.author).toBe("Pagequarry");
+      expect(result.page.meta.author).toBe("PageQuarry");
       expect(result.page.meta.publishedAt).toBe("2026-04-13T00:00:00Z");
       expect(result.page.meta.updatedAt).toBe("2026-04-14T00:00:00Z");
     }

@@ -2,7 +2,7 @@
 template: hub
 slug: /features
 title: features
-description: feature overview for the Pagequarry starter site.
+description: feature overview for the PageQuarry starter site.
 ---
 
 {% hero eyebrow="feature hub" title="one framework, several page families." deck="the product is not a visual page builder. it is a controlled publishing system with reusable templates, a shared block catalog, and a generated runtime model." actionHref="/contact" actionLabel="contact" /%}

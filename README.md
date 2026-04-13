@@ -1,6 +1,6 @@
-# Pagequarry
+# PageQuarry
 
-Pagequarry is a self-hostable, markdown-first site framework for editorial websites.
+PageQuarry is a self-hostable, markdown-first site framework for editorial websites.
 
 It is built for a simple upstream-fork workflow:
 - fork the repo

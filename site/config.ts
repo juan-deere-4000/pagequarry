@@ -8,27 +8,27 @@ import type {
 
 export const socialImageVariants = {
   caseStudy: {
-    alt: "Pagequarry case study social card",
+    alt: "PageQuarry case study social card",
     path: "/og/case-study.svg",
   },
   guide: {
-    alt: "Pagequarry guide social card",
+    alt: "PageQuarry guide social card",
     path: "/og/guide.svg",
   },
   home: {
-    alt: "Pagequarry home social card",
+    alt: "PageQuarry home social card",
     path: "/og/home.svg",
   },
   hub: {
-    alt: "Pagequarry feature hub social card",
+    alt: "PageQuarry feature hub social card",
     path: "/og/hub.svg",
   },
   narrative: {
-    alt: "Pagequarry narrative page social card",
+    alt: "PageQuarry narrative page social card",
     path: "/og/narrative.svg",
   },
   site: {
-    alt: "Pagequarry site social card",
+    alt: "PageQuarry site social card",
     path: "/og/site.svg",
   },
 } as const satisfies Record<SocialImageVariant, { alt: string; path: string }>;
@@ -94,24 +94,24 @@ export const siteConfig = {
     description:
       "self-hostable site framework with a strict markdown publishing pipeline, generated runtime state, and reusable page templates.",
     locale: "en_US",
-    name: "Pagequarry",
+    name: "PageQuarry",
     shortName: "cms",
     siteUrl: "https://pagequarry.com",
-    title: "Pagequarry",
+    title: "PageQuarry",
   },
   manifest: {
     backgroundColor: "#f4efe8",
     description:
       "self-hostable, markdown-first publishing with generated runtime state.",
-    name: "Pagequarry",
+    name: "PageQuarry",
     shortName: "cms",
     themeColor: "#f4efe8",
   },
   metadata: {
-    defaultAuthor: "Pagequarry",
+    defaultAuthor: "PageQuarry",
     organization: {
       logo: "/icon.svg",
-      name: "Pagequarry",
+      name: "PageQuarry",
       sameAs: [] as string[],
     },
     robots: {
@@ -130,6 +130,6 @@ export const siteConfig = {
   social: {
     defaultTwitterCard: "summary_large_image" as const,
     images: socialImageVariants,
-    siteName: "Pagequarry",
+    siteName: "PageQuarry",
   },
 } as const;

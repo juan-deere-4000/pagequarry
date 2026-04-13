@@ -1,4 +1,4 @@
-# Pagequarry agent rules
+# PageQuarry agent rules
 
 this repo is a constrained frontend system. the point is to keep future ai edits predictable and public-repo safe.
 

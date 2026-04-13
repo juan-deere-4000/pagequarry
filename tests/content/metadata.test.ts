@@ -12,7 +12,7 @@ function guidePage(overrides: Partial<ManagedPage> = {}): ManagedPage {
   return {
     blocks: [],
     meta: {
-      author: "Pagequarry",
+      author: "PageQuarry",
       canonicalUrl:
         "https://pagequarry.com/howto/editorial/publishing-workflow",
       description: "how to validate and publish a page safely through the content pipeline",

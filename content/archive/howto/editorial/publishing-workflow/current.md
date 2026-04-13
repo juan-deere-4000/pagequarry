@@ -6,7 +6,7 @@ title: publishing workflow
 description: how to validate and publish a page safely through the content pipeline.
 ---
 
-{% hero eyebrow="starter guide" title="publishing a page from markdown." deck="this guide shows the default editorial path for Pagequarry: stage the draft, validate it, accept it, and let the runtime rebuild from trusted state." aside="the guide template is intentionally simple. it is for practical walkthroughs, not homepage storytelling." actionHref="/contact" actionLabel="contact" /%}
+{% hero eyebrow="starter guide" title="publishing a page from markdown." deck="this guide shows the default editorial path for PageQuarry: stage the draft, validate it, accept it, and let the runtime rebuild from trusted state." aside="the guide template is intentionally simple. it is for practical walkthroughs, not homepage storytelling." actionHref="/contact" actionLabel="contact" /%}
 
 {% sectionCopy eyebrow="start here" title="write the draft in one place." %}
 new markdown belongs in `content/submit-here/`. that is the only directory writers should treat as a staging surface.

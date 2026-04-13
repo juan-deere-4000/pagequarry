@@ -12,7 +12,7 @@ function makePage(overrides: Partial<ManagedPage> = {}): ManagedPage {
   return {
     blocks: [],
     meta: {
-      author: "Pagequarry",
+      author: "PageQuarry",
       canonicalUrl: `https://pagequarry.com${slug}`,
       description: `${title} description`,
       publishedAt: "2026-04-13T00:00:00Z",
@@ -44,10 +44,10 @@ function makePage(overrides: Partial<ManagedPage> = {}): ManagedPage {
 describe("generated archive pages", () => {
   it("builds grouped archive pages from the live page set", () => {
     const pages = [
-      makePage({ slug: "/howto/editorial/publishing-workflow", meta: { title: "publishing workflow", description: "", summary: "workflow summary", canonicalUrl: "https://pagequarry.com/howto/editorial/publishing-workflow", robots: { follow: true, index: true }, social: { title: "publishing workflow", description: "workflow summary", image: "https://pagequarry.com/og/guide.svg", imageVariant: "guide", twitterCard: "summary_large_image" }, author: "Pagequarry" } }),
-      makePage({ slug: "/howto/platform/launch-checklist", meta: { title: "launch checklist", description: "", summary: "launch summary", canonicalUrl: "https://pagequarry.com/howto/platform/launch-checklist", robots: { follow: true, index: true }, social: { title: "launch checklist", description: "launch summary", image: "https://pagequarry.com/og/guide.svg", imageVariant: "guide", twitterCard: "summary_large_image" }, author: "Pagequarry" } }),
-      makePage({ slug: "/case-studies/teams/community-knowledge-base", template: "caseStudy", meta: { title: "community knowledge base", description: "", summary: "community summary", canonicalUrl: "https://pagequarry.com/case-studies/teams/community-knowledge-base", robots: { follow: true, index: true }, social: { title: "community knowledge base", description: "community summary", image: "https://pagequarry.com/og/case-study.svg", imageVariant: "caseStudy", twitterCard: "summary_large_image" }, author: "Pagequarry" } }),
-      makePage({ slug: "/case-studies/organizations/member-handbook", template: "caseStudy", meta: { title: "member handbook", description: "", summary: "handbook summary", canonicalUrl: "https://pagequarry.com/case-studies/organizations/member-handbook", robots: { follow: true, index: true }, social: { title: "member handbook", description: "handbook summary", image: "https://pagequarry.com/og/case-study.svg", imageVariant: "caseStudy", twitterCard: "summary_large_image" }, author: "Pagequarry" } }),
+      makePage({ slug: "/howto/editorial/publishing-workflow", meta: { title: "publishing workflow", description: "", summary: "workflow summary", canonicalUrl: "https://pagequarry.com/howto/editorial/publishing-workflow", robots: { follow: true, index: true }, social: { title: "publishing workflow", description: "workflow summary", image: "https://pagequarry.com/og/guide.svg", imageVariant: "guide", twitterCard: "summary_large_image" }, author: "PageQuarry" } }),
+      makePage({ slug: "/howto/platform/launch-checklist", meta: { title: "launch checklist", description: "", summary: "launch summary", canonicalUrl: "https://pagequarry.com/howto/platform/launch-checklist", robots: { follow: true, index: true }, social: { title: "launch checklist", description: "launch summary", image: "https://pagequarry.com/og/guide.svg", imageVariant: "guide", twitterCard: "summary_large_image" }, author: "PageQuarry" } }),
+      makePage({ slug: "/case-studies/teams/community-knowledge-base", template: "caseStudy", meta: { title: "community knowledge base", description: "", summary: "community summary", canonicalUrl: "https://pagequarry.com/case-studies/teams/community-knowledge-base", robots: { follow: true, index: true }, social: { title: "community knowledge base", description: "community summary", image: "https://pagequarry.com/og/case-study.svg", imageVariant: "caseStudy", twitterCard: "summary_large_image" }, author: "PageQuarry" } }),
+      makePage({ slug: "/case-studies/organizations/member-handbook", template: "caseStudy", meta: { title: "member handbook", description: "", summary: "handbook summary", canonicalUrl: "https://pagequarry.com/case-studies/organizations/member-handbook", robots: { follow: true, index: true }, social: { title: "member handbook", description: "handbook summary", image: "https://pagequarry.com/og/case-study.svg", imageVariant: "caseStudy", twitterCard: "summary_large_image" }, author: "PageQuarry" } }),
     ];
 
     const howto = buildGeneratedArchivePage("howto", pages);

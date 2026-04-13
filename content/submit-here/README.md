@@ -83,7 +83,7 @@ social_description: stage drafts, lint them, and accept them without touching ge
 social_image: guide
 twitter_card: summary_large_image
 
-author: Pagequarry
+author: PageQuarry
 published_at: 2026-04-13T00:00:00Z
 updated_at: 2026-04-13T00:00:00Z
 redirect_from:
