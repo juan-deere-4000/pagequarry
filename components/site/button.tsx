@@ -5,14 +5,14 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/cn";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-control text-sm font-medium transition-[transform,background-color,border-color,color,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex min-w-[9.75rem] items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-3 text-sm font-semibold tracking-[0.01em] transition-[transform,background-color,border-color,color,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         solid:
-          "bg-foreground px-5 py-3 text-accent-foreground shadow-[0_18px_36px_rgba(16,32,48,0.18)] hover:-translate-y-0.5 hover:bg-foreground/92",
+          "bg-slate-900 text-white shadow-[0_18px_36px_rgba(16,32,48,0.18)] hover:-translate-y-0.5 hover:bg-slate-800",
         ghost:
-          "site-panel border border-border/70 px-5 py-3 text-foreground hover:-translate-y-0.5 hover:border-accent/35 hover:bg-white/90",
+          "border border-white/70 bg-white/70 text-foreground shadow-[0_18px_36px_rgba(16,32,48,0.08)] backdrop-blur-xl hover:-translate-y-0.5 hover:border-accent/35 hover:bg-white/88",
         link: "px-0 py-0 text-accent underline decoration-border underline-offset-4 hover:decoration-accent",
       },
     },

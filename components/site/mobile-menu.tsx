@@ -35,17 +35,17 @@ export function MobileMenu() {
   return (
     <Dialog.Root>
       <Dialog.Trigger
-        aria-label="open navigation menu"
-        className={cn(buttonVariants({ variant: "ghost" }), "px-4 py-2 md:hidden")}
+        aria-label="Open navigation menu"
+        className={cn(buttonVariants({ variant: "ghost" }), "min-w-0 px-4 py-2 md:hidden")}
       >
-        menu
+        Menu
       </Dialog.Trigger>
 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-40 bg-foreground/14 backdrop-blur-sm md:hidden" />
 
-        <Dialog.Content className="site-panel fixed inset-y-3 right-3 z-50 w-[calc(100%-1.5rem)] max-w-sm overflow-y-auto rounded-[1.75rem] border border-border shadow-lg md:hidden">
-          <Dialog.Title className="sr-only">navigation menu</Dialog.Title>
+        <Dialog.Content className="fixed inset-y-3 right-3 z-50 w-[calc(100%-1.5rem)] max-w-sm overflow-y-auto rounded-[1.75rem] border border-white/70 bg-white/84 shadow-[0_24px_60px_rgba(16,32,48,0.08)] backdrop-blur-xl md:hidden">
+          <Dialog.Title className="sr-only">Navigation Menu</Dialog.Title>
 
           <div className="border-b border-border/80">
             <PageContainer className="flex items-center justify-between py-5">
@@ -54,10 +54,10 @@ export function MobileMenu() {
               </Text>
 
               <Dialog.Close
-                aria-label="close navigation menu"
-                className={cn(buttonVariants({ variant: "ghost" }), "px-4 py-2")}
+                aria-label="Close navigation menu"
+                className={cn(buttonVariants({ variant: "ghost" }), "min-w-0 px-4 py-2")}
               >
-                close
+                Close
               </Dialog.Close>
             </PageContainer>
           </div>

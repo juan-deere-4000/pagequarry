@@ -7,9 +7,9 @@ export const textVariants = cva("", {
   variants: {
     variant: {
       brand:
-        "font-serif text-sm font-semibold uppercase tracking-[0.34em] text-foreground",
+        "font-mono text-[0.9rem] font-semibold tracking-[0.2em] text-foreground whitespace-nowrap",
       eyebrow:
-        "font-mono text-[0.72rem] uppercase tracking-[0.28em] text-muted-foreground",
+        "font-mono text-[0.76rem] font-medium tracking-[0.14em] text-muted-foreground",
       display:
         "font-serif text-5xl font-medium leading-[0.92] tracking-[-0.05em] text-foreground sm:text-6xl lg:text-7xl",
       lead: "text-lg leading-8 text-muted-foreground sm:text-[1.22rem] sm:leading-9",
@@ -24,16 +24,16 @@ export const textVariants = cva("", {
       inlineLink:
         "text-accent underline decoration-current underline-offset-4",
       metricLabel:
-        "font-mono text-[0.72rem] uppercase tracking-[0.24em] text-muted-foreground",
+        "font-mono text-[0.74rem] font-medium tracking-[0.14em] text-muted-foreground",
       metricValue:
         "font-serif text-4xl font-medium leading-none tracking-[-0.05em] text-foreground",
       quote:
         "font-serif text-3xl font-medium leading-[1.04] tracking-[-0.05em] text-foreground sm:text-[3.2rem]",
-      nav: "font-mono text-[0.72rem] uppercase tracking-[0.2em] text-muted-foreground hover:text-accent",
+      nav: "font-mono text-[0.78rem] font-medium tracking-[0.08em] text-muted-foreground hover:text-accent whitespace-nowrap",
       navTop:
-        "font-mono text-[0.72rem] uppercase tracking-[0.24em] text-muted-foreground hover:text-foreground",
+        "font-mono text-[0.78rem] font-medium tracking-[0.08em] text-muted-foreground hover:text-foreground whitespace-nowrap",
       navSection:
-        "font-mono text-[0.72rem] uppercase tracking-[0.2em] text-muted-foreground",
+        "font-mono text-[0.76rem] font-medium tracking-[0.08em] text-muted-foreground",
       navChild: "text-sm text-muted-foreground hover:text-foreground",
     },
   },

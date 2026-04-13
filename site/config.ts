@@ -76,7 +76,7 @@ export const templateMetadataDefaults = {
 
 const primaryAction = {
   href: "https://github.com/juan-deere-4000/pagequarry",
-  label: "go to GitHub",
+  label: "View on GitHub",
 } as const satisfies ActionLink;
 
 export const siteConfig = {
@@ -120,9 +120,9 @@ export const siteConfig = {
     },
   },
   navigation: [
-    { href: "#what-it-is", label: "what it is" },
-    { href: "#how-it-works", label: "how it works" },
-    { href: "#principles", label: "principles" },
+    { href: "#what-it-is", label: "What It Is" },
+    { href: "#how-it-works", label: "How It Works" },
+    { href: "#principles", label: "Principles" },
     { href: "https://github.com/juan-deere-4000/pagequarry", label: "GitHub" },
   ] as const satisfies readonly SiteNavigationItem[],
   social: {
