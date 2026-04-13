@@ -1,6 +1,6 @@
-# content pipeline execution
+# Content Pipeline Execution
 
-## objective
+## Objective
 
 ship a content pipeline that assumes the writer automation is unreliable, impatient, and bad at following directions.
 
@@ -14,7 +14,7 @@ the site must stay stable if it:
 
 the pipeline is complete only when those failures are either rejected cleanly or quarantined without losing work.
 
-## non-negotiables
+## Non-negotiables
 
 - the app trusts only generated state under `content/.state/`
 - the documented authoring path is `content/submit-here/`
@@ -23,9 +23,9 @@ the pipeline is complete only when those failures are either rejected cleanly or
 - publication happens only through the cli or a thin wrapper around it
 - any direct-write mistake must preserve the draft somewhere recoverable
 
-## execution loop
+## Execution Loop
 
-### 1. lock the contract
+### 1. Lock the Contract
 
 - finalize the page model, block grammar, template rules, and route collision rules
 - make the runtime read only from generated state
@@ -34,7 +34,7 @@ the pipeline is complete only when those failures are either rejected cleanly or
 exit condition:
 - one valid markdown example exists for each page family the site currently uses
 
-### 2. go red on tests
+### 2. Go Red on Tests
 
 - run unit and integration tests for parser, state, cli, and runtime paths
 - add missing tests before fixing code if an important failure mode is not covered
@@ -43,7 +43,7 @@ exit condition:
 exit condition:
 - failures describe real gaps, not test mistakes
 
-### 3. fix the system until green
+### 3. Fix the System Until Green
 
 - repair parser, normalization, state rebuild, slug checks, and quarantine behavior
 - seed content through the cli and make the app boot from generated state
@@ -52,7 +52,7 @@ exit condition:
 exit condition:
 - tests, lint, build, audit, and seed are all green
 
-### 4. wrap it for automation
+### 4. Wrap It for Automation
 
 - build a dedicated wrapper with a narrow content tool surface
 - mirror the command patterns and readable failure formatting used in the cli
@@ -62,7 +62,7 @@ exit condition:
 exit condition:
 - the wrapper can list templates, list blocks, check drafts, submit drafts, inspect recovery, and restore drafts
 
-### 5. tighten coverage
+### 5. Tighten Coverage
 
 - measure coverage after the system works
 - add tests for any low-coverage branches that matter to correctness
@@ -71,7 +71,7 @@ exit condition:
 exit condition:
 - coverage thresholds are met without padding the suite with bullshit tests
 
-### 6. functional testing as a sloppy writer
+### 6. Functional Testing as a Sloppy Writer
 
 - use the cli by hand with valid drafts
 - submit broken drafts
@@ -83,7 +83,7 @@ exit condition:
 exit condition:
 - real shell usage matches the designed safety model
 
-### 7. adversarial testing as a dumb toddler
+### 7. Adversarial Testing as a Dumb Toddler
 
 - try wrong folders, wrong filenames, wrong frontmatter, wrong blocks, wrong child tags, duplicate slugs, route collisions, and direct state edits
 - keep anything valuable in recovery instead of losing it
@@ -92,7 +92,7 @@ exit condition:
 exit condition:
 - the easiest wrong move is still recoverable and non-destructive
 
-### 8. ship
+### 8. Ship
 
 - commit the repo coherently
 - deploy the site update to the chosen static host
@@ -101,7 +101,7 @@ exit condition:
 exit condition:
 - repo, deploy, and docs all describe the same system
 
-## once-over before execution
+## Once-over Before Execution
 
 the failure mode the maintainer actually cares about is not “the markdown linter caught a typo.”
 

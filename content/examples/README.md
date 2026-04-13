@@ -1,4 +1,4 @@
-# examples
+# Examples
 
 this directory holds maintainer-owned starter fixtures and example content.
 

@@ -1,4 +1,4 @@
-# authoring guide
+# Authoring Guide
 
 this is the plain-language map of the content system.
 
@@ -15,13 +15,13 @@ if you are writing page content, you should mostly care about four places:
 
 if you are not doing a coding task, do not touch anything else.
 
-## one-sentence rule
+## One-sentence Rule
 
-writers only write markdown drafts into `content/submit-here/`, validate them, then publish them through the content cli or a thin automation wrapper around it.
+writers only write markdown drafts into `content/submit-here/`, validate them, then publish them through the content CLI or a thin automation wrapper around it.
 
-## the three editing layers
+## The Three Editing Layers
 
-### site-level
+### Site-level
 
 site-level changes live in code, not markdown.
 
@@ -51,7 +51,7 @@ important:
 - if a page should appear as a top-level nav item, a coding agent must update `site/config.ts`
 - `content/site.ts` still exists as a compatibility shim, but new site customization work should not start there
 
-### template-level
+### Template-level
 
 template choice controls the allowed page structure.
 
@@ -64,7 +64,7 @@ npm run content -- list-blocks
 
 each template has a fixed block order. each block has fixed attrs. writers should pick from that catalog instead of inventing new markup.
 
-### page-level
+### Page-level
 
 page writing happens through markdown drafts in `content/submit-here/`.
 
@@ -89,7 +89,7 @@ page-level markdown cannot control:
 - which pages appear in the header or mobile menu
 - shared styling rules
 
-## never touch these directly
+## Never Touch These Directly
 
 - `content/.state/`
   hidden generated state used by the runtime
@@ -100,7 +100,7 @@ page-level markdown cannot control:
 
 if you edit those directly, the system will quarantine the change and restore the accepted state.
 
-## commands you actually need
+## Commands You Actually Need
 
 - `npm run content -- pages`
   list the live published pages
@@ -126,9 +126,9 @@ maintainer-only commands:
 
 normal writing should not use `seed`.
 
-## exact writer workflows
+## Exact Writer Workflows
 
-### create a new page
+### Create a New Page
 
 1. inspect the current system:
 
@@ -157,7 +157,7 @@ npm run content -- submit content/submit-here/<file>.md
 npm run content -- pages
 ```
 
-### replace an existing live page
+### Replace an Existing Live Page
 
 1. list live pages:
 
@@ -182,7 +182,7 @@ npm run content -- edit content/submit-here/<file>.md
 
 `edit` is the same acceptance path as `submit`. it exists so revision logs are obvious.
 
-### recover missing work
+### Recover Missing Work
 
 if your draft seems to have vanished, look here first:
 
@@ -197,7 +197,7 @@ npm run content -- recovery-restore <id>
 
 that restores the quarantined file into `content/submit-here/` so you can validate and submit it correctly.
 
-## frontmatter rules
+## Frontmatter Rules
 
 minimum valid frontmatter:
 
@@ -255,7 +255,7 @@ rules:
 - `page_id` should stay stable when you revise an existing page
 - do not invent extra frontmatter keys
 
-## common block patterns
+## Common Block Patterns
 
 the canonical source for block syntax is:
 
@@ -265,19 +265,19 @@ npm run content -- list-blocks
 
 common patterns:
 
-### hero with a normal internal link
+### Hero With a Normal Internal Link
 
 ```md
 {% hero eyebrow="features" title="one framework, several page families." deck="..." actionHref="/contact" actionLabel="contact" /%}
 ```
 
-### hero with a direct email button
+### Hero With a Direct Email Button
 
 ```md
 {% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@pagequarry.com" actionLabel="email" /%}
 ```
 
-### hero with email and subject
+### Hero With Email and Subject
 
 ```md
 {% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@pagequarry.com?subject=hello%20from%20the%20starter%20site" actionLabel="email" /%}
@@ -290,7 +290,7 @@ important:
 - encode spaces in subjects as `%20`
 - the same `actionHref` pattern works in `cta` blocks too
 
-### section with inline supporting links
+### Section With Inline Supporting Links
 
 ```md
 {% sectionCopy eyebrow="next step" title="what to review first" %}
@@ -301,7 +301,7 @@ body paragraph
 {% /sectionCopy %}
 ```
 
-## what happens after submit
+## What Happens After Submit
 
 when a draft is accepted:
 
@@ -313,9 +313,9 @@ when a draft is accepted:
 6. if the revision is `published`, the live site updates on the next build/deploy
 7. if the revision is `draft`, it stays accepted and archived but does not replace the live page
 
-## automation mapping
+## Automation Mapping
 
-if you expose the content cli through agent tools, keep the surface narrow.
+if you expose the content CLI through agent tools, keep the surface narrow.
 
 normal writer tools:
 
@@ -343,7 +343,7 @@ default automation flow:
 4. if it passes, call `content_submit` for a new page or `content_edit` for a revision
 5. if it fails, fix the markdown using the returned lint feedback and run `content_check` again
 
-## first places to look
+## First Places to Look
 
 - `content/submit-here/README.md`
 - `content/archive/README.md`

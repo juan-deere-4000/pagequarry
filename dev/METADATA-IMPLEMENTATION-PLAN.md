@@ -1,6 +1,6 @@
-# metadata implementation plan
+# Metadata Implementation Plan
 
-## goal
+## Goal
 
 extend the managed markdown pipeline so accepted content carries enough page, template, and site metadata to behave like a serious editorial cms without giving the writer agent too much rope.
 
@@ -12,7 +12,7 @@ the system should cover:
 - redirect aliases generated from approved frontmatter
 - draft vs published visibility without letting drafts break the live site
 
-## design rules
+## Design Rules
 
 - markdown stays the authoring surface
 - frontmatter stays narrow and typed
@@ -20,7 +20,7 @@ the system should cover:
 - the writer agent chooses from defined values instead of inventing raw html or one-off meta tags
 - the app still trusts generated state, not arbitrary markdown paths
 
-## authoring model
+## Authoring Model
 
 new frontmatter fields:
 
@@ -60,7 +60,7 @@ validation rules:
 - `redirect_from` paths must follow slug rules, must not include the current slug, and must not duplicate each other
 - dates must be valid iso datetimes when present
 
-## resolution model
+## Resolution Model
 
 add a metadata resolution layer in code:
 
@@ -83,7 +83,7 @@ resolved page metadata should include:
 - redirect aliases
 - schema type info
 
-## publication model
+## Publication Model
 
 accepted revisions remain versioned in hidden state and mirrored into `content/archive/`.
 
@@ -95,7 +95,7 @@ for live publication:
 
 this gives us a useful draft status without accidentally yanking a page off the site just because a draft revision was submitted.
 
-## generated outputs
+## Generated Outputs
 
 in addition to the live page index, the pipeline should generate:
 
@@ -110,7 +110,7 @@ in addition to the live page index, the pipeline should generate:
 
 direct edits to generated outputs should be overwritten on audit/build.
 
-## runtime model
+## Runtime Model
 
 runtime helpers should resolve:
 
@@ -129,7 +129,7 @@ template defaults:
 - `caseStudy` => article defaults with case-study social/schema treatment
 - `narrative` => generic `WebPage`
 
-## asset model
+## Asset Model
 
 social image choices should be code-owned:
 
@@ -139,7 +139,7 @@ social image choices should be code-owned:
 
 the writer agent should never hand-author image urls.
 
-## test plan
+## Test Plan
 
 contracts and parser:
 
@@ -169,7 +169,7 @@ functional and adversarial:
 - try bad redirect aliases, bad dates, bad robots values, and unknown social images
 - tamper with `content/archive/` and generated redirect output and confirm audit restores them
 
-## commit plan
+## Commit Plan
 
 1. plan doc and failing tests
 2. metadata types/contracts/parser/defaults

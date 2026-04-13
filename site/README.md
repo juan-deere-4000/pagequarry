@@ -1,4 +1,4 @@
-# site customization boundary
+# Site Customization Boundary
 
 this directory is the site-owned seam for an upstream-fork workflow.
 

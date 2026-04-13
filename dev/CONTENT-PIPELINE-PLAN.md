@@ -1,6 +1,6 @@
-# content pipeline plan
+# Content Pipeline Plan
 
-## goal
+## Goal
 
 build a content system that assumes the writer agent is unreliable.
 
@@ -14,9 +14,9 @@ the live site must stay stable even if an agent:
 
 the system must preserve work, quarantine mistakes, and only publish validated content.
 
-## key decisions
+## Key Decisions
 
-### 1. obvious public paths, hidden trusted state
+### 1. Obvious Public Paths, Hidden Trusted State
 
 document only:
 
@@ -29,7 +29,7 @@ hide the trusted runtime state under:
 
 the app will trust only a generated manifest inside `.state/`.
 
-### 2. runtime trusts generated state, never raw markdown
+### 2. Runtime Trusts Generated State, Never Raw Markdown
 
 the site will render only from generated page records.
 
@@ -41,7 +41,7 @@ that means:
 - broken markdown cannot break styling at runtime
 - direct edits to accepted markdown do not automatically affect the site
 
-### 3. accepted content is revisioned
+### 3. Accepted Content Is Revisioned
 
 each accepted page gets a stable `page_id` and a revision history under `.state/pages/<page_id>/revisions/`.
 
@@ -53,7 +53,7 @@ each accepted revision stores:
 
 generated convenience files like `current.json` and the aggregate live index are rebuilt from accepted revisions.
 
-### 4. quarantine instead of delete
+### 4. Quarantine Instead of Delete
 
 bad writes are never discarded.
 
@@ -67,7 +67,7 @@ with a note explaining:
 - why it was quarantined
 - how to resubmit it
 
-### 5. closed block grammar
+### 5. Closed Block Grammar
 
 authoring uses `Markdoc` with:
 
@@ -81,7 +81,7 @@ authoring uses `Markdoc` with:
 
 the writer agent is choosing from a fixed block library, not styling pages.
 
-### 6. cli owns publication
+### 6. CLI Owns Publication
 
 the cli will provide:
 
@@ -98,7 +98,7 @@ the cli will provide:
 
 `submit` and `edit` validate, normalize, revision, regenerate state, and quarantine mistakes when needed.
 
-### 7. agent tooling is a narrow wrapper
+### 7. Agent Tooling Is a Narrow Wrapper
 
 build a dedicated wrapper that exposes focused `content_*` tools for writers and keeps admin actions separate.
 
@@ -111,7 +111,7 @@ the plugin docs will mention only:
 
 they will not mention `.state/`.
 
-## implementation order
+## Implementation Order
 
 1. refactor runtime to read from a generated manifest and catch-all route generation
 2. define the normalized page model and block grammar
@@ -126,7 +126,7 @@ they will not mention `.state/`.
 11. run adversarial tests as a dumb toddler against wrong paths and direct edits
 12. fix findings until the loop is clean
 
-## testing standard
+## Testing Standard
 
 tests must cover:
 
@@ -151,7 +151,7 @@ manual testing must include:
 - bypassing the cli and writing into visible content folders
 - re-running audit until the site is stable again
 
-## review before execution
+## Review Before Execution
 
 the only reliable way to make an unreliable writer safe is to make direct writes inert and publication explicit.
 
