@@ -13,13 +13,15 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
       <header className="border-b border-border/80 bg-background/95">
         <PageContainer className="flex items-center justify-between gap-6 py-5">
           <Text as={Link} href="/" variant="brand">
-            {siteConfig.name}
+            {siteConfig.identity.name}
           </Text>
 
           <DesktopNavigation items={siteConfig.navigation} />
 
           <Button asChild className="hidden md:inline-flex">
-            <Link href="/contact">book a consultation</Link>
+            <Link href={siteConfig.contact.primaryAction.href}>
+              {siteConfig.contact.primaryAction.label}
+            </Link>
           </Button>
 
           <MobileMenu />
@@ -32,7 +34,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         <PageContainer className="flex flex-col gap-4 text-sm text-muted-foreground md:flex-row md:items-end md:justify-between">
           <div>
             <Text as="p" variant="brand">
-              {siteConfig.name}
+              {siteConfig.identity.name}
             </Text>
             <Text as="p" variant="bodySmall">
               {siteConfig.footer.tagline}
@@ -40,7 +42,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           </div>
           <div className="space-y-1 text-left md:text-right">
             <Text as="p" variant="bodySmall">
-              bangkok-based. light, editorial, text-first.
+              {siteConfig.footer.meta}
             </Text>
             <Text as="p" variant="bodySmall">
               {siteConfig.footer.note}

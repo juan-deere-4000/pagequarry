@@ -232,29 +232,29 @@ export const templateRules: Record<PageTemplateKey, TemplateRule> = {
 
 export const templateExamples: Record<PageTemplateKey, string[]> = {
   caseStudy: [
-    "{% hero eyebrow=\"example case study\" title=\"a private health command center\" deck=\"...\" actionHref=\"/contact\" actionLabel=\"book a consultation\" /%}",
+    "{% hero eyebrow=\"example case study\" title=\"a community archive with safer publishing\" deck=\"...\" actionHref=\"/contact\" actionLabel=\"contact\" /%}",
     "{% metrics %}",
-    "{% metric label=\"system type\" value=\"personal health ai\" /%}",
+    "{% metric label=\"site type\" value=\"community knowledge base\" /%}",
     "{% /metrics %}",
     "{% sectionCopy eyebrow=\"problem\" title=\"the challenge\" %}",
   ],
   guide: [
-    "{% hero eyebrow=\"example guide\" title=\"private email triage\" deck=\"...\" actionHref=\"/contact\" actionLabel=\"book a consultation\" /%}",
+    "{% hero eyebrow=\"example guide\" title=\"publishing a page from markdown\" deck=\"...\" actionHref=\"/contact\" actionLabel=\"contact\" /%}",
     "{% sectionCopy eyebrow=\"guide\" title=\"what it is\" %}",
   ],
   home: [
-    "{% hero eyebrow=\"private ai systems\" title=\"the ai should feel like infrastructure\" deck=\"...\" actionHref=\"/contact\" actionLabel=\"book a consultation\" /%}",
+    "{% hero eyebrow=\"markdown-first publishing\" title=\"the editing path should stay obvious\" deck=\"...\" actionHref=\"/contact\" actionLabel=\"contact\" /%}",
     "{% metrics %}",
-    "{% metric label=\"positioning\" value=\"private by default\" /%}",
+    "{% metric label=\"hosting\" value=\"self-hostable\" /%}",
     "{% /metrics %}",
   ],
   hub: [
-    "{% hero eyebrow=\"service hub\" title=\"the same system, seen from different angles\" deck=\"...\" actionHref=\"/contact\" actionLabel=\"book a consultation\" /%}",
-    "{% sectionCopy eyebrow=\"lens\" title=\"personal ai\" %}",
+    "{% hero eyebrow=\"feature hub\" title=\"one framework, several page families\" deck=\"...\" actionHref=\"/contact\" actionLabel=\"contact\" /%}",
+    "{% sectionCopy eyebrow=\"lens\" title=\"site identity\" %}",
   ],
   narrative: [
-    "{% hero eyebrow=\"how it works\" title=\"private ai in plain english\" deck=\"...\" actionHref=\"/contact\" actionLabel=\"book a consultation\" /%}",
-    "{% sectionCopy eyebrow=\"step one\" title=\"connect to existing tools\" %}",
+    "{% hero eyebrow=\"how it works\" title=\"generated state keeps the runtime predictable\" deck=\"...\" actionHref=\"/contact\" actionLabel=\"contact\" /%}",
+    "{% sectionCopy eyebrow=\"step one\" title=\"write drafts in one place\" %}",
   ],
 };
 
@@ -262,12 +262,12 @@ export const blockDocs = {
   cta: {
     description: "closing call to action with one button",
     syntax:
-      "{% cta title=\"talk about the real build\" body=\"...\" actionHref=\"/contact\" actionLabel=\"book a consultation\" /%}",
+      "{% cta title=\"review the publishing flow\" body=\"...\" actionHref=\"/contact\" actionLabel=\"contact\" /%}",
   },
   hero: {
     description: "lead hero with optional aside and action button",
     syntax:
-      "{% hero eyebrow=\"private ai systems\" title=\"the ai should feel like infrastructure\" deck=\"...\" aside=\"...\" actionHref=\"/contact\" actionLabel=\"book a consultation\" /%}",
+      "{% hero eyebrow=\"markdown-first publishing\" title=\"the editing path should stay obvious\" deck=\"...\" aside=\"...\" actionHref=\"/contact\" actionLabel=\"contact\" /%}",
   },
   metrics: {
     description: "row of label/value metrics built from metric child tags",
@@ -276,17 +276,17 @@ export const blockDocs = {
   process: {
     description: "ordered steps built from step child tags",
     syntax:
-      "{% process eyebrow=\"engagement model\" title=\"simple on the surface\" %}\\n{% step title=\"scope the bottleneck\" body=\"...\" /%}\\n{% /process %}",
+      "{% process eyebrow=\"editorial flow\" title=\"publish with validation\" %}\\n{% step title=\"stage the draft\" body=\"...\" /%}\\n{% /process %}",
   },
   quote: {
     description: "editorial pull quote with attribution and context",
     syntax:
-      "{% quote quote=\"the right vibe here is not futuristic\" attribution=\"prototype direction\" context=\"derived from the visual guide\" /%}",
+      "{% quote quote=\"the safest publishing system is the one that makes the right path obvious.\" attribution=\"project principle\" context=\"used throughout the starter content\" /%}",
   },
   sectionCopy: {
     description: "editorial text section with markdown paragraphs, optional bullets, and optional linkItem tags",
     syntax:
-      "{% sectionCopy eyebrow=\"guide\" title=\"what it is\" tone=\"subtle\" %}\\nbody paragraph\\n\\n- bullet one\\n- bullet two\\n\\n{% linkItem href=\"/services\" label=\"service hub\" summary=\"see the broader capability map\" /%}\\n{% /sectionCopy %}",
+      "{% sectionCopy eyebrow=\"guide\" title=\"what it is\" tone=\"subtle\" %}\\nbody paragraph\\n\\n- bullet one\\n- bullet two\\n\\n{% linkItem href=\"/features\" label=\"features\" summary=\"see the broader site framework\" /%}\\n{% /sectionCopy %}",
   },
 } as const;
 

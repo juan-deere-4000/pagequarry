@@ -3,7 +3,7 @@
   <rect x="58" y="58" width="1084" height="514" rx="24" fill="#f8f4ee" stroke="#d8cec1"/>
   <rect x="96" y="96" width="160" height="24" rx="12" fill="#b55a43"/>
   <text x="96" y="192" fill="#5f554b" font-family="Georgia, serif" font-size="26">how it works</text>
-  <text x="96" y="286" fill="#241d17" font-family="Georgia, serif" font-size="58">private ai should be</text>
-  <text x="96" y="352" fill="#241d17" font-family="Georgia, serif" font-size="58">explainable in plain english.</text>
-  <text x="96" y="488" fill="#8b7d6d" font-family="Georgia, serif" font-size="24">siam ai lab</text>
+  <text x="96" y="286" fill="#241d17" font-family="Georgia, serif" font-size="58">generated state keeps</text>
+  <text x="96" y="352" fill="#241d17" font-family="Georgia, serif" font-size="58">the runtime predictable.</text>
+  <text x="96" y="488" fill="#8b7d6d" font-family="Georgia, serif" font-size="24">standalone cms</text>
 </svg>

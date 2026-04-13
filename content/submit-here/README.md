@@ -55,9 +55,9 @@ that tells you:
 ```yaml
 ---
 template: guide
-slug: /howto/productivity/email-triage
-title: private email triage
-description: private inbox routing without another saas dependency
+slug: /howto/editorial/publishing-workflow
+title: publishing workflow
+description: how to validate and publish a page safely through the content pipeline
 ---
 ```
 
@@ -66,28 +66,28 @@ description: private inbox routing without another saas dependency
 ```yaml
 ---
 template: guide
-slug: /howto/productivity/email-triage
-page_id: howto-productivity-email-triage
+slug: /howto/editorial/publishing-workflow
+page_id: howto-editorial-publishing-workflow
 status: published
 
-title: private email triage
-description: private inbox routing without another saas dependency
-summary: local-first email triage with strict workflow control
+title: publishing workflow
+description: how to validate and publish a page safely through the content pipeline
+summary: stage drafts, lint them, and accept them without touching generated runtime files
 
-seo_title: private email triage for personal and executive inboxes
-canonical_url: /howto/productivity/email-triage
+seo_title: publishing workflow for a markdown-first site
+canonical_url: /howto/editorial/publishing-workflow
 robots: index
 
-social_title: private email triage
-social_description: local-first email triage with strict workflow control
+social_title: publishing workflow
+social_description: stage drafts, lint them, and accept them without touching generated runtime files
 social_image: guide
 twitter_card: summary_large_image
 
-author: siam ai lab
-published_at: 2026-03-26T00:00:00Z
-updated_at: 2026-03-26T00:00:00Z
+author: standalone cms
+published_at: 2026-04-13T00:00:00Z
+updated_at: 2026-04-13T00:00:00Z
 redirect_from:
-  - /guides/email-triage
+  - /guides/publishing-workflow
 ---
 ```
 
@@ -122,25 +122,19 @@ npm run content -- edit content/submit-here/<file>.md
 ### normal internal button
 
 ```md
-{% hero eyebrow="services" title="private systems, not public prompts." deck="..." actionHref="/contact" actionLabel="book a consultation" /%}
+{% hero eyebrow="features" title="one framework, several page families." deck="..." actionHref="/contact" actionLabel="contact" /%}
 ```
 
 ### email button
 
 ```md
-{% hero eyebrow="contact" title="start with the real bottleneck." deck="..." actionHref="mailto:joe.guilmette@gmail.com" actionLabel="email joe" /%}
+{% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@example.com" actionLabel="email" /%}
 ```
 
-### email button with cc
+### email button with subject
 
 ```md
-{% hero eyebrow="contact" title="start with the real bottleneck." deck="..." actionHref="mailto:joe.guilmette@gmail.com?cc=juan.deere.4000@gmail.com" actionLabel="email joe" /%}
-```
-
-### email button with cc and subject
-
-```md
-{% hero eyebrow="contact" title="start with the real bottleneck." deck="..." actionHref="mailto:joe.guilmette@gmail.com?cc=juan.deere.4000@gmail.com&subject=siam%20ai%20lab%20inquiry" actionLabel="email joe" /%}
+{% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@example.com?subject=hello%20from%20the%20starter%20site" actionLabel="email" /%}
 ```
 
 important:
@@ -155,8 +149,8 @@ important:
 - if a page has never had a published revision, `draft` keeps it off the live site entirely
 - accepted markdown appears in `content/archive/`
 - redirects are generated from `redirect_from` for published pages
-- the writer `OpenClaw` tools are `content_templates`, `content_blocks`, `content_stage`, `content_check`, `content_submit`, `content_edit`, `content_pages`, `content_recovery_list`, and `content_recovery_restore`
-- `content_stage` is the default `OpenClaw` entry point because it writes the draft here without guessing paths
+- if you expose the cli through agent tools, map them narrowly to `content_templates`, `content_blocks`, `content_stage`, `content_check`, `content_submit`, `content_edit`, `content_pages`, `content_recovery_list`, and `content_recovery_restore`
+- `content_stage` should stay the entry point because it writes drafts here without guessing paths
 
 ## do not do these things
 

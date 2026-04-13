@@ -98,9 +98,9 @@ the cli will provide:
 
 `submit` and `edit` validate, normalize, revision, regenerate state, and quarantine mistakes when needed.
 
-### 7. openclaw plugin is a narrow wrapper
+### 7. agent tooling is a narrow wrapper
 
-build a dedicated plugin that exposes focused `content_*` tools for writers and keeps admin actions separate.
+build a dedicated wrapper that exposes focused `content_*` tools for writers and keeps admin actions separate.
 
 the plugin will surface structured validation failures in a highly readable format, following the same strong-formatting pattern that works well in the hk plugin.
 
@@ -120,7 +120,7 @@ they will not mention `.state/`.
 5. implement quarantine/audit logic
 6. implement the cli
 7. seed the current example pages through the cli so the live site uses the pipeline
-8. build the openclaw plugin wrapper and docs
+8. build the automation wrapper and docs
 9. add vitest with strong unit + integration coverage
 10. run real functional tests from the shell as a sloppy writer
 11. run adversarial tests as a dumb toddler against wrong paths and direct edits

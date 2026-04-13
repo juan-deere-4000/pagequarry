@@ -54,7 +54,7 @@ function cta(): ContentBlock {
     type: "cta",
     title: "cta",
     body: "body",
-    action: { href: "/contact", label: "book a consultation" },
+    action: { href: "/contact", label: "contact" },
   };
 }
 
@@ -64,8 +64,8 @@ describe("content contracts", () => {
 
     expect(home.steps).toEqual(["hero", "metrics", "sectionCopy+", "process", "quote", "cta"]);
     expect(slugToPageId("/")).toBe("home");
-    expect(slugToPageId("/case-studies/individuals/personal-health-ai")).toBe(
-      "case-studies-individuals-personal-health-ai"
+    expect(slugToPageId("/case-studies/teams/community-knowledge-base")).toBe(
+      "case-studies-teams-community-knowledge-base"
     );
   });
 

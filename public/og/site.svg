@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
   <rect width="1200" height="630" fill="#f4efe8"/>
   <rect x="58" y="58" width="1084" height="514" rx="24" fill="#f8f4ee" stroke="#d8cec1"/>
-  <rect x="96" y="96" width="170" height="24" rx="12" fill="#b55a43"/>
-  <text x="96" y="208" fill="#241d17" font-family="Georgia, serif" font-size="72">siam ai lab</text>
-  <text x="96" y="284" fill="#5f554b" font-family="Georgia, serif" font-size="34">private ai systems</text>
-  <text x="96" y="330" fill="#5f554b" font-family="Georgia, serif" font-size="34">built as owned infrastructure</text>
-  <text x="96" y="494" fill="#8b7d6d" font-family="Georgia, serif" font-size="24">light, editorial, text-first</text>
+  <rect x="96" y="96" width="164" height="24" rx="12" fill="#b55a43"/>
+  <text x="96" y="208" fill="#241d17" font-family="Georgia, serif" font-size="64">standalone cms</text>
+  <text x="96" y="284" fill="#5f554b" font-family="Georgia, serif" font-size="34">self-hostable site framework</text>
+  <text x="96" y="330" fill="#5f554b" font-family="Georgia, serif" font-size="34">markdown-first publishing</text>
+  <text x="96" y="494" fill="#8b7d6d" font-family="Georgia, serif" font-size="24">static export ready</text>
 </svg>

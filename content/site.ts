@@ -1,4 +1,5 @@
 import type {
+  ActionLink,
   PageTemplateKey,
   SiteNavigationItem,
   SocialImageVariant,
@@ -7,27 +8,27 @@ import type {
 
 export const socialImageVariants = {
   caseStudy: {
-    alt: "siam ai lab case study social card",
+    alt: "standalone cms case study social card",
     path: "/og/case-study.svg",
   },
   guide: {
-    alt: "siam ai lab guide social card",
+    alt: "standalone cms guide social card",
     path: "/og/guide.svg",
   },
   home: {
-    alt: "siam ai lab home social card",
+    alt: "standalone cms home social card",
     path: "/og/home.svg",
   },
   hub: {
-    alt: "siam ai lab service hub social card",
+    alt: "standalone cms feature hub social card",
     path: "/og/hub.svg",
   },
   narrative: {
-    alt: "siam ai lab narrative page social card",
+    alt: "standalone cms narrative page social card",
     path: "/og/narrative.svg",
   },
   site: {
-    alt: "siam ai lab site social card",
+    alt: "standalone cms site social card",
     path: "/og/site.svg",
   },
 } as const satisfies Record<SocialImageVariant, { alt: string; path: string }>;
@@ -73,28 +74,44 @@ export const templateMetadataDefaults = {
   }
 >;
 
+const primaryAction = {
+  href: "/contact",
+  label: "contact",
+} as const satisfies ActionLink;
+
 export const siteConfig = {
-  contactEmail: "hello@example.com",
-  description:
-    "private ai systems in Bangkok, built as owned infrastructure.",
-  footer: {
-    note: "prototype repo for architecture and style exploration.",
-    tagline: "private ai systems, built as owned infrastructure.",
+  contact: {
+    email: "hello@example.com",
+    location: "replace this with your own studio, team, or organization",
+    primaryAction,
   },
-  locale: "en_US",
+  footer: {
+    meta: "static-export ready. light, editorial, text-first.",
+    note: "starter content ships with safe placeholder copy. edit content/site.ts before launch.",
+    tagline: "self-hostable, markdown-first publishing with generated runtime state.",
+  },
+  identity: {
+    description:
+      "self-hostable site framework with a strict markdown publishing pipeline, generated runtime state, and reusable page templates.",
+    locale: "en_US",
+    name: "standalone cms",
+    shortName: "cms",
+    siteUrl: "https://example.com",
+    title: "standalone cms",
+  },
   manifest: {
     backgroundColor: "#f4efe8",
     description:
-      "private ai systems, built as owned infrastructure.",
-    name: "siam ai lab",
-    shortName: "siam ai lab",
+      "self-hostable, markdown-first publishing with generated runtime state.",
+    name: "standalone cms",
+    shortName: "cms",
     themeColor: "#f4efe8",
   },
   metadata: {
-    defaultAuthor: "siam ai lab",
+    defaultAuthor: "standalone cms",
     organization: {
       logo: "/icon.svg",
-      name: "siam ai lab",
+      name: "standalone cms",
       sameAs: [] as string[],
     },
     robots: {
@@ -102,20 +119,17 @@ export const siteConfig = {
       index: true,
     },
   },
-  name: "siam ai lab",
   navigation: [
     { href: "/", label: "home" },
-    { href: "/services", label: "services" },
+    { href: "/features", label: "features" },
     { href: "/how-it-works", label: "how it works" },
     { href: "/howto", label: "how-to" },
     { href: "/case-studies", label: "case studies" },
     { href: "/contact", label: "contact" },
   ] as const satisfies readonly SiteNavigationItem[],
-  siteUrl: "https://siamailab.com",
   social: {
     defaultTwitterCard: "summary_large_image" as const,
     images: socialImageVariants,
-    siteName: "siam ai lab",
+    siteName: "standalone cms",
   },
-  title: "siam ai lab",
 } as const;

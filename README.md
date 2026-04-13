@@ -1,77 +1,95 @@
-# siam ai lab poc
+# standalone cms
 
-editorial proof-of-concept for the future `siam-ai-lab` site.
+`standalone cms` is a self-hostable site framework for editorial, text-first sites that want markdown publishing without turning the runtime into a pile of raw files.
 
-the point of this repo is not just to show some sample pages. it is to prove a frontend shape that future ai agents can extend without inventing new spacing, colors, or component patterns on every page.
+it ships with:
 
-## control surfaces
+- a strict `Markdoc` content pipeline
+- reusable blocks and page templates
+- one obvious site config surface in `content/site.ts`
+- visible accepted-content history in `content/archive/`
+- recovery paths for misplaced drafts
+- static export output from Next.js 16
 
-if you need to change the site globally, start here:
+the runtime only trusts generated state. raw markdown is authoring input, not the thing the app renders directly.
 
-- `app/globals.css`: color and font tokens
-- `components/site/text.tsx`: typography recipes
-- `components/site/button.tsx`: button recipe
-- `components/site/section.tsx`: section spacing and tone rules
-- `components/site/page-container.tsx`: content widths
-- `content/site.ts`: site-wide metadata, nav, footer copy
-- `components/blocks/registry.ts`: available block components
-- `components/templates/registry.ts`: available page templates
+## quick start
 
-## architecture
+```bash
+npm install
+npm run content -- audit
+npm run dev
+```
 
-- authoring guide: `content/AUTHORING.md`
-- raw authoring starts in `content/submit-here/`
-- accepted markdown is mirrored into `content/archive/`
-- rescued mistakes land in `content/recovered-drafts/`
+for a production build:
+
+```bash
+npm run lint
+npm run test
+npm run build
+```
+
+`npm run content -- audit` is important on a fresh clone because `content/.state/` is intentionally ignored and rebuilt from the accepted archive.
+
+## where to edit
+
+- `content/site.ts`
+  site identity, canonical url, navigation, footer copy, manifest defaults, default metadata, social card registry
+- `content/AUTHORING.md`
+  editorial system overview and writer rules
+- `content/examples/seed/`
+  starter markdown fixtures for each page family
+- `content/submit-here/`
+  the only approved place for new drafts
+- `components/blocks/registry.ts`
+  approved block catalog
+- `components/templates/registry.ts`
+  approved page templates
+- `components/site/*`
+  shared visual primitives
+- `app/globals.css`
+  tokens and global styling rules
+
+## publishing model
+
+- drafts are written in `content/submit-here/`
+- `npm run content -- check <file>` validates a draft without accepting it
+- `npm run content -- submit <file>` accepts a new page
+- `npm run content -- edit <file>` accepts a revision to an existing page
+- accepted revisions are mirrored into `content/archive/`
+- the runtime rebuilds hidden generated state under `content/.state/`
 - only the newest accepted `published` revision per page becomes live
-- newer `draft` revisions stay accepted and archived without replacing the last published page
-- `public/_redirects` is generated from page aliases
-- `lib/content/markdown.ts` parses and validates the closed `Markdoc` block grammar
-- `lib/content/metadata.ts` resolves page, template, and site metadata into runtime seo/schema data
-- `lib/content/state.ts` accepts revisions, rebuilds generated state, and quarantines bad direct writes
-- `lib/content/runtime.ts` reads only the generated live index
-- `components/renderers/render-page.tsx` resolves the template from the registry
-- page route files stay thin and render by slug from generated content state
+- accepted `draft` revisions stay archived without replacing the live page
+- bad direct writes are quarantined into `content/recovered-drafts/`
 
-## writer docs in order
+## starter content
 
-if you are writing or editing page content, read these in this order:
+the repo includes safe starter pages so it can be pushed to a public github remote without leaking a real brand, inbox, or business history.
+
+default starter routes:
+
+- `/`
+- `/features`
+- `/how-it-works`
+- `/howto/editorial/publishing-workflow`
+- `/case-studies/teams/community-knowledge-base`
+- `/contact`
+
+replace them through the content pipeline or reseed from `content/examples/seed/`.
+
+## deployment
+
+the app is configured for static export with `next build`.
+
+- `next.config.ts` uses `output: "export"`
+- `public/_worker.js` optionally enforces a canonical host when `CANONICAL_HOST` is set
+- `.github/workflows/deploy-pages.yml` can deploy to Cloudflare Pages when repo variables and secrets are configured
+
+## writer docs
+
+read these in order:
 
 1. `content/AUTHORING.md`
 2. `content/submit-here/README.md`
 3. `content/archive/README.md`
 4. `content/recovered-drafts/README.md`
-
-## working rules
-
-- for site-level vs template-level vs page-level editing, read `content/AUTHORING.md`
-- do not style route files directly
-- do not add page-specific css
-- if a visual treatment is new, add or edit a shared recipe/block/template
-- raw drafts belong in `content/submit-here/`
-- accepted revisions stay visible in `content/archive/`
-- metadata defaults live in `content/site.ts` and `lib/content/metadata.ts`
-- use `npm run content -- check <file>` before `submit` when a draft is uncertain
-- OpenClaw should use `content_stage` -> `content_check` -> `content_submit` or `content_edit`
-- if work disappears, check `content/recovered-drafts/` before assuming it is lost
-- keep visual decisions in `components/site/*` or block files
-
-## pages in the poc
-
-- `/`
-- `/services`
-- `/how-it-works`
-- `/howto/productivity/email-triage`
-- `/case-studies/individuals/personal-health-ai`
-- `/contact`
-
-## commands
-
-```bash
-npm run dev
-npm run lint
-npm run test
-npm run test:coverage
-npm run content -- usage
-npm run build
-```

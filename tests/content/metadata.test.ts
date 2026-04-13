@@ -12,28 +12,28 @@ function guidePage(overrides: Partial<ManagedPage> = {}): ManagedPage {
   return {
     blocks: [],
     meta: {
-      author: "siam ai lab",
+      author: "standalone cms",
       canonicalUrl:
-        "https://siamailab.com/howto/productivity/email-triage",
-      description: "private inbox routing without another saas dependency",
-      publishedAt: "2026-03-26T00:00:00Z",
+        "https://example.com/howto/editorial/publishing-workflow",
+      description: "how to validate and publish a page safely through the content pipeline",
+      publishedAt: "2026-04-13T00:00:00Z",
       robots: { follow: true, index: true },
-      seoTitle: "private email triage for personal and executive inboxes",
+      seoTitle: "publishing workflow for a markdown-first site",
       social: {
-        description: "local-first email triage with strict workflow control",
-        image: "https://siamailab.com/og/guide.svg",
+        description: "stage drafts, lint them, and accept them without touching generated runtime files",
+        image: "https://example.com/og/guide.svg",
         imageVariant: "guide",
-        title: "private email triage",
+        title: "publishing workflow",
         twitterCard: "summary_large_image",
       },
-      summary: "local-first email triage with strict workflow control",
-      title: "private email triage",
-      updatedAt: "2026-03-27T00:00:00Z",
+      summary: "stage drafts, lint them, and accept them without touching generated runtime files",
+      title: "publishing workflow",
+      updatedAt: "2026-04-14T00:00:00Z",
     },
-    pageId: "howto-productivity-email-triage",
-    redirectFrom: ["/guides/email-triage"],
+    pageId: "howto-editorial-publishing-workflow",
+    redirectFrom: ["/guides/publishing-workflow"],
     revisionId: "rev-guide",
-    slug: "/howto/productivity/email-triage",
+    slug: "/howto/editorial/publishing-workflow",
     sourceHash: "hash",
     status: "published",
     template: "guide",
@@ -47,13 +47,13 @@ describe("content metadata helpers", () => {
 
     const metadata = buildNextMetadata(page);
 
-    expect(metadata.title).toBe("private email triage for personal and executive inboxes");
+    expect(metadata.title).toBe("publishing workflow for a markdown-first site");
     expect(metadata.alternates?.canonical).toBe(
-      "https://siamailab.com/howto/productivity/email-triage"
+      "https://example.com/howto/editorial/publishing-workflow"
     );
     expect(metadata.robots).toEqual({ follow: true, index: true });
     expect(metadata.openGraph?.type).toBe("article");
-    expect(metadata.openGraph?.images?.[0]?.url).toBe("https://siamailab.com/og/guide.svg");
+    expect(metadata.openGraph?.images?.[0]?.url).toBe("https://example.com/og/guide.svg");
     expect(metadata.twitter?.card).toBe("summary_large_image");
   });
 
@@ -71,32 +71,32 @@ describe("content metadata helpers", () => {
     const draft = guidePage({
       meta: {
         ...guidePage().meta,
-        canonicalUrl: "https://siamailab.com/howto/productivity/draft",
+        canonicalUrl: "https://example.com/howto/editorial/draft",
       },
       pageId: "draft-guide",
       redirectFrom: ["/draft-guide-old"],
-      slug: "/howto/productivity/draft",
+      slug: "/howto/editorial/draft",
       status: "draft",
     });
     const noindex = guidePage({
       meta: {
         ...guidePage().meta,
-        canonicalUrl: "https://siamailab.com/howto/productivity/private",
+        canonicalUrl: "https://example.com/howto/editorial/private",
         robots: { follow: true, index: false },
       },
       pageId: "private-guide",
       redirectFrom: ["/private-guide-old"],
-      slug: "/howto/productivity/private",
+      slug: "/howto/editorial/private",
     });
 
     const redirects = buildRedirectsFile([published, draft, noindex]);
     const sitemap = buildSitemapEntries([published, draft, noindex]);
 
-    expect(redirects).toContain("/guides/email-triage /howto/productivity/email-triage 301");
+    expect(redirects).toContain("/guides/publishing-workflow /howto/editorial/publishing-workflow 301");
     expect(redirects).not.toContain("/draft-guide-old");
-    expect(redirects).toContain("/private-guide-old /howto/productivity/private 301");
+    expect(redirects).toContain("/private-guide-old /howto/editorial/private 301");
     expect(sitemap).toEqual([
-      "https://siamailab.com/howto/productivity/email-triage",
+      "https://example.com/howto/editorial/publishing-workflow",
     ]);
   });
 });

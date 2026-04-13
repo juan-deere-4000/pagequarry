@@ -1,6 +1,6 @@
-# siam ai lab poc agent rules
+# standalone cms agent rules
 
-this repo is a constrained frontend system. the point is to make future ai edits predictable.
+this repo is a constrained frontend system. the point is to keep future ai edits predictable and public-repo safe.
 
 ## next.js note
 
@@ -40,4 +40,4 @@ this repo is on Next.js 16. if you touch framework behavior you are not fully su
 - do not make raw markdown files routable directly
 - treat publication as a content-pipeline concern, not a route-file concern
 - keep the system editorial, light, serif-led, and text-first
-- the OpenClaw content surface is the `content_*` tool family. use `content_stage` first, then `content_check`, then `content_submit` or `content_edit`
+- if this repo is wrapped for agent tooling, keep the public tool surface narrow and centered on `content_stage`, `content_check`, `content_submit`, and `content_edit`

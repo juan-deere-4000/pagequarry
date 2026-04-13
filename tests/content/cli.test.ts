@@ -69,13 +69,13 @@ describe("content cli", () => {
 
   it("checks a valid fixture through the cli", async () => {
     const rootDir = createTempRoot();
-    const filePath = copyFixture(rootDir, "services.md");
+    const filePath = copyFixture(rootDir, "features.md");
 
     const result = await runContentCli(["--json", "--root", rootDir, "check", filePath]);
     const payload = JSON.parse(result.output);
 
     expect(result.exitCode).toBe(0);
-    expect(payload.page.slug).toBe("/services");
+    expect(payload.page.slug).toBe("/features");
   });
 
   it("submits a valid fixture through the cli", async () => {
@@ -96,7 +96,7 @@ describe("content cli", () => {
     const rootDir = createTempRoot();
     const seedDir = path.join(rootDir, "content", "examples", "seed");
     fs.mkdirSync(seedDir, { recursive: true });
-    for (const file of ["home.md", "services.md", "contact.md"]) {
+    for (const file of ["home.md", "features.md", "contact.md"]) {
       copyFixture(rootDir, file, path.join("content", "examples", "seed", file));
     }
 

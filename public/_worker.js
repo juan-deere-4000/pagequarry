@@ -1,9 +1,10 @@
 const worker = {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const canonicalHost = env.CANONICAL_HOST?.trim();
 
-    if (url.hostname === "www.siamailab.com") {
-      url.hostname = "siamailab.com";
+    if (canonicalHost && url.hostname !== canonicalHost) {
+      url.hostname = canonicalHost;
       url.protocol = "https:";
       return Response.redirect(url.toString(), 301);
     }

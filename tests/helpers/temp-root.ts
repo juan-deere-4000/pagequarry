@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 
 export function createTempRoot() {
-  const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), "bkk-ai-lab-poc-"));
+  const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), "standalone-cms-"));
   fs.mkdirSync(path.join(rootDir, "content"), { recursive: true });
   return rootDir;
 }

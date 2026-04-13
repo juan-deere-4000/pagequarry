@@ -21,40 +21,40 @@ type ArchiveGroup = {
 const archiveConfig = {
   caseStudies: {
     ctaBody:
-      "if one of these case studies looks close to the way you work, the next step is a conversation about your actual data, tools, and constraints.",
-    ctaTitle: "want a version of this for your own operation?",
+      "replace these starter examples with your own published work once the editorial model is in place.",
+    ctaTitle: "ready to publish your own case studies?",
     deck:
-      "every published case study currently live on the site, grouped by audience. these are concrete proofs of the same private ai system applied to real operational environments.",
+      "published case studies generated from the live site index. by default this archive groups entries by the second slug segment under `/case-studies/`.",
     description:
-      "published case studies from siam ai lab, grouped by audience and generated from the live site index.",
+      "published case studies generated from the live site index.",
     emptyBody:
       "there are no published case studies yet. once they are accepted into the live archive, they will appear here automatically.",
-    groupOrder: ["individuals", "business"],
-    groupPrefix: "audience",
+    groupOrder: ["independent", "teams", "organizations"],
+    groupPrefix: "segment",
     pageId: "case-studies-archive",
     seoTitle: "case studies archive",
     slug: "/case-studies",
     summary:
-      "published case studies from siam ai lab, grouped by audience and generated from the live site index.",
+      "published case studies generated from the live site index.",
     title: "all published case studies.",
   },
   howto: {
     ctaBody:
-      "if a guide here is close to the workflow you want, the next step is scoping the actual system around your own tools, data, and constraints.",
-    ctaTitle: "want one of these workflows on your own hardware?",
+      "use this archive as the editorial index for published guides, operational notes, and platform walkthroughs.",
+    ctaTitle: "ready to publish your own guides?",
     deck:
-      "every published how-to article currently live on the site, grouped by domain. these are the concrete workflow pages, not the broader service or narrative pages.",
+      "published how-to pages generated from the live site index. by default this archive groups entries by the second slug segment under `/howto/`.",
     description:
-      "published how-to articles from siam ai lab, grouped by domain and generated from the live site index.",
+      "published how-to articles generated from the live site index.",
     emptyBody:
       "there are no published how-to articles yet. once they are accepted into the live archive, they will appear here automatically.",
-    groupOrder: ["health", "productivity", "knowledge", "operations"],
-    groupPrefix: "domain",
+    groupOrder: ["editorial", "platform", "migration", "operations"],
+    groupPrefix: "topic",
     pageId: "howto-archive",
     seoTitle: "how-to archive",
     slug: "/howto",
     summary:
-      "published how-to articles from siam ai lab, grouped by domain and generated from the live site index.",
+      "published how-to articles generated from the live site index.",
     title: "all published how-to articles.",
   },
 } as const;
@@ -147,14 +147,14 @@ function buildBlocks(kind: ArchiveKind, groups: ArchiveGroup[]): ManagedPage["bl
       eyebrow: "published archive",
       title: config.title,
       deck: config.deck,
-      action: { href: "/contact", label: "book a consultation" },
+      action: siteConfig.contact.primaryAction,
     },
     ...groupBlocks,
     {
       type: "cta",
       title: config.ctaTitle,
       body: config.ctaBody,
-      action: { href: "/contact", label: "book a consultation" },
+      action: siteConfig.contact.primaryAction,
     },
   ];
 }
@@ -170,14 +170,17 @@ export function buildGeneratedArchivePage(kind: ArchiveKind, pages: ManagedPage[
     blocks: buildBlocks(kind, groups),
     meta: {
       author: siteConfig.metadata.defaultAuthor,
-      canonicalUrl: new URL(config.slug, siteConfig.siteUrl).toString(),
+      canonicalUrl: new URL(config.slug, siteConfig.identity.siteUrl).toString(),
       description: config.description,
       publishedAt: updatedAt,
       robots: { follow: true, index: true },
       seoTitle: config.seoTitle,
       social: {
         description: config.summary,
-        image: new URL(siteConfig.social.images.hub.path, siteConfig.siteUrl).toString(),
+        image: new URL(
+          siteConfig.social.images.hub.path,
+          siteConfig.identity.siteUrl
+        ).toString(),
         imageVariant: "hub",
         title: config.seoTitle,
         twitterCard: siteConfig.social.defaultTwitterCard,

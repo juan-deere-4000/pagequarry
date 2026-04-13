@@ -45,7 +45,7 @@ function lintFeedback(issues: Array<{ line?: number; message: string }>) {
 
 function usageText() {
   return [
-    "bkk-content usage",
+    "site-content usage",
     "",
     "commands:",
     "  usage                    show this help",
@@ -62,15 +62,15 @@ function usageText() {
     "",
     "writer flow:",
     "  1. put draft markdown in content/submit-here/",
-    "  2. run bkk-content check content/submit-here/<file>.md",
-    "  3. run bkk-content submit content/submit-here/<file>.md",
+    "  2. run site-content check content/submit-here/<file>.md",
+    "  3. run site-content submit content/submit-here/<file>.md",
     "  4. use edit instead of submit when you are revising an existing page",
     "  5. accepted drafts are mirrored into content/archive/ by canonical url",
     "  6. if rejected, read the lint feedback and fix the draft",
     "  7. if your work disappeared, look in content/recovered-drafts/",
     "",
-    "openclaw tools:",
-    "  normal writer tools:",
+    "optional agent tool mapping:",
+    "  if you expose the cli to automation, keep the tool surface narrow:",
     "  content_templates == list-templates",
     "  content_blocks == list-blocks",
     "  content_stage writes a draft into content/submit-here/",

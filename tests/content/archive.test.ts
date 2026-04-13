@@ -6,28 +6,28 @@ import { buildGeneratedArchivePage, buildGeneratedArchivePages } from "@/lib/con
 import { buildSitemapEntries } from "@/lib/content/metadata";
 
 function makePage(overrides: Partial<ManagedPage> = {}): ManagedPage {
-  const slug = overrides.slug || "/howto/productivity/email-triage";
-  const title = overrides.meta?.title || "private email triage";
+  const slug = overrides.slug || "/howto/editorial/publishing-workflow";
+  const title = overrides.meta?.title || "publishing workflow";
 
   return {
     blocks: [],
     meta: {
-      author: "siam ai lab",
-      canonicalUrl: `https://siamailab.com${slug}`,
+      author: "standalone cms",
+      canonicalUrl: `https://example.com${slug}`,
       description: `${title} description`,
-      publishedAt: "2026-03-26T00:00:00Z",
+      publishedAt: "2026-04-13T00:00:00Z",
       robots: { follow: true, index: true },
       seoTitle: title,
       social: {
         description: `${title} summary`,
-        image: "https://siamailab.com/og/guide.svg",
+        image: "https://example.com/og/guide.svg",
         imageVariant: "guide",
         title,
         twitterCard: "summary_large_image",
       },
       summary: `${title} summary`,
       title,
-      updatedAt: "2026-03-27T00:00:00Z",
+      updatedAt: "2026-04-14T00:00:00Z",
       ...(overrides.meta || {}),
     },
     pageId: overrides.pageId || slug.replace(/^\//, "").replace(/\//g, "-") || "home",
@@ -44,10 +44,10 @@ function makePage(overrides: Partial<ManagedPage> = {}): ManagedPage {
 describe("generated archive pages", () => {
   it("builds grouped archive pages from the live page set", () => {
     const pages = [
-      makePage({ slug: "/howto/productivity/email-triage", meta: { title: "private email triage", description: "", summary: "email summary", canonicalUrl: "https://siamailab.com/howto/productivity/email-triage", robots: { follow: true, index: true }, social: { title: "private email triage", description: "email summary", image: "https://siamailab.com/og/guide.svg", imageVariant: "guide", twitterCard: "summary_large_image" }, author: "siam ai lab" } }),
-      makePage({ slug: "/howto/health/bloodwork-tracking", meta: { title: "bloodwork tracking", description: "", summary: "bloodwork summary", canonicalUrl: "https://siamailab.com/howto/health/bloodwork-tracking", robots: { follow: true, index: true }, social: { title: "bloodwork tracking", description: "bloodwork summary", image: "https://siamailab.com/og/guide.svg", imageVariant: "guide", twitterCard: "summary_large_image" }, author: "siam ai lab" } }),
-      makePage({ slug: "/case-studies/individuals/personal-health-ai", template: "caseStudy", meta: { title: "personal health ai", description: "", summary: "health case study", canonicalUrl: "https://siamailab.com/case-studies/individuals/personal-health-ai", robots: { follow: true, index: true }, social: { title: "personal health ai", description: "health case study", image: "https://siamailab.com/og/case-study.svg", imageVariant: "caseStudy", twitterCard: "summary_large_image" }, author: "siam ai lab" } }),
-      makePage({ slug: "/case-studies/business/restaurant-operations", template: "caseStudy", meta: { title: "restaurant operations", description: "", summary: "restaurant case study", canonicalUrl: "https://siamailab.com/case-studies/business/restaurant-operations", robots: { follow: true, index: true }, social: { title: "restaurant operations", description: "restaurant case study", image: "https://siamailab.com/og/case-study.svg", imageVariant: "caseStudy", twitterCard: "summary_large_image" }, author: "siam ai lab" } }),
+      makePage({ slug: "/howto/editorial/publishing-workflow", meta: { title: "publishing workflow", description: "", summary: "workflow summary", canonicalUrl: "https://example.com/howto/editorial/publishing-workflow", robots: { follow: true, index: true }, social: { title: "publishing workflow", description: "workflow summary", image: "https://example.com/og/guide.svg", imageVariant: "guide", twitterCard: "summary_large_image" }, author: "standalone cms" } }),
+      makePage({ slug: "/howto/platform/launch-checklist", meta: { title: "launch checklist", description: "", summary: "launch summary", canonicalUrl: "https://example.com/howto/platform/launch-checklist", robots: { follow: true, index: true }, social: { title: "launch checklist", description: "launch summary", image: "https://example.com/og/guide.svg", imageVariant: "guide", twitterCard: "summary_large_image" }, author: "standalone cms" } }),
+      makePage({ slug: "/case-studies/teams/community-knowledge-base", template: "caseStudy", meta: { title: "community knowledge base", description: "", summary: "community summary", canonicalUrl: "https://example.com/case-studies/teams/community-knowledge-base", robots: { follow: true, index: true }, social: { title: "community knowledge base", description: "community summary", image: "https://example.com/og/case-study.svg", imageVariant: "caseStudy", twitterCard: "summary_large_image" }, author: "standalone cms" } }),
+      makePage({ slug: "/case-studies/organizations/member-handbook", template: "caseStudy", meta: { title: "member handbook", description: "", summary: "handbook summary", canonicalUrl: "https://example.com/case-studies/organizations/member-handbook", robots: { follow: true, index: true }, social: { title: "member handbook", description: "handbook summary", image: "https://example.com/og/case-study.svg", imageVariant: "caseStudy", twitterCard: "summary_large_image" }, author: "standalone cms" } }),
     ];
 
     const howto = buildGeneratedArchivePage("howto", pages);
@@ -59,14 +59,14 @@ describe("generated archive pages", () => {
     expect(caseStudies.blocks[0]).toMatchObject({ type: "hero", title: "all published case studies." });
     expect(howto.blocks.some((block) => block.type === "metrics")).toBe(false);
     expect(caseStudies.blocks.some((block) => block.type === "metrics")).toBe(false);
-    expect(howto.blocks[1]).toMatchObject({ type: "sectionCopy", title: "health" });
-    expect(howto.blocks[2]).toMatchObject({ type: "sectionCopy", title: "productivity" });
-    expect(caseStudies.blocks[1]).toMatchObject({ type: "sectionCopy", title: "individuals" });
-    expect(caseStudies.blocks[2]).toMatchObject({ type: "sectionCopy", title: "business" });
+    expect(howto.blocks[1]).toMatchObject({ type: "sectionCopy", title: "editorial" });
+    expect(howto.blocks[2]).toMatchObject({ type: "sectionCopy", title: "platform" });
+    expect(caseStudies.blocks[1]).toMatchObject({ type: "sectionCopy", title: "teams" });
+    expect(caseStudies.blocks[2]).toMatchObject({ type: "sectionCopy", title: "organizations" });
 
-    const healthSection = howto.blocks[1];
-    if (healthSection.type !== "sectionCopy" || !healthSection.links) throw new Error("unexpected section shape");
-    expect(healthSection.links[0]).toMatchObject({ href: "/howto/health/bloodwork-tracking", label: "bloodwork tracking" });
+    const editorialSection = howto.blocks[1];
+    if (editorialSection.type !== "sectionCopy" || !editorialSection.links) throw new Error("unexpected section shape");
+    expect(editorialSection.links[0]).toMatchObject({ href: "/howto/editorial/publishing-workflow", label: "publishing workflow" });
   });
 
   it("does not generate archive pages when real pages already exist at those slugs", () => {
@@ -81,17 +81,17 @@ describe("generated archive pages", () => {
   it("keeps navigation flat and includes generated archive routes in the sitemap", () => {
     expect(siteConfig.navigation).toEqual([
       { href: "/", label: "home" },
-      { href: "/services", label: "services" },
+      { href: "/features", label: "features" },
       { href: "/how-it-works", label: "how it works" },
       { href: "/howto", label: "how-to" },
       { href: "/case-studies", label: "case studies" },
       { href: "/contact", label: "contact" },
     ]);
 
-    const pages = [makePage({ slug: "/howto/productivity/email-triage" })];
+    const pages = [makePage({ slug: "/howto/editorial/publishing-workflow" })];
     const sitemap = buildSitemapEntries([...pages, ...buildGeneratedArchivePages(pages)]);
 
-    expect(sitemap).toContain("https://siamailab.com/howto");
-    expect(sitemap).toContain("https://siamailab.com/case-studies");
+    expect(sitemap).toContain("https://example.com/howto");
+    expect(sitemap).toContain("https://example.com/case-studies");
   });
 });

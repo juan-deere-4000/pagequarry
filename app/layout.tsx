@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Fraunces, Source_Serif_4 } from "next/font/google";
 
 import { StructuredData } from "@/components/site/structured-data";
 import { SiteChrome } from "@/components/site/site-chrome";
@@ -8,45 +7,35 @@ import { buildSiteStructuredData } from "@/lib/content/metadata";
 
 import "./globals.css";
 
-const display = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-display",
-});
-
-const body = Source_Serif_4({
-  subsets: ["latin"],
-  variable: "--font-body",
-});
-
 export const metadata: Metadata = {
   applicationName: siteConfig.manifest.name,
   authors: [{ name: siteConfig.metadata.defaultAuthor }],
-  description: siteConfig.description,
+  description: siteConfig.identity.description,
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
   },
   manifest: "/manifest.webmanifest",
-  metadataBase: new URL(siteConfig.siteUrl),
+  metadataBase: new URL(siteConfig.identity.siteUrl),
   openGraph: {
-    description: siteConfig.description,
+    description: siteConfig.identity.description,
     images: [siteConfig.social.images.site.path],
-    locale: siteConfig.locale,
+    locale: siteConfig.identity.locale,
     siteName: siteConfig.social.siteName,
-    title: siteConfig.title,
+    title: siteConfig.identity.title,
     type: "website",
-    url: siteConfig.siteUrl,
+    url: siteConfig.identity.siteUrl,
   },
   robots: siteConfig.metadata.robots,
   title: {
-    default: siteConfig.title,
-    template: `%s | ${siteConfig.title}`,
+    default: siteConfig.identity.title,
+    template: `%s | ${siteConfig.identity.title}`,
   },
   twitter: {
     card: siteConfig.social.defaultTwitterCard,
-    description: siteConfig.description,
+    description: siteConfig.identity.description,
     images: [siteConfig.social.images.site.path],
-    title: siteConfig.title,
+    title: siteConfig.identity.title,
   },
 };
 
@@ -56,10 +45,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      className={`${display.variable} ${body.variable}`}
-      lang="en"
-    >
+    <html lang="en">
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <StructuredData items={buildSiteStructuredData()} />
         <div className="relative isolate min-h-screen overflow-hidden">

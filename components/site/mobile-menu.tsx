@@ -47,7 +47,7 @@ export function MobileMenu() {
           <div className="border-b border-border/80">
             <PageContainer className="flex items-center justify-between py-5">
               <Text as="span" variant="brand">
-                {siteConfig.name}
+                {siteConfig.identity.name}
               </Text>
 
               <Dialog.Close
@@ -69,9 +69,9 @@ export function MobileMenu() {
             <Dialog.Close asChild>
               <Link
                 className={cn(buttonVariants(), "w-full justify-center")}
-                href="/contact"
+                href={siteConfig.contact.primaryAction.href}
               >
-                book a consultation
+                {siteConfig.contact.primaryAction.label}
               </Link>
             </Dialog.Close>
           </PageContainer>

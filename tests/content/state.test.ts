@@ -33,9 +33,9 @@ describe("content state pipeline", () => {
       expect(fs.existsSync(filePath)).toBe(false);
       expect(fs.existsSync(path.join(rootDir, result.archiveCurrentPath))).toBe(true);
       expect(fs.existsSync(path.join(rootDir, result.archiveRevisionPath))).toBe(true);
-      expect(fs.readFileSync(archiveCurrentPath(paths, "/"), "utf8")).toContain("title: home");
+      expect(fs.readFileSync(archiveCurrentPath(paths, "/"), "utf8")).toContain("title: standalone cms");
       expect(fs.readFileSync(archiveRevisionPath(paths, "/", result.page.revisionId), "utf8")).toContain(
-        "title: home"
+        "title: standalone cms"
       );
       expect(listPages(rootDir)).toHaveLength(1);
     }
@@ -60,11 +60,11 @@ describe("content state pipeline", () => {
   it("detects slug collisions during check", () => {
     const rootDir = createTempRoot();
     submitDraftFile({ filePath: copyFixture(rootDir, "home.md"), rootDir });
-    const conflicting = copyFixture(rootDir, "services.md");
+    const conflicting = copyFixture(rootDir, "features.md");
 
     const source = fs
       .readFileSync(conflicting, "utf8")
-      .replace("slug: /services", "slug: /\npage_id: services");
+      .replace("slug: /features", "slug: /\npage_id: features");
     fs.writeFileSync(conflicting, source, "utf8");
 
     const result = checkDraftFile({ filePath: conflicting, rootDir });
@@ -78,11 +78,11 @@ describe("content state pipeline", () => {
   it("detects slug collisions during submit", () => {
     const rootDir = createTempRoot();
     submitDraftFile({ filePath: copyFixture(rootDir, "home.md"), rootDir });
-    const conflicting = copyFixture(rootDir, "services.md");
+    const conflicting = copyFixture(rootDir, "features.md");
 
     const source = fs
       .readFileSync(conflicting, "utf8")
-      .replace("slug: /services", "slug: /\npage_id: services");
+      .replace("slug: /features", "slug: /\npage_id: features");
     fs.writeFileSync(conflicting, source, "utf8");
 
     const result = submitDraftFile({ filePath: conflicting, rootDir });
@@ -173,28 +173,28 @@ describe("content state pipeline", () => {
 
   it("generates redirects for published aliases and rejects collisions", () => {
     const rootDir = createTempRoot();
-    const services = copyFixture(rootDir, "services.md");
-    const servicesSource = fs
-      .readFileSync(services, "utf8")
-      .replace("description: service hub prototype showing the same private ai system through several operational lenses.", [
-        "description: service hub prototype showing the same private ai system through several operational lenses.",
+    const features = copyFixture(rootDir, "features.md");
+    const featuresSource = fs
+      .readFileSync(features, "utf8")
+      .replace("description: feature overview for the standalone cms starter site.", [
+        "description: feature overview for the standalone cms starter site.",
         "redirect_from:",
-        "  - /service-lines",
+        "  - /feature-overview",
       ].join("\n"));
-    fs.writeFileSync(services, servicesSource, "utf8");
-    submitDraftFile({ filePath: services, rootDir });
+    fs.writeFileSync(features, featuresSource, "utf8");
+    submitDraftFile({ filePath: features, rootDir });
 
     const paths = resolveContentPaths(rootDir);
     const redirectsPath = path.join(rootDir, "public", "_redirects");
-    expect(fs.readFileSync(redirectsPath, "utf8")).toContain("/service-lines /services 301");
+    expect(fs.readFileSync(redirectsPath, "utf8")).toContain("/feature-overview /features 301");
 
     const conflict = copyFixture(rootDir, "contact.md");
     const conflictSource = fs
       .readFileSync(conflict, "utf8")
-      .replace("description: contact-page prototype for a direct, low-theatre consultation entry point.", [
-        "description: contact-page prototype for a direct, low-theatre consultation entry point.",
+      .replace("description: safe placeholder contact page for the starter site.", [
+        "description: safe placeholder contact page for the starter site.",
         "redirect_from:",
-        "  - /services",
+        "  - /features",
       ].join("\n"));
     fs.writeFileSync(conflict, conflictSource, "utf8");
 
@@ -212,7 +212,9 @@ describe("content state pipeline", () => {
     submitDraftFile({ filePath: copyFixture(rootDir, "home.md"), rootDir });
     const editPath = copyFixture(rootDir, "home.md", path.join("drafts", "home-edit.md"));
 
-    const source = fs.readFileSync(editPath, "utf8").replace("title: home", "title: home revised");
+    const source = fs
+      .readFileSync(editPath, "utf8")
+      .replace("title: standalone cms", "title: standalone cms revised");
     fs.writeFileSync(editPath, source, "utf8");
 
     const result = checkDraftFile({ filePath: editPath, rootDir });
@@ -299,7 +301,7 @@ describe("content state pipeline", () => {
 
   it("restores a tampered revision source from the trusted revision json", () => {
     const rootDir = createTempRoot();
-    const submit = submitDraftFile({ filePath: copyFixture(rootDir, "services.md"), rootDir });
+    const submit = submitDraftFile({ filePath: copyFixture(rootDir, "features.md"), rootDir });
     expect(submit.ok).toBe(true);
 
     const paths = resolveContentPaths(rootDir);
@@ -322,7 +324,7 @@ describe("content state pipeline", () => {
 
   it("quarantines a tampered current page state and rewrites it", () => {
     const rootDir = createTempRoot();
-    submitDraftFile({ filePath: copyFixture(rootDir, "services.md"), rootDir });
+    submitDraftFile({ filePath: copyFixture(rootDir, "features.md"), rootDir });
     const paths = resolveContentPaths(rootDir);
     const pageId = listPages(rootDir)[0]!.pageId;
     const currentPath = path.join(paths.pagesDir, pageId, "current.json");
@@ -484,7 +486,7 @@ describe("content state pipeline", () => {
 
   it("uses the newest accepted revision timestamp for the live index", () => {
     const rootDir = createTempRoot();
-    submitDraftFile({ filePath: copyFixture(rootDir, "services.md"), rootDir });
+    submitDraftFile({ filePath: copyFixture(rootDir, "features.md"), rootDir });
     submitDraftFile({ filePath: copyFixture(rootDir, "contact.md"), rootDir });
     const paths = resolveContentPaths(rootDir);
 

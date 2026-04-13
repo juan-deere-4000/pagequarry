@@ -17,7 +17,7 @@ if you are not doing a coding task, do not touch anything else.
 
 ## one-sentence rule
 
-writers only write markdown drafts into `content/submit-here/`, validate them, then publish them through the content cli or the matching `OpenClaw` tools.
+writers only write markdown drafts into `content/submit-here/`, validate them, then publish them through the content cli or a thin automation wrapper around it.
 
 ## the three editing layers
 
@@ -28,7 +28,7 @@ site-level changes live in code, not markdown.
 use these when you need to change global behavior:
 
 - `content/site.ts`
-  brand name, canonical site url, nav, footer copy, manifest defaults, social image variants
+  site identity, canonical site url, nav, footer copy, manifest defaults, contact defaults, social image variants
 - `lib/content/metadata.ts`
   page, template, and site metadata resolution plus schema, sitemap, and redirects
 - `components/blocks/registry.ts`
@@ -43,7 +43,7 @@ if you need a new block, a new template, a new metadata rule, or a styling chang
 important:
 
 - the header and mobile menu are code-owned in `content/site.ts`
-- the header is flat. top-level links are `home`, `services`, `how it works`, `how-to`, `case studies`, and `contact`
+- the header is flat. top-level links are `home`, `features`, `how it works`, `how-to`, `case studies`, and `contact`
 - publishing `/howto/...` or `/case-studies/...` pages does not add child links to nav by itself
 - `/howto` and `/case-studies` are generated archive indexes in code until real markdown pages exist at those slugs
 - if a page should appear as a top-level nav item, a coding agent must update `content/site.ts`
@@ -201,9 +201,9 @@ minimum valid frontmatter:
 ```yaml
 ---
 template: guide
-slug: /howto/productivity/email-triage
-title: private email triage
-description: private inbox routing without another saas dependency
+slug: /howto/editorial/publishing-workflow
+title: publishing workflow
+description: how to validate and publish a page safely through the content pipeline
 ---
 ```
 
@@ -212,28 +212,28 @@ full metadata example:
 ```yaml
 ---
 template: guide
-slug: /howto/productivity/email-triage
-page_id: howto-productivity-email-triage
+slug: /howto/editorial/publishing-workflow
+page_id: howto-editorial-publishing-workflow
 status: published
 
-title: private email triage
-description: private inbox routing without another saas dependency
-summary: local-first email triage with strict workflow control
+title: publishing workflow
+description: how to validate and publish a page safely through the content pipeline
+summary: stage drafts, lint them, and accept them without touching generated runtime files
 
-seo_title: private email triage for personal and executive inboxes
-canonical_url: /howto/productivity/email-triage
+seo_title: publishing workflow for a markdown-first site
+canonical_url: /howto/editorial/publishing-workflow
 robots: index
 
-social_title: private email triage
-social_description: local-first email triage with strict workflow control
+social_title: publishing workflow
+social_description: stage drafts, lint them, and accept them without touching generated runtime files
 social_image: guide
 twitter_card: summary_large_image
 
-author: siam ai lab
-published_at: 2026-03-26T00:00:00Z
-updated_at: 2026-03-26T00:00:00Z
+author: standalone cms
+published_at: 2026-04-13T00:00:00Z
+updated_at: 2026-04-13T00:00:00Z
 redirect_from:
-  - /guides/email-triage
+  - /guides/publishing-workflow
 ---
 ```
 
@@ -265,25 +265,19 @@ common patterns:
 ### hero with a normal internal link
 
 ```md
-{% hero eyebrow="services" title="private systems, not public prompts." deck="..." actionHref="/contact" actionLabel="book a consultation" /%}
+{% hero eyebrow="features" title="one framework, several page families." deck="..." actionHref="/contact" actionLabel="contact" /%}
 ```
 
 ### hero with a direct email button
 
 ```md
-{% hero eyebrow="contact" title="start with the real bottleneck." deck="..." actionHref="mailto:joe.guilmette@gmail.com" actionLabel="email joe" /%}
+{% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@example.com" actionLabel="email" /%}
 ```
 
-### hero with a direct email button plus cc
+### hero with email and subject
 
 ```md
-{% hero eyebrow="contact" title="start with the real bottleneck." deck="..." actionHref="mailto:joe.guilmette@gmail.com?cc=juan.deere.4000@gmail.com" actionLabel="email joe" /%}
-```
-
-### hero with email, cc, and subject
-
-```md
-{% hero eyebrow="contact" title="start with the real bottleneck." deck="..." actionHref="mailto:joe.guilmette@gmail.com?cc=juan.deere.4000@gmail.com&subject=siam%20ai%20lab%20inquiry" actionLabel="email joe" /%}
+{% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@example.com?subject=hello%20from%20the%20starter%20site" actionLabel="email" /%}
 ```
 
 important:
@@ -299,8 +293,8 @@ important:
 {% sectionCopy eyebrow="next step" title="what to review first" %}
 body paragraph
 
-{% linkItem href="/services" label="services" summary="see the service map" /%}
-{% linkItem href="/contact" label="contact" summary="start the conversation" /%}
+{% linkItem href="/features" label="features" summary="see the shared page families" /%}
+{% linkItem href="/contact" label="contact" summary="replace the placeholder contact surface" /%}
 {% /sectionCopy %}
 ```
 
@@ -316,9 +310,9 @@ when a draft is accepted:
 6. if the revision is `published`, the live site updates on the next build/deploy
 7. if the revision is `draft`, it stays accepted and archived but does not replace the live page
 
-## OpenClaw tool mapping
+## automation mapping
 
-the `OpenClaw` content tools are split by intent.
+if you expose the content cli through agent tools, keep the surface narrow.
 
 normal writer tools:
 
@@ -338,7 +332,7 @@ maintainer-only tools:
 - `content_admin_audit` -> `npm run content -- audit`
 - `content_admin_seed` -> `npm run content -- seed <dir>`
 
-default `OpenClaw` writer flow:
+default automation flow:
 
 1. call `content_templates` and `content_blocks` if you need the current contracts
 2. call `content_stage` with a filename and markdown

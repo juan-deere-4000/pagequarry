@@ -14,8 +14,8 @@ export function generateMetadata(): Metadata {
 
   if (!page) {
     return {
-      description: siteConfig.description,
-      title: siteConfig.title,
+      description: siteConfig.identity.description,
+      title: siteConfig.identity.title,
     };
   }
 

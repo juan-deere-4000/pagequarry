@@ -26,28 +26,28 @@ new frontmatter fields:
 
 ```yaml
 template: guide
-slug: /howto/productivity/email-triage
-page_id: howto-productivity-email-triage
+slug: /howto/editorial/publishing-workflow
+page_id: howto-editorial-publishing-workflow
 status: published
 
-title: private email triage
-description: private inbox routing without another saas dependency
-summary: local-first email triage with strict workflow control
+title: publishing workflow
+description: how to validate and publish a page safely through the content pipeline
+summary: stage drafts, lint them, and accept them without touching generated runtime files
 
-seo_title: private email triage for personal and executive inboxes
-canonical_url: /howto/productivity/email-triage
+seo_title: publishing workflow for a markdown-first site
+canonical_url: /howto/editorial/publishing-workflow
 robots: index
 
-social_title: private email triage
-social_description: local-first email triage with strict workflow control
+social_title: publishing workflow
+social_description: stage drafts, lint them, and accept them without touching generated runtime files
 social_image: guide
 twitter_card: summary_large_image
 
-author: siam ai lab
-published_at: 2026-03-26T00:00:00Z
-updated_at: 2026-03-26T00:00:00Z
+author: standalone cms
+published_at: 2026-04-13T00:00:00Z
+updated_at: 2026-04-13T00:00:00Z
 redirect_from:
-  - /guides/email-triage
+  - /guides/publishing-workflow
 ```
 
 validation rules:

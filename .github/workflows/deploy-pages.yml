@@ -1,4 +1,4 @@
-name: deploy pages
+name: deploy static site
 
 on:
   push:
@@ -29,8 +29,9 @@ jobs:
         run: npm run build
 
       - name: deploy to Cloudflare Pages
+        if: ${{ vars.CLOUDFLARE_PAGES_PROJECT != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy out --project-name=bkk-ai-lab-poc-20260326152341
+          command: pages deploy out --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }}

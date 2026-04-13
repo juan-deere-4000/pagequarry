@@ -2,7 +2,7 @@
 
 ## objective
 
-ship a content pipeline that assumes `OpenClaw` is unreliable, impatient, and bad at following directions.
+ship a content pipeline that assumes the writer automation is unreliable, impatient, and bad at following directions.
 
 the site must stay stable if it:
 
@@ -20,7 +20,7 @@ the pipeline is complete only when those failures are either rejected cleanly or
 - the documented authoring path is `content/submit-here/`
 - rescued mistakes land in `content/recovered-drafts/`
 - the app never renders raw markdown directly
-- publication happens only through the cli or the plugin wrapper
+- publication happens only through the cli or a thin wrapper around it
 - any direct-write mistake must preserve the draft somewhere recoverable
 
 ## execution loop
@@ -52,15 +52,15 @@ exit condition:
 exit condition:
 - tests, lint, build, audit, and seed are all green
 
-### 4. wrap it for `OpenClaw`
+### 4. wrap it for automation
 
-- build a dedicated plugin with a narrow content tool surface
-- mirror the command patterns and readable failure formatting used in `hk`
+- build a dedicated wrapper with a narrow content tool surface
+- mirror the command patterns and readable failure formatting used in the cli
 - document only the public authoring and recovery paths
 - do not mention internal state paths in plugin-facing docs
 
 exit condition:
-- the plugin can list templates, list blocks, check drafts, submit drafts, inspect recovery, and restore drafts
+- the wrapper can list templates, list blocks, check drafts, submit drafts, inspect recovery, and restore drafts
 
 ### 5. tighten coverage
 
@@ -95,7 +95,7 @@ exit condition:
 ### 8. ship
 
 - commit the repo coherently
-- deploy the site update to `Cloudflare Pages`
+- deploy the site update to the chosen static host
 - summarize the exact guarantees, the recovery path, and any remaining edge risk
 
 exit condition:
@@ -103,7 +103,7 @@ exit condition:
 
 ## once-over before execution
 
-the failure mode joe actually cares about is not “the markdown linter caught a typo.”
+the failure mode the maintainer actually cares about is not “the markdown linter caught a typo.”
 
 it is “an unreliable agent had shell access, did the wrong thing for an hour, and still did not break production or lose the draft.”
 
@@ -112,7 +112,7 @@ that means the critical path is:
 1. generated-state-only runtime
 2. quarantine and recovery
 3. strict validation
-4. narrow plugin surface
+4. narrow wrapper surface
 5. real-world abuse testing
 
 that is the order i’m following.

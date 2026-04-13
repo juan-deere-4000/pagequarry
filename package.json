@@ -1,13 +1,13 @@
 {
-  "name": "bkk-ai-lab-poc",
+  "name": "standalone-cms",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "content": "node --import tsx ./scripts/bkk-content.ts",
+    "content": "node --import tsx ./scripts/site-content.ts",
     "content:audit": "npm run content -- audit",
     "content:seed": "npm run content -- seed content/examples/seed",
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "prebuild": "npm run content:audit",

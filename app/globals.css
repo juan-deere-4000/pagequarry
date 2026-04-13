@@ -10,6 +10,10 @@
   --accent-soft: #f2e4dc;
   --border: #ddd1c7;
   --control-radius: 0.45rem;
+  --font-body: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia,
+    serif;
+  --font-display: Baskerville, "Iowan Old Style", "Palatino Linotype",
+    "Book Antiqua", Georgia, serif;
 }
 
 @theme inline {
