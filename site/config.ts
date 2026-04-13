@@ -75,44 +75,44 @@ export const templateMetadataDefaults = {
 >;
 
 const primaryAction = {
-  href: "/contact",
-  label: "contact",
+  href: "https://github.com/juan-deere-4000/pagequarry",
+  label: "go to GitHub",
 } as const satisfies ActionLink;
 
 export const siteConfig = {
   contact: {
     email: "hello@pagequarry.com",
-    location: "replace this with your own studio, team, or organization",
+    location: "Bangkok",
     primaryAction,
   },
   footer: {
-    meta: "static-export ready. light, editorial, text-first.",
-    note: "starter content ships with safe placeholder copy. edit site/config.ts before launch.",
-    tagline: "self-hostable, markdown-first publishing with generated runtime state.",
+    meta: "one repo, one content pipeline, one calm way to ship.",
+    note: "built with the PageQuarry CMS and published as a real end-to-end test.",
+    tagline: "markdown-first publishing for people who want their site to stay sane.",
   },
   identity: {
     description:
-      "self-hostable site framework with a strict markdown publishing pipeline, generated runtime state, and reusable page templates.",
+      "PageQuarry is a calm, markdown-first site system with generated runtime state, clear editing seams, and static deployment.",
     locale: "en_US",
     name: "PageQuarry",
-    shortName: "cms",
+    shortName: "PageQuarry",
     siteUrl: "https://pagequarry.com",
     title: "PageQuarry",
   },
   manifest: {
-    backgroundColor: "#f4efe8",
+    backgroundColor: "#f7f0e8",
     description:
-      "self-hostable, markdown-first publishing with generated runtime state.",
+      "A calm, markdown-first site system with generated runtime state.",
     name: "PageQuarry",
-    shortName: "cms",
-    themeColor: "#f4efe8",
+    shortName: "PageQuarry",
+    themeColor: "#f7f0e8",
   },
   metadata: {
     defaultAuthor: "PageQuarry",
     organization: {
       logo: "/icon.svg",
       name: "PageQuarry",
-      sameAs: [] as string[],
+      sameAs: ["https://github.com/juan-deere-4000/pagequarry"] as string[],
     },
     robots: {
       follow: true,
@@ -120,12 +120,10 @@ export const siteConfig = {
     },
   },
   navigation: [
-    { href: "/", label: "home" },
-    { href: "/features", label: "features" },
-    { href: "/how-it-works", label: "how it works" },
-    { href: "/howto", label: "how-to" },
-    { href: "/case-studies", label: "case studies" },
-    { href: "/contact", label: "contact" },
+    { href: "#what-it-is", label: "what it is" },
+    { href: "#how-it-works", label: "how it works" },
+    { href: "#principles", label: "principles" },
+    { href: "https://github.com/juan-deere-4000/pagequarry", label: "GitHub" },
   ] as const satisfies readonly SiteNavigationItem[],
   social: {
     defaultTwitterCard: "summary_large_image" as const,

@@ -78,14 +78,12 @@ describe("generated archive pages", () => {
     expect(buildGeneratedArchivePages(pages)).toEqual([]);
   });
 
-  it("keeps navigation flat and includes generated archive routes in the sitemap", () => {
+  it("allows site-owned navigation to differ from generated archive routes", () => {
     expect(siteConfig.navigation).toEqual([
-      { href: "/", label: "home" },
-      { href: "/features", label: "features" },
-      { href: "/how-it-works", label: "how it works" },
-      { href: "/howto", label: "how-to" },
-      { href: "/case-studies", label: "case studies" },
-      { href: "/contact", label: "contact" },
+      { href: "#what-it-is", label: "what it is" },
+      { href: "#how-it-works", label: "how it works" },
+      { href: "#principles", label: "principles" },
+      { href: "https://github.com/juan-deere-4000/pagequarry", label: "GitHub" },
     ]);
 
     const pages = [makePage({ slug: "/howto/editorial/publishing-workflow" })];

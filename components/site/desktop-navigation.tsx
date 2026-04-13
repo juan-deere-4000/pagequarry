@@ -11,18 +11,23 @@ export function DesktopNavigation({
 }) {
   return (
     <nav aria-label="primary" className="hidden items-center gap-6 md:flex">
-      {items.map((item) => (
-        <Link
-          className={cn(
-            textVariants({ variant: "navTop" }),
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          )}
-          href={item.href}
-          key={item.href}
-        >
-          {item.label}
-        </Link>
-      ))}
+      {items.map((item) => {
+        const external = item.href.startsWith("http");
+        return (
+          <Link
+            className={cn(
+              textVariants({ variant: "navTop" }),
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            )}
+            href={item.href}
+            key={item.href}
+            rel={external ? "noreferrer" : undefined}
+            target={external ? "_blank" : undefined}
+          >
+            {item.label}
+          </Link>
+        );
+      })}
     </nav>
   );
 }

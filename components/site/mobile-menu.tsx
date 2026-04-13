@@ -16,11 +16,14 @@ function MobileNavLink({
   href: string;
   label: string;
 }) {
+  const external = href.startsWith("http");
   return (
     <Dialog.Close asChild>
       <Link
         className={cn(textVariants({ variant: "navTop" }), "block py-2")}
         href={href}
+        rel={external ? "noreferrer" : undefined}
+        target={external ? "_blank" : undefined}
       >
         {label}
       </Link>
@@ -68,8 +71,10 @@ export function MobileMenu() {
 
             <Dialog.Close asChild>
               <Link
-                className={cn(buttonVariants(), "w-full justify-center")}
+                className={cn(buttonVariants({ variant: "solid" }), "w-full justify-center")}
                 href={siteConfig.contact.primaryAction.href}
+                rel="noreferrer"
+                target="_blank"
               >
                 {siteConfig.contact.primaryAction.label}
               </Link>

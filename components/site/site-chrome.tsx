@@ -10,16 +10,16 @@ import { siteConfig } from "@/site/config";
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <header className="border-b border-border/80 bg-background/95">
-        <PageContainer className="flex items-center justify-between gap-6 py-5">
+      <header className="sticky top-0 z-30 border-b border-border/60 bg-background/78 backdrop-blur-xl">
+        <PageContainer className="flex items-center justify-between gap-6 py-4 sm:py-5">
           <Text as={Link} href="/" variant="brand">
             {siteConfig.identity.name}
           </Text>
 
           <DesktopNavigation items={siteConfig.navigation} />
 
-          <Button asChild className="hidden md:inline-flex">
-            <Link href={siteConfig.contact.primaryAction.href}>
+          <Button asChild className="hidden md:inline-flex" variant="solid">
+            <Link href={siteConfig.contact.primaryAction.href} target="_blank" rel="noreferrer">
               {siteConfig.contact.primaryAction.label}
             </Link>
           </Button>
@@ -30,8 +30,8 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
 
       <main className="flex-1">{children}</main>
 
-      <footer className="border-t border-border/80 py-10">
-        <PageContainer className="flex flex-col gap-4 text-sm text-muted-foreground md:flex-row md:items-end md:justify-between">
+      <footer className="border-t border-border/60 py-8 sm:py-10">
+        <PageContainer className="flex flex-col gap-3 text-sm text-muted md:flex-row md:items-end md:justify-between">
           <div>
             <Text as="p" variant="brand">
               {siteConfig.identity.name}

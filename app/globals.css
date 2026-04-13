@@ -1,19 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf8f3;
-  --foreground: #1f1a17;
-  --surface: #fffdf9;
-  --muted: #655951;
-  --accent: #b85c38;
-  --accent-foreground: #fff8f4;
-  --accent-soft: #f2e4dc;
-  --border: #ddd1c7;
-  --control-radius: 0.45rem;
-  --font-body: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia,
-    serif;
-  --font-display: Baskerville, "Iowan Old Style", "Palatino Linotype",
-    "Book Antiqua", Georgia, serif;
+  --background: #f7f0e8;
+  --foreground: #191512;
+  --surface: #fffaf3;
+  --muted: #63564c;
+  --accent: #b1653c;
+  --accent-foreground: #fff8f3;
+  --accent-soft: #f1dfd3;
+  --border: #daccc0;
+  --control-radius: 999px;
+  --font-body: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-display: Baskerville, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 
 @theme inline {
@@ -40,6 +38,9 @@ html {
 
 body {
   margin: 0;
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.72), transparent 28%),
+    linear-gradient(to bottom, #fbf6f0 0%, #f7f0e8 34%, #f4ece3 100%);
 }
 
 a {
