@@ -6,7 +6,7 @@ import { siteConfig } from "@/site/config";
 
 export const metadata: Metadata = {
   description: "The actual markdown file driving the PageQuarry homepage.",
-  title: `Homepage Markdown | ${siteConfig.identity.title}`,
+  title: "Homepage Markdown",
 };
 
 function getHomepageMarkdownSource() {
