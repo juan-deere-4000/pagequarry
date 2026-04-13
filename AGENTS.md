@@ -1,12 +1,12 @@
-# PageQuarry agent rules
+# PageQuarry Agent Rules
 
-this repo is a constrained frontend system. the point is to keep future ai edits predictable and public-repo safe.
+This repo is a constrained frontend system. Keep future AI edits predictable and safe for a public repo.
 
-## next.js note
+## Next.js Note
 
-this repo is on Next.js 16. if you touch framework behavior you are not fully sure about, read the relevant guide in `node_modules/next/dist/docs/` first.
+This repo is on Next.js 16. If you touch framework behavior you are not sure about, read the relevant guide in `node_modules/next/dist/docs/` first.
 
-## do not improvise styling
+## Do Not Improvise Styling
 
 - do not add page-specific css
 - do not add css modules
@@ -15,7 +15,7 @@ this repo is on Next.js 16. if you touch framework behavior you are not fully su
 - do not add arbitrary tailwind values in page files
 - do not tune margins/padding one page at a time
 
-## approved control surfaces
+## Approved Control Surfaces
 
 - tokens: `app/globals.css`
 - typography: `components/site/text.tsx`
@@ -32,7 +32,7 @@ this repo is on Next.js 16. if you touch framework behavior you are not fully su
 - template catalog: `components/templates/registry.ts`
 - writer doc entrypoint: `content/AUTHORING.md`
 
-## extension rules
+## Extension Rules
 
 - if content needs a new visual pattern, add a block component and register it
 - if a new page family is needed, add a template and register it
