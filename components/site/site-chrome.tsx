@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/site/button";
 import { PageContainer } from "@/components/site/page-container";
@@ -6,6 +9,12 @@ import { Text } from "@/components/site/text";
 import { siteConfig } from "@/site/config";
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  if (pathname === "/homepage-markdown" || pathname === "/homepage-markdown/") {
+    return children;
+  }
+
   return (
     <>
       <header className="sticky top-0 z-30 px-4 pt-4 sm:px-6">

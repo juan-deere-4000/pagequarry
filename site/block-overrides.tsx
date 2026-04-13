@@ -106,9 +106,12 @@ export function PageQuarryHeroBlock({
                 {deck}
               </Text>
               {action ? (
-                <div className="mt-8">
+                <div className="mt-8 flex flex-wrap gap-3">
                   <Button asChild variant="solid">
                     <Link href={action.href}>{action.label}</Link>
+                  </Button>
+                  <Button asChild variant="ghost">
+                    <Link href="/homepage-markdown">View the Markdown</Link>
                   </Button>
                 </div>
               ) : null}
