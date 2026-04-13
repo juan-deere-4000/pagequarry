@@ -85,24 +85,24 @@ export const siteConfig = {
     primaryAction,
   },
   footer: {
-    meta: "one repo, one content pipeline, one calm way to ship.",
-    note: "built with the PageQuarry CMS and published as a real end-to-end test.",
-    tagline: "markdown-first publishing for people who want their site to stay sane.",
+    meta: "React defines the system. Markdown publishes inside it.",
+    note: "Reusable blocks, validated drafts, and safer coding-agent workflows.",
+    tagline: "Agent-native publishing for React sites.",
   },
   identity: {
     description:
-      "PageQuarry is a calm, markdown-first site system with generated runtime state, clear editing seams, and static deployment.",
+      "Agent-native publishing for React sites with React-owned presentation, markdown-owned content, and reusable blocks between them.",
     locale: "en_US",
     name: "PageQuarry",
     shortName: "PageQuarry",
     siteUrl: "https://pagequarry.com",
-    subheader: "Markdown-First Publishing System",
+    subheader: "Agent-Native Publishing for React Sites",
     title: "PageQuarry",
   },
   manifest: {
     backgroundColor: "#f7f0e8",
     description:
-      "A calm, markdown-first site system with generated runtime state.",
+      "Agent-native publishing for React sites.",
     name: "PageQuarry",
     shortName: "PageQuarry",
     themeColor: "#f7f0e8",

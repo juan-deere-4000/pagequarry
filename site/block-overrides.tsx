@@ -24,37 +24,61 @@ const darkPanelClass =
   "rounded-[2rem] border border-slate-700/40 bg-[linear-gradient(180deg,rgba(13,25,39,0.96),rgba(16,33,53,0.94))] shadow-[0_28px_70px_rgba(8,18,31,0.28)]";
 
 function PageQuarryCodePreview() {
-  const lines = [
-    '{% hero',
-    '  eyebrow="Markdown-First Sites"',
-    '  title="A Calm Publishing System..."',
-    '  actionLabel="View on GitHub"',
-    '/%}',
+  const examples = [
+    {
+      file: "site/block-overrides.tsx",
+      label: "React Block",
+      lines: [
+        "export function HeroBlock({ title, deck }: HeroBlockData) {",
+        '  return <Text as="h1" variant="display">{title}</Text>;',
+        "}",
+      ],
+    },
+    {
+      file: "content/archive/index/current.md",
+      label: "Markdown Invocation",
+      lines: [
+        "{% hero",
+        '  eyebrow="Agent-Native Publishing"',
+        '  title="Design the Site in React..."',
+        '  actionLabel="Get Started"',
+        "/%}",
+      ],
+    },
   ];
 
   return (
-    <div className={cn(darkPanelClass, "overflow-hidden")}>
-      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-        <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-rose-400/90" />
-          <span className="h-2.5 w-2.5 rounded-full bg-amber-300/90" />
-          <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/90" />
-        </div>
-        <span className="font-mono text-[0.72rem] font-medium tracking-[0.08em] text-slate-400">
-          content/archive/index/current.md
-        </span>
-      </div>
+    <div className="grid gap-3">
+      {examples.map((example) => (
+        <div className={cn(darkPanelClass, "overflow-hidden")} key={example.file}>
+          <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-rose-400/90" />
+              <span className="h-2.5 w-2.5 rounded-full bg-amber-300/90" />
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/90" />
+            </div>
+            <div className="text-right">
+              <span className="block font-mono text-[0.68rem] font-medium tracking-[0.08em] text-slate-400">
+                {example.label}
+              </span>
+              <span className="block font-mono text-[0.68rem] font-medium tracking-[0.04em] text-slate-500">
+                {example.file}
+              </span>
+            </div>
+          </div>
 
-      <pre className="overflow-x-auto px-4 py-4 text-[0.82rem] leading-7 text-slate-200 sm:px-5">
-        <code>
-          {lines.map((line, index) => (
-            <span className="grid grid-cols-[1.5rem_minmax(0,1fr)] gap-4" key={line}>
-              <span className="text-right text-slate-500">{index + 1}</span>
-              <span>{line}</span>
-            </span>
-          ))}
-        </code>
-      </pre>
+          <pre className="overflow-x-auto px-4 py-4 text-[0.8rem] leading-7 text-slate-200 sm:px-5">
+            <code>
+              {example.lines.map((line, index) => (
+                <span className="grid grid-cols-[1.5rem_minmax(0,1fr)] gap-4" key={`${example.file}-${line}`}>
+                  <span className="text-right text-slate-500">{index + 1}</span>
+                  <span>{line}</span>
+                </span>
+              ))}
+            </code>
+          </pre>
+        </div>
+      ))}
     </div>
   );
 }
@@ -102,7 +126,7 @@ export function PageQuarryHeroBlock({
 
               <div className="space-y-3">
                 <Text as="p" className="text-slate-500" variant="eyebrow">
-                  Code Sample
+                  Visible Workflow
                 </Text>
                 <PageQuarryCodePreview />
               </div>
