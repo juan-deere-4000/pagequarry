@@ -12,6 +12,11 @@ jobs:
     permissions:
       contents: read
 
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_PAGES_PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT }}
+
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -29,12 +34,5 @@ jobs:
         run: npm run build
 
       - name: deploy to Cloudflare Pages
-        if: ${{ vars.CLOUDFLARE_PAGES_PROJECT != '' }}
-        uses: cloudflare/wrangler-action@v3
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy out --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }}
+        if: ${{ env.CLOUDFLARE_PAGES_PROJECT != '' }}
+        run: npx wrangler pages deploy out --project-name="$CLOUDFLARE_PAGES_PROJECT"
