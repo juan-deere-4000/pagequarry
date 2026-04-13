@@ -7,11 +7,6 @@ export type LinkItem = ActionLink & {
   summary?: string;
 };
 
-export type SiteNavigationItem = {
-  label: string;
-  href: string;
-};
-
 export type PageStatus = "draft" | "published";
 
 export type SocialImageVariant =

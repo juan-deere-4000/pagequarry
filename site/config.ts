@@ -1,7 +1,6 @@
 import type {
   ActionLink,
   PageTemplateKey,
-  SiteNavigationItem,
   SocialImageVariant,
   TwitterCardType,
 } from "@/content/types";
@@ -97,6 +96,7 @@ export const siteConfig = {
     name: "PageQuarry",
     shortName: "PageQuarry",
     siteUrl: "https://pagequarry.com",
+    subheader: "Markdown-First Publishing System",
     title: "PageQuarry",
   },
   manifest: {
@@ -119,12 +119,6 @@ export const siteConfig = {
       index: true,
     },
   },
-  navigation: [
-    { href: "#what-it-is", label: "What It Is" },
-    { href: "#how-it-works", label: "How It Works" },
-    { href: "#principles", label: "Principles" },
-    { href: "https://github.com/juan-deere-4000/pagequarry", label: "GitHub" },
-  ] as const satisfies readonly SiteNavigationItem[],
   social: {
     defaultTwitterCard: "summary_large_image" as const,
     images: socialImageVariants,
