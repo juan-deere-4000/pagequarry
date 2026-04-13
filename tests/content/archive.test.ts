@@ -78,13 +78,11 @@ describe("generated archive pages", () => {
     expect(buildGeneratedArchivePages(pages)).toEqual([]);
   });
 
-  it("allows site-owned navigation to differ from generated archive routes", () => {
-    expect(siteConfig.navigation).toEqual([
-      { href: "#what-it-is", label: "what it is" },
-      { href: "#how-it-works", label: "how it works" },
-      { href: "#principles", label: "principles" },
-      { href: "https://github.com/juan-deere-4000/pagequarry", label: "GitHub" },
-    ]);
+  it("allows site-owned config to differ from generated archive routes", () => {
+    expect(siteConfig.contact.primaryAction).toEqual({
+      href: "https://github.com/juan-deere-4000/pagequarry",
+      label: "View on GitHub",
+    });
 
     const pages = [makePage({ slug: "/howto/editorial/publishing-workflow" })];
     const sitemap = buildSitemapEntries([...pages, ...buildGeneratedArchivePages(pages)]);
