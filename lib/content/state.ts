@@ -35,6 +35,7 @@ export type RecoveryEntry = {
 };
 
 export type AuditSummary = {
+  bootstrappedHiddenState: boolean;
   livePages: number;
   quarantined: string[];
   regenerated: string[];
@@ -648,6 +649,7 @@ function auditVisibleMarkdown(paths: ContentPaths, audit: AuditSummary) {
 
 function bootstrapStateFromArchive(paths: ContentPaths, audit: AuditSummary) {
   if (hasHiddenState(paths)) return;
+  audit.bootstrappedHiddenState = true;
 
   for (const filePath of archiveRevisionSources(paths)) {
     const revisionId = path.basename(filePath, ".md");
@@ -699,6 +701,7 @@ export function rebuildContentState(rootDir = process.cwd()): AuditSummary {
   const paths = ensureContentScaffold(rootDir);
   const integrity = loadIntegrity(paths);
   const audit: AuditSummary = {
+    bootstrappedHiddenState: false,
     livePages: 0,
     quarantined: [],
     regenerated: [],
