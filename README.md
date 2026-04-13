@@ -11,7 +11,7 @@ It is built for a simple upstream-fork workflow:
 
 The runtime only trusts generated state. Raw markdown is authoring input, not the live runtime source.
 
-## what you get
+## What You Get
 
 - a strict Markdoc content pipeline
 - reusable canonical blocks and page templates
@@ -20,7 +20,7 @@ The runtime only trusts generated state. Raw markdown is authoring input, not th
 - recovery paths for misplaced drafts or direct edits
 - static-export output from Next.js 16
 
-## 5 minute agent quickstart
+## 5 Minute Agent Quickstart
 
 If an agent is dropped into this repo cold, do this first:
 
@@ -40,9 +40,9 @@ npm run build
 
 `npm run content -- audit` matters on a fresh clone because `content/.state/` is ignored and rebuilt from the accepted archive.
 
-## where agents should edit
+## Where Agents Should Edit
 
-### site-owned surfaces
+### Site-Owned Surfaces
 
 Start here for normal site customization:
 
@@ -65,7 +65,7 @@ Start here for normal site customization:
 - `content/examples/seed/*`
   - starter content examples
 
-### canonical CMS core
+### Canonical CMS Core
 
 Leave these alone unless you are improving the framework itself:
 
@@ -75,7 +75,7 @@ Leave these alone unless you are improving the framework itself:
 - `content/types.ts`
 - `scripts/site-content.ts`
 
-## content workflow
+## Content Workflow
 
 New markdown drafts only go in:
 
@@ -100,7 +100,7 @@ Publishing model:
 - accepted `draft` revisions stay archived without replacing the live page
 - bad direct writes are quarantined into `content/recovered-drafts/`
 
-## default starter routes
+## Default Starter Routes
 
 The repo ships with safe placeholder content so it can be public without leaking private history.
 
@@ -114,7 +114,7 @@ Default routes:
 
 Replace them through the content pipeline or reseed from `content/examples/seed/`.
 
-## repo shape
+## Repo Shape
 
 - `site/*`
   site-owned customization seam for downstream forks
@@ -129,7 +129,7 @@ Replace them through the content pipeline or reseed from `content/examples/seed/
 - `content/site.ts`
   compatibility shim for older references, now forwarding to `site/config.ts`
 
-## deployment
+## Deployment
 
 The app is configured for static export with `next build`.
 
@@ -137,12 +137,12 @@ The app is configured for static export with `next build`.
 - `public/_worker.js` can enforce a canonical host when `CANONICAL_HOST` is set
 - `.github/workflows/deploy-pages.yml` can deploy to Cloudflare Pages when repo variables and secrets are configured
 
-## docs to read next
+## Docs to Read Next
 
 For humans and agents, this is the best reading order:
 
-1. `content/AUTHORING.md`
-2. `content/submit-here/README.md`
-3. `content/archive/README.md`
-4. `content/recovered-drafts/README.md`
-5. `site/README.md`
+1. [content/AUTHORING.md](./content/AUTHORING.md)
+2. [content/submit-here/README.md](./content/submit-here/README.md)
+3. [content/archive/README.md](./content/archive/README.md)
+4. [content/recovered-drafts/README.md](./content/recovered-drafts/README.md)
+5. [site/README.md](./site/README.md)
