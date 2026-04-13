@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Button } from "@/components/site/button";
+import { HomepageMarkdownTrigger } from "@/components/site/homepage-markdown-view";
 import { PageContainer } from "@/components/site/page-container";
 import { Section } from "@/components/site/section";
 import { Text } from "@/components/site/text";
@@ -23,62 +24,64 @@ const raisedPanelClass =
 const darkPanelClass =
   "rounded-[2rem] border border-slate-700/40 bg-[linear-gradient(180deg,rgba(13,25,39,0.96),rgba(16,33,53,0.94))] shadow-[0_28px_70px_rgba(8,18,31,0.28)]";
 
-function PageQuarryCodePreview() {
-  const examples = [
-    {
-      file: "site/block-overrides.tsx",
-      label: "React Block",
-      lines: [
-        "export function HeroBlock({ title, deck }: HeroBlockData) {",
-        '  return <Text as="h1" variant="display">{title}</Text>;',
-        "}",
-      ],
-    },
-    {
-      file: "content/archive/index/current.md",
-      label: "Markdown Invocation",
-      lines: [
-        "{% hero",
-        '  eyebrow="Agent-Native Publishing"',
-        '  title="Design the Site in React..."',
-        '  actionLabel="Get Started"',
-        "/%}",
-      ],
-    },
-  ];
+type CodeExample = {
+  file: string;
+  label: string;
+  lines: string[];
+};
 
+const sectionCodeExamples: Record<string, CodeExample> = {
+  "Define the Presentation Once.": {
+    file: "site/block-overrides.tsx",
+    label: "React Block",
+    lines: [
+      "export function HeroBlock({ title, deck, action }: HeroBlockData) {",
+      '  return <Section spacing="hero"><Text as="h1">{title}</Text></Section>;',
+      "}",
+    ],
+  },
+  "Publish New Pages Without Opening the Layout.": {
+    file: "content/archive/index/current.md",
+    label: "Markdown Invocation",
+    lines: [
+      "{% hero",
+      '  eyebrow="Design-Safe Publishing"',
+      '  title="A Modern Block-Based CMS for AI Agents and Their Humans."',
+      '  actionLabel="Get Started"',
+      "/%}",
+    ],
+  },
+};
+
+function PageQuarryCodeWindow({ example }: { example: CodeExample }) {
   return (
-    <div className="grid gap-3">
-      {examples.map((example) => (
-        <div className={cn(darkPanelClass, "overflow-hidden")} key={example.file}>
-          <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-            <div className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full bg-rose-400/90" />
-              <span className="h-2.5 w-2.5 rounded-full bg-amber-300/90" />
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/90" />
-            </div>
-            <div className="text-right">
-              <span className="block font-mono text-[0.68rem] font-medium tracking-[0.08em] text-slate-400">
-                {example.label}
-              </span>
-              <span className="block font-mono text-[0.68rem] font-medium tracking-[0.04em] text-slate-500">
-                {example.file}
-              </span>
-            </div>
-          </div>
-
-          <pre className="overflow-x-auto px-4 py-4 text-[0.8rem] leading-7 text-slate-200 sm:px-5">
-            <code>
-              {example.lines.map((line, index) => (
-                <span className="grid grid-cols-[1.5rem_minmax(0,1fr)] gap-4" key={`${example.file}-${line}`}>
-                  <span className="text-right text-slate-500">{index + 1}</span>
-                  <span>{line}</span>
-                </span>
-              ))}
-            </code>
-          </pre>
+    <div className={cn(darkPanelClass, "overflow-hidden")}>
+      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+        <div className="flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-rose-400/90" />
+          <span className="h-2.5 w-2.5 rounded-full bg-amber-300/90" />
+          <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/90" />
         </div>
-      ))}
+        <div className="text-right">
+          <span className="block font-mono text-[0.68rem] font-medium tracking-[0.08em] text-slate-400">
+            {example.label}
+          </span>
+          <span className="block font-mono text-[0.68rem] font-medium tracking-[0.04em] text-slate-500">
+            {example.file}
+          </span>
+        </div>
+      </div>
+
+      <pre className="overflow-x-hidden px-4 py-4 text-[0.8rem] leading-7 text-slate-200 sm:px-5">
+        <code>
+          {example.lines.map((line, index) => (
+            <span className="grid grid-cols-[1.5rem_minmax(0,1fr)] gap-4" key={`${example.file}-${line}`}>
+              <span className="text-right text-slate-500">{index + 1}</span>
+              <span className="min-w-0 whitespace-pre-wrap break-words">{line}</span>
+            </span>
+          ))}
+        </code>
+      </pre>
     </div>
   );
 }
@@ -94,7 +97,7 @@ export function PageQuarryHeroBlock({
     <Section spacing="hero" className="pt-10 sm:pt-14">
       <PageContainer>
         <div className={cn(glassPanelClass, "overflow-hidden px-6 py-8 sm:px-10 sm:py-12")}>
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
             <div className="max-w-4xl">
               <Text className="mb-5" variant="eyebrow">
                 {eyebrow}
@@ -110,14 +113,12 @@ export function PageQuarryHeroBlock({
                   <Button asChild variant="solid">
                     <Link href={action.href}>{action.label}</Link>
                   </Button>
-                  <Button asChild variant="ghost">
-                    <Link href="/homepage-markdown">View the Markdown</Link>
-                  </Button>
+                  <HomepageMarkdownTrigger />
                 </div>
               ) : null}
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 lg:pt-4">
               {aside ? (
                 <div className={cn(raisedPanelClass, "p-6")}>
                   <div className="mb-5 h-px w-14 bg-accent/35" />
@@ -126,13 +127,6 @@ export function PageQuarryHeroBlock({
                   </Text>
                 </div>
               ) : null}
-
-              <div className="space-y-3">
-                <Text as="p" className="text-slate-500" variant="eyebrow">
-                  Visible Workflow
-                </Text>
-                <PageQuarryCodePreview />
-              </div>
             </div>
           </div>
         </div>
@@ -172,17 +166,18 @@ export function PageQuarrySectionCopyBlock({
   tone = "default",
 }: SectionCopyBlockData) {
   const panelClass = tone === "subtle" ? "bg-white/68" : "bg-white/78";
+  const codeExample = sectionCodeExamples[title];
 
   return (
     <Section spacing="default">
-      <PageContainer className="grid gap-8 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start">
-        <div className="lg:sticky lg:top-28">
+      <PageContainer width="reading">
+        <div className="mb-5 max-w-3xl">
           {eyebrow ? (
             <Text className="mb-3" variant="eyebrow">
               {eyebrow}
             </Text>
           ) : null}
-          <Text as="h2" variant="sectionTitle">
+          <Text as="h2" className="max-w-4xl sm:max-w-3xl" variant="sectionTitle">
             {title}
           </Text>
         </div>
@@ -237,6 +232,15 @@ export function PageQuarrySectionCopyBlock({
               ))}
             </div>
           ) : null}
+
+          {codeExample ? (
+            <div className="mt-8 space-y-3">
+              <Text as="p" className="text-slate-500" variant="eyebrow">
+                Actual Example
+              </Text>
+              <PageQuarryCodeWindow example={codeExample} />
+            </div>
+          ) : null}
         </div>
       </PageContainer>
     </Section>
@@ -250,12 +254,12 @@ export function PageQuarryProcessBlock({
 }: ProcessBlockData) {
   return (
     <Section spacing="default">
-      <PageContainer className="grid gap-8 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start">
-        <div>
+      <PageContainer width="reading">
+        <div className="mb-5 max-w-3xl">
           <Text className="mb-3" variant="eyebrow">
             {eyebrow}
           </Text>
-          <Text as="h2" variant="sectionTitle">
+          <Text as="h2" className="max-w-4xl sm:max-w-3xl" variant="sectionTitle">
             {title}
           </Text>
         </div>

@@ -78,6 +78,13 @@ const primaryAction = {
   label: "View on GitHub",
 } as const satisfies ActionLink;
 
+const navigation = [
+  { href: "/features", label: "Features" },
+  { href: "/how-it-works", label: "How It Works" },
+  { href: "/howto", label: "Guides" },
+  { href: "/case-studies", label: "Proof" },
+] as const satisfies readonly ActionLink[];
+
 export const siteConfig = {
   contact: {
     email: "hello@pagequarry.com",
@@ -85,18 +92,19 @@ export const siteConfig = {
     primaryAction,
   },
   footer: {
-    meta: "React defines the system. Markdown publishes inside it.",
-    note: "Reusable blocks, validated drafts, and safer coding-agent workflows.",
-    tagline: "Agent-native publishing for React sites.",
+    meta: "Build the presentation layer in React. Publish through structured markdown blocks.",
+    note: "Templates, site chrome, SEO defaults, and validation stay in code while humans and agents write inside the system.",
+    tagline: "A modern block-based CMS for AI agents and their humans.",
   },
   identity: {
     description:
-      "Agent-native publishing for React sites with React-owned presentation, markdown-owned content, and reusable blocks between them.",
+      "A modern block-based CMS for teams using AI agents to publish to React sites without giving up control of the design system.",
     locale: "en_US",
     name: "PageQuarry",
+    navigation,
     shortName: "PageQuarry",
     siteUrl: "https://pagequarry.com",
-    subheader: "Agent-Native Publishing for React Sites",
+    subheader: "A Modern Block-Based CMS for AI Agents and their Humans",
     title: "PageQuarry",
   },
   manifest: {

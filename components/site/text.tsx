@@ -9,7 +9,7 @@ export const textVariants = cva("", {
       brand:
         "font-mono text-[0.9rem] font-semibold tracking-[0.2em] text-foreground whitespace-nowrap",
       eyebrow:
-        "font-mono text-[0.76rem] font-medium tracking-[0.14em] text-muted-foreground",
+        "font-mono text-[0.76rem] font-medium uppercase tracking-[0.14em] text-muted-foreground",
       display:
         "font-serif text-5xl font-medium leading-[0.92] tracking-[-0.05em] text-foreground sm:text-6xl lg:text-7xl",
       lead: "text-lg leading-8 text-muted-foreground sm:text-[1.22rem] sm:leading-9",
