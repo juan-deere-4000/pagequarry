@@ -7,7 +7,7 @@ import type {
   SocialImageVariant,
   TwitterCardType,
 } from "@/content/types";
-import { siteConfig, templateMetadataDefaults } from "@/content/site";
+import { siteConfig, templateMetadataDefaults } from "@/site/config";
 
 type RawPageMetadata = {
   author?: string;

@@ -5,7 +5,7 @@ import { DesktopNavigation } from "@/components/site/desktop-navigation";
 import { MobileMenu } from "@/components/site/mobile-menu";
 import { PageContainer } from "@/components/site/page-container";
 import { Text } from "@/components/site/text";
-import { siteConfig } from "@/content/site";
+import { siteConfig } from "@/site/config";
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   return (

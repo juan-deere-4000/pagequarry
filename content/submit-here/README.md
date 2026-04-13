@@ -83,7 +83,7 @@ social_description: stage drafts, lint them, and accept them without touching ge
 social_image: guide
 twitter_card: summary_large_image
 
-author: standalone cms
+author: Pagequarry
 published_at: 2026-04-13T00:00:00Z
 updated_at: 2026-04-13T00:00:00Z
 redirect_from:
@@ -128,13 +128,13 @@ npm run content -- edit content/submit-here/<file>.md
 ### email button
 
 ```md
-{% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@example.com" actionLabel="email" /%}
+{% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@pagequarry.com" actionLabel="email" /%}
 ```
 
 ### email button with subject
 
 ```md
-{% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@example.com?subject=hello%20from%20the%20starter%20site" actionLabel="email" /%}
+{% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@pagequarry.com?subject=hello%20from%20the%20starter%20site" actionLabel="email" /%}
 ```
 
 important:

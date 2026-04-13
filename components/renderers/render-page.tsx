@@ -1,10 +1,10 @@
 import type { ComponentType } from "react";
 
-import { templateRegistry } from "@/components/templates/registry";
 import type { ManagedPage } from "@/content/types";
+import { siteTemplateRegistry } from "@/site/templates";
 
 export function RenderPage({ page }: { page: ManagedPage }) {
-  const Template = templateRegistry[page.template] as ComponentType<{
+  const Template = siteTemplateRegistry[page.template] as ComponentType<{
     page: typeof page;
   }>;
 

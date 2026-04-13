@@ -2,11 +2,11 @@
 template: home
 slug: /
 page_id: home
-title: standalone cms
+title: Pagequarry
 description: self-hostable site framework with markdown-first publishing and generated runtime state.
 ---
 
-{% hero eyebrow="markdown-first publishing" title="ship a site that edits through markdown, not a fragile dashboard." deck="standalone cms is a self-hostable site framework built for teams that want predictable publishing, clean starter content, and a runtime that only trusts generated state." aside="the system stays narrow on purpose: shared blocks, shared templates, one obvious site config file, and a content pipeline that treats mistakes as recoverable instead of fatal." actionHref="/contact" actionLabel="contact" /%}
+{% hero eyebrow="markdown-first publishing" title="ship a site that edits through markdown, not a fragile dashboard." deck="Pagequarry is a self-hostable site framework built for teams that want predictable publishing, clean starter content, and a runtime that only trusts generated state." aside="the system stays narrow on purpose: shared blocks, shared templates, one obvious site config file, and a content pipeline that treats mistakes as recoverable instead of fatal." actionHref="/contact" actionLabel="contact" /%}
 
 {% metrics %}
 {% metric label="hosting" value="static export, self-hostable" /%}
@@ -47,6 +47,6 @@ the starter pages are neutral on purpose. use them as reference material, or rep
 {% step title="ship from generated state" body="accepted revisions mirror into the visible archive, rebuild hidden state, and keep the runtime deterministic." /%}
 {% /process %}
 
-{% quote quote="the safest publishing system is the one that makes the right path obvious." attribution="standalone cms" context="core product principle" /%}
+{% quote quote="the safest publishing system is the one that makes the right path obvious." attribution="Pagequarry" context="core product principle" /%}
 
 {% cta title="start by editing the site config and starter pages." body="the repo is meant to be forked, renamed, and made yours. the defaults are there to show the system, not to lock you into a brand voice." actionHref="/contact" actionLabel="contact" /%}

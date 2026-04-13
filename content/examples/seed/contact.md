@@ -5,7 +5,7 @@ title: contact
 description: safe placeholder contact page for the starter site.
 ---
 
-{% hero eyebrow="contact" title="replace this page before launch." deck="the starter site ships with a neutral contact surface and `hello@example.com` so the repo can be public without leaking a real inbox." actionHref="mailto:hello@example.com?subject=hello%20from%20the%20starter%20site" actionLabel="email" /%}
+{% hero eyebrow="contact" title="replace this page before launch." deck="the starter site ships with a neutral contact surface and `hello@pagequarry.com` so the repo can be public without leaking a real inbox." actionHref="mailto:hello@pagequarry.com?subject=hello%20from%20the%20starter%20site" actionLabel="email" /%}
 
 {% sectionCopy eyebrow="what to change" title="swap the placeholder details before you ship." %}
 update the contact email in `content/site.ts`, then rewrite this page to match the real call to action for your site.
@@ -20,7 +20,7 @@ that makes `/contact` useful as a placeholder. it demonstrates the narrative tem
 {% /sectionCopy %}
 
 {% sectionCopy eyebrow="current placeholder" title="starter contact details" %}
-hello@example.com
+hello@pagequarry.com
 
 replace the email, location line, and cta text before the site goes live.
 {% /sectionCopy %}

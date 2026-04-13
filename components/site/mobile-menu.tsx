@@ -6,8 +6,8 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/site/button";
 import { PageContainer } from "@/components/site/page-container";
 import { Text, textVariants } from "@/components/site/text";
-import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/cn";
+import { siteConfig } from "@/site/config";
 
 function MobileNavLink({
   href,

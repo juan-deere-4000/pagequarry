@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 
 import { StructuredData } from "@/components/site/structured-data";
 import { SiteChrome } from "@/components/site/site-chrome";
-import { siteConfig } from "@/content/site";
 import { buildSiteStructuredData } from "@/lib/content/metadata";
+import { siteConfig } from "@/site/config";
 
 import "./globals.css";
 

@@ -3,9 +3,9 @@ import { notFound } from "next/navigation";
 
 import { StructuredData } from "@/components/site/structured-data";
 import { RenderPage } from "@/components/renderers/render-page";
-import { siteConfig } from "@/content/site";
 import { buildNextMetadata, buildStructuredData } from "@/lib/content/metadata";
 import { getPageBySlug } from "@/lib/content/runtime";
+import { siteConfig } from "@/site/config";
 
 export const dynamicParams = false;
 

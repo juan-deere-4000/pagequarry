@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 
 export function createTempRoot() {
-  const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), "standalone-cms-"));
+  const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), "pagequarry-"));
   fs.mkdirSync(path.join(rootDir, "content"), { recursive: true });
   return rootDir;
 }

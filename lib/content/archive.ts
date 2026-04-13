@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 
-import { siteConfig } from "@/content/site";
 import type { ManagedPage } from "@/content/types";
+import { siteConfig } from "@/site/config";
 
 type ArchiveKind = "howto" | "caseStudies";
 

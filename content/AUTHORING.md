@@ -27,14 +27,16 @@ site-level changes live in code, not markdown.
 
 use these when you need to change global behavior:
 
-- `content/site.ts`
+- `site/config.ts`
   site identity, canonical site url, nav, footer copy, manifest defaults, contact defaults, social image variants
+- `site/blocks.ts` and `site/templates.ts`
+  site-owned registry composition points for a fork that needs to extend the core catalogs
 - `lib/content/metadata.ts`
   page, template, and site metadata resolution plus schema, sitemap, and redirects
 - `components/blocks/registry.ts`
-  approved block catalog
+  canonical core block catalog
 - `components/templates/registry.ts`
-  approved page templates
+  canonical core page templates
 - `components/site/*` and `app/globals.css`
   shared layout primitives and styling rules
 
@@ -42,11 +44,12 @@ if you need a new block, a new template, a new metadata rule, or a styling chang
 
 important:
 
-- the header and mobile menu are code-owned in `content/site.ts`
+- the header and mobile menu are code-owned in `site/config.ts`
 - the header is flat. top-level links are `home`, `features`, `how it works`, `how-to`, `case studies`, and `contact`
 - publishing `/howto/...` or `/case-studies/...` pages does not add child links to nav by itself
 - `/howto` and `/case-studies` are generated archive indexes in code until real markdown pages exist at those slugs
-- if a page should appear as a top-level nav item, a coding agent must update `content/site.ts`
+- if a page should appear as a top-level nav item, a coding agent must update `site/config.ts`
+- `content/site.ts` still exists as a compatibility shim, but new site customization work should not start there
 
 ### template-level
 
@@ -229,7 +232,7 @@ social_description: stage drafts, lint them, and accept them without touching ge
 social_image: guide
 twitter_card: summary_large_image
 
-author: standalone cms
+author: Pagequarry
 published_at: 2026-04-13T00:00:00Z
 updated_at: 2026-04-13T00:00:00Z
 redirect_from:
@@ -271,13 +274,13 @@ common patterns:
 ### hero with a direct email button
 
 ```md
-{% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@example.com" actionLabel="email" /%}
+{% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@pagequarry.com" actionLabel="email" /%}
 ```
 
 ### hero with email and subject
 
 ```md
-{% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@example.com?subject=hello%20from%20the%20starter%20site" actionLabel="email" /%}
+{% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@pagequarry.com?subject=hello%20from%20the%20starter%20site" actionLabel="email" /%}
 ```
 
 important:

@@ -12,16 +12,16 @@ function guidePage(overrides: Partial<ManagedPage> = {}): ManagedPage {
   return {
     blocks: [],
     meta: {
-      author: "standalone cms",
+      author: "Pagequarry",
       canonicalUrl:
-        "https://example.com/howto/editorial/publishing-workflow",
+        "https://pagequarry.com/howto/editorial/publishing-workflow",
       description: "how to validate and publish a page safely through the content pipeline",
       publishedAt: "2026-04-13T00:00:00Z",
       robots: { follow: true, index: true },
       seoTitle: "publishing workflow for a markdown-first site",
       social: {
         description: "stage drafts, lint them, and accept them without touching generated runtime files",
-        image: "https://example.com/og/guide.svg",
+        image: "https://pagequarry.com/og/guide.svg",
         imageVariant: "guide",
         title: "publishing workflow",
         twitterCard: "summary_large_image",
@@ -49,11 +49,11 @@ describe("content metadata helpers", () => {
 
     expect(metadata.title).toBe("publishing workflow for a markdown-first site");
     expect(metadata.alternates?.canonical).toBe(
-      "https://example.com/howto/editorial/publishing-workflow"
+      "https://pagequarry.com/howto/editorial/publishing-workflow"
     );
     expect(metadata.robots).toEqual({ follow: true, index: true });
     expect(metadata.openGraph?.type).toBe("article");
-    expect(metadata.openGraph?.images?.[0]?.url).toBe("https://example.com/og/guide.svg");
+    expect(metadata.openGraph?.images?.[0]?.url).toBe("https://pagequarry.com/og/guide.svg");
     expect(metadata.twitter?.card).toBe("summary_large_image");
   });
 
@@ -71,7 +71,7 @@ describe("content metadata helpers", () => {
     const draft = guidePage({
       meta: {
         ...guidePage().meta,
-        canonicalUrl: "https://example.com/howto/editorial/draft",
+        canonicalUrl: "https://pagequarry.com/howto/editorial/draft",
       },
       pageId: "draft-guide",
       redirectFrom: ["/draft-guide-old"],
@@ -81,7 +81,7 @@ describe("content metadata helpers", () => {
     const noindex = guidePage({
       meta: {
         ...guidePage().meta,
-        canonicalUrl: "https://example.com/howto/editorial/private",
+        canonicalUrl: "https://pagequarry.com/howto/editorial/private",
         robots: { follow: true, index: false },
       },
       pageId: "private-guide",
@@ -96,7 +96,7 @@ describe("content metadata helpers", () => {
     expect(redirects).not.toContain("/draft-guide-old");
     expect(redirects).toContain("/private-guide-old /howto/editorial/private 301");
     expect(sitemap).toEqual([
-      "https://example.com/howto/editorial/publishing-workflow",
+      "https://pagequarry.com/howto/editorial/publishing-workflow",
     ]);
   });
 });

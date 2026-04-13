@@ -1,11 +1,11 @@
 import type { ComponentType } from "react";
 
-import { blockRegistry } from "@/components/blocks/registry";
 import type { ContentBlock } from "@/content/types";
+import { siteBlockRegistry } from "@/site/blocks";
 
 export function RenderBlock({ block }: { block: ContentBlock }) {
   const { type, ...props } = block;
-  const Component = blockRegistry[type] as ComponentType<typeof props>;
+  const Component = siteBlockRegistry[type] as ComponentType<typeof props>;
 
   return <Component {...props} />;
 }

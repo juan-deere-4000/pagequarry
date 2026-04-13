@@ -33,9 +33,9 @@ describe("content state pipeline", () => {
       expect(fs.existsSync(filePath)).toBe(false);
       expect(fs.existsSync(path.join(rootDir, result.archiveCurrentPath))).toBe(true);
       expect(fs.existsSync(path.join(rootDir, result.archiveRevisionPath))).toBe(true);
-      expect(fs.readFileSync(archiveCurrentPath(paths, "/"), "utf8")).toContain("title: standalone cms");
+      expect(fs.readFileSync(archiveCurrentPath(paths, "/"), "utf8")).toContain("title: Pagequarry");
       expect(fs.readFileSync(archiveRevisionPath(paths, "/", result.page.revisionId), "utf8")).toContain(
-        "title: standalone cms"
+        "title: Pagequarry"
       );
       expect(listPages(rootDir)).toHaveLength(1);
     }
@@ -176,8 +176,8 @@ describe("content state pipeline", () => {
     const features = copyFixture(rootDir, "features.md");
     const featuresSource = fs
       .readFileSync(features, "utf8")
-      .replace("description: feature overview for the standalone cms starter site.", [
-        "description: feature overview for the standalone cms starter site.",
+      .replace("description: feature overview for the Pagequarry starter site.", [
+        "description: feature overview for the Pagequarry starter site.",
         "redirect_from:",
         "  - /feature-overview",
       ].join("\n"));
@@ -214,7 +214,7 @@ describe("content state pipeline", () => {
 
     const source = fs
       .readFileSync(editPath, "utf8")
-      .replace("title: standalone cms", "title: standalone cms revised");
+      .replace("title: Pagequarry", "title: Pagequarry revised");
     fs.writeFileSync(editPath, source, "utf8");
 
     const result = checkDraftFile({ filePath: editPath, rootDir });
