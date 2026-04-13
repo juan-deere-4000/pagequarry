@@ -1,19 +1,28 @@
 # Pagequarry
 
-`Pagequarry` is a self-hostable site framework for editorial, text-first sites that want markdown publishing without turning the runtime into a pile of raw files.
+Pagequarry is a self-hostable, markdown-first site framework for editorial websites.
 
-it ships with:
+It is built for a simple upstream-fork workflow:
+- fork the repo
+- use your fork as your site
+- customize the site-owned surfaces in `site/`
+- write and publish content through the content pipeline
+- pull upstream improvements when useful, then let your agent resolve conflicts if needed
 
-- a strict `Markdoc` content pipeline
-- reusable blocks and page templates
+The runtime only trusts generated state. Raw markdown is authoring input, not the live runtime source.
+
+## what you get
+
+- a strict Markdoc content pipeline
+- reusable canonical blocks and page templates
 - one obvious site-owned customization root in `site/`
 - visible accepted-content history in `content/archive/`
-- recovery paths for misplaced drafts
-- static export output from Next.js 16
+- recovery paths for misplaced drafts or direct edits
+- static-export output from Next.js 16
 
-the runtime only trusts generated state. raw markdown is authoring input, not the thing the app renders directly.
+## 5 minute agent quickstart
 
-## quick start
+If an agent is dropped into this repo cold, do this first:
 
 ```bash
 npm install
@@ -21,7 +30,7 @@ npm run content -- audit
 npm run dev
 ```
 
-for a production build:
+For a full validation pass:
 
 ```bash
 npm run lint
@@ -29,56 +38,73 @@ npm run test
 npm run build
 ```
 
-`npm run content -- audit` is important on a fresh clone because `content/.state/` is intentionally ignored and rebuilt from the accepted archive.
+`npm run content -- audit` matters on a fresh clone because `content/.state/` is ignored and rebuilt from the accepted archive.
 
-## where to edit
+## where agents should edit
+
+### site-owned surfaces
+
+Start here for normal site customization:
 
 - `site/config.ts`
-  site identity, canonical url, navigation, footer copy, manifest defaults, default metadata, social card registry
-- `site/blocks.ts` and `site/templates.ts`
-  site-owned registry composition points when a fork needs to extend or swap the canonical catalogs
-- `content/AUTHORING.md`
-  editorial system overview and writer rules
-- `content/examples/seed/`
-  starter markdown fixtures for each page family
-- `content/submit-here/`
-  the only approved place for new drafts
-- `components/blocks/registry.ts`
-  canonical core block catalog
-- `components/templates/registry.ts`
-  canonical core page-template catalog
-- `components/site/*`
-  shared visual primitives
+  - site name
+  - canonical URL
+  - nav
+  - footer copy
+  - manifest defaults
+  - metadata defaults
+  - social card registry
+- `site/blocks.ts`
+  - site-level block registry composition
+- `site/templates.ts`
+  - site-level template registry composition
 - `app/globals.css`
-  tokens and global styling rules
+  - tokens and global styling
+- `components/site/*`
+  - shared site chrome and visual primitives
+- `content/examples/seed/*`
+  - starter content examples
 
-## core vs site boundary
+### canonical CMS core
 
-- `site/*`
-  site-owned customization seam for upstream-fork workflows
-- `lib/content/*`, `components/blocks/*`, `components/templates/*`
-  canonical cms core
-- `content/site.ts`
-  compatibility shim for older references; new customization work should start in `site/`
+Leave these alone unless you are improving the framework itself:
 
-## publishing model
+- `lib/content/*`
+- `components/blocks/*`
+- `components/templates/*`
+- `content/types.ts`
+- `scripts/site-content.ts`
 
-- drafts are written in `content/submit-here/`
-- `npm run content -- check <file>` validates a draft without accepting it
-- `npm run content -- submit <file>` accepts a new page
-- `npm run content -- edit <file>` accepts a revision to an existing page
+## content workflow
+
+New markdown drafts only go in:
+
+- `content/submit-here/`
+
+Common commands:
+
+```bash
+npm run content -- check content/submit-here/<file>.md
+npm run content -- submit content/submit-here/<file>.md
+npm run content -- edit content/submit-here/<file>.md
+npm run content -- pages
+npm run content -- list-templates
+npm run content -- list-blocks
+npm run content -- recovery-list
+```
+
+Publishing model:
 - accepted revisions are mirrored into `content/archive/`
 - the runtime rebuilds hidden generated state under `content/.state/`
 - only the newest accepted `published` revision per page becomes live
 - accepted `draft` revisions stay archived without replacing the live page
 - bad direct writes are quarantined into `content/recovered-drafts/`
 
-## starter content
+## default starter routes
 
-the repo includes safe starter pages so it can be pushed to a public github remote without leaking a real brand, inbox, or business history.
+The repo ships with safe placeholder content so it can be public without leaking private history.
 
-default starter routes:
-
+Default routes:
 - `/`
 - `/features`
 - `/how-it-works`
@@ -86,21 +112,37 @@ default starter routes:
 - `/case-studies/teams/community-knowledge-base`
 - `/contact`
 
-replace them through the content pipeline or reseed from `content/examples/seed/`.
+Replace them through the content pipeline or reseed from `content/examples/seed/`.
+
+## repo shape
+
+- `site/*`
+  site-owned customization seam for downstream forks
+- `content/*`
+  editorial inputs, archive, and recovery paths
+- `lib/content/*`
+  content engine, validation, state, metadata, archive, and recovery logic
+- `components/blocks/*`
+  canonical block implementations
+- `components/templates/*`
+  canonical page-template implementations
+- `content/site.ts`
+  compatibility shim for older references, now forwarding to `site/config.ts`
 
 ## deployment
 
-the app is configured for static export with `next build`.
+The app is configured for static export with `next build`.
 
 - `next.config.ts` uses `output: "export"`
-- `public/_worker.js` optionally enforces a canonical host when `CANONICAL_HOST` is set
+- `public/_worker.js` can enforce a canonical host when `CANONICAL_HOST` is set
 - `.github/workflows/deploy-pages.yml` can deploy to Cloudflare Pages when repo variables and secrets are configured
 
-## writer docs
+## docs to read next
 
-read these in order:
+For humans and agents, this is the best reading order:
 
 1. `content/AUTHORING.md`
 2. `content/submit-here/README.md`
 3. `content/archive/README.md`
 4. `content/recovered-drafts/README.md`
+5. `site/README.md`
