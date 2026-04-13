@@ -45,10 +45,31 @@ const sectionCodeExamples: Record<string, CodeExample> = {
     label: "Markdown Invocation",
     lines: [
       "{% hero",
-      '  eyebrow="Design-Safe Publishing"',
-      '  title="A Modern Block-Based CMS for AI Agents and Their Humans."',
+      '  eyebrow="Repo-Native Publishing"',
+      '  title="A React Site Framework with a Block-Based Markdown CMS."',
       '  actionLabel="Get Started"',
       "/%}",
+    ],
+  },
+  "Run the Check Command Before You Accept It.": {
+    file: "terminal",
+    label: "Validation Output",
+    lines: [
+      "npm run content -- check content/submit-here/home.md",
+      "draft passed",
+      "page_id: home",
+      "slug: /",
+      "template: home",
+    ],
+  },
+  "Accept New Pages or Revisions with One Command.": {
+    file: "terminal",
+    label: "Accepted Output",
+    lines: [
+      "npm run content -- edit content/submit-here/home.md",
+      "draft accepted",
+      "revision: 20260413-164652752-8284c506cd61",
+      "archive current: content/archive/index/current.md",
     ],
   },
 };
@@ -93,6 +114,10 @@ export function PageQuarryHeroBlock({
   action,
   aside,
 }: HeroBlockData) {
+  const showHomepageActionTag =
+    action?.label === "Get Started" &&
+    action.href === "https://github.com/juan-deere-4000/pagequarry";
+
   return (
     <Section spacing="hero" className="pt-10 sm:pt-14">
       <PageContainer>
@@ -111,7 +136,14 @@ export function PageQuarryHeroBlock({
               {action ? (
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Button asChild variant="solid">
-                    <Link href={action.href}>{action.label}</Link>
+                    <Link href={action.href}>
+                      <span>{action.label}</span>
+                      {showHomepageActionTag ? (
+                        <span className="rounded-full bg-white/14 px-2 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.12em] text-white/90">
+                          GitHub
+                        </span>
+                      ) : null}
+                    </Link>
                   </Button>
                   <HomepageMarkdownTrigger />
                 </div>
@@ -323,6 +355,38 @@ export function PageQuarryQuoteBlock({
 }
 
 export function PageQuarryCtaBlock({ title, body, action }: CtaBlockData) {
+  const isExternalAction = /^https?:/i.test(action.href) || action.href.startsWith("mailto:");
+
+  if (!isExternalAction) {
+    return (
+      <Section spacing="cta">
+        <PageContainer width="reading">
+          <div
+            className={cn(
+              glassPanelClass,
+              "px-6 py-8 sm:px-8 sm:py-8"
+            )}
+          >
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+              <div className="max-w-3xl">
+                <Text as="h2" className="sm:text-[2.9rem]" variant="sectionTitle">
+                  {title}
+                </Text>
+                <Text as="p" className="mt-4" variant="lead">
+                  {body}
+                </Text>
+              </div>
+
+              <Button asChild className="w-full justify-center lg:w-auto" variant="ghost">
+                <Link href={action.href}>{action.label}</Link>
+              </Button>
+            </div>
+          </div>
+        </PageContainer>
+      </Section>
+    );
+  }
+
   return (
     <Section spacing="cta">
       <PageContainer>

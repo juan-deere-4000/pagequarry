@@ -10,10 +10,10 @@ const sectionVariants = cva("", {
       accent: "",
     },
     spacing: {
-      hero: "py-16 sm:py-24",
-      default: "py-14 sm:py-20",
-      compact: "py-10 sm:py-14",
-      cta: "py-16 sm:py-18",
+      hero: "py-14 sm:py-20",
+      default: "py-10 sm:py-14",
+      compact: "py-8 sm:py-10",
+      cta: "py-14 sm:py-16",
     },
   },
   defaultVariants: {

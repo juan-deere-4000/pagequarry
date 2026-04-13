@@ -82,7 +82,7 @@ const navigation = [
   { href: "/features", label: "Features" },
   { href: "/how-it-works", label: "How It Works" },
   { href: "/howto", label: "Guides" },
-  { href: "/case-studies", label: "Proof" },
+  { href: "/case-studies", label: "Examples" },
 ] as const satisfies readonly ActionLink[];
 
 export const siteConfig = {
@@ -92,13 +92,13 @@ export const siteConfig = {
     primaryAction,
   },
   footer: {
-    meta: "Build the presentation layer in React. Publish through structured markdown blocks.",
-    note: "Templates, site chrome, SEO defaults, and validation stay in code while humans and agents write inside the system.",
-    tagline: "A modern block-based CMS for AI agents and their humans.",
+    meta: "Clone the repo, define the presentation in React, and publish pages through structured markdown blocks.",
+    note: "Templates, navigation, SEO defaults, and validation stay in code while humans and AI agents write inside the same publishing system.",
+    tagline: "Repo-native publishing for React sites.",
   },
   identity: {
     description:
-      "A modern block-based CMS for teams using AI agents to publish to React sites without giving up control of the design system.",
+      "An open-source React framework with a block-based markdown CMS for teams using humans and AI agents to publish without giving up the design system.",
     locale: "en_US",
     name: "PageQuarry",
     navigation,
@@ -110,7 +110,7 @@ export const siteConfig = {
   manifest: {
     backgroundColor: "#f7f0e8",
     description:
-      "Agent-native publishing for React sites.",
+      "Repo-native publishing for React sites.",
     name: "PageQuarry",
     shortName: "PageQuarry",
     themeColor: "#f7f0e8",

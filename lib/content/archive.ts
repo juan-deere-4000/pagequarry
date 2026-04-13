@@ -21,41 +21,57 @@ type ArchiveGroup = {
 const archiveConfig = {
   caseStudies: {
     ctaBody:
-      "replace these starter examples with your own published work once the editorial model is in place.",
-    ctaTitle: "ready to publish your own case studies?",
+      "Read the case study, then follow the workflow behind it.",
+    ctaTitle: "Want to See the System in Motion?",
     deck:
-      "published case studies generated from the live site index. by default this archive groups entries by the second slug segment under `/case-studies/`.",
+      "Short proof pages that show how the publishing model works in practice.",
     description:
-      "published case studies generated from the live site index.",
+      "Proof pages showing how PageQuarry works in practice.",
     emptyBody:
-      "there are no published case studies yet. once they are accepted into the live archive, they will appear here automatically.",
+      "There are no published case studies yet.",
     groupOrder: ["independent", "teams", "organizations"],
     groupPrefix: "segment",
+    heroAction: {
+      href: "/features",
+      label: "View Features",
+    },
     pageId: "case-studies-archive",
     seoTitle: "case studies archive",
     slug: "/case-studies",
     summary:
-      "published case studies generated from the live site index.",
-    title: "all published case studies.",
+      "Proof pages showing how PageQuarry works in practice.",
+    title: "Case Studies and Proof.",
+    ctaAction: {
+      href: "/how-it-works",
+      label: "Read How It Works",
+    },
   },
   howto: {
     ctaBody:
-      "use this archive as the editorial index for published guides, operational notes, and platform walkthroughs.",
-    ctaTitle: "ready to publish your own guides?",
+      "Start with the workflow guide, then read the architecture behind it.",
+    ctaTitle: "Want the Operational View?",
     deck:
-      "published how-to pages generated from the live site index. by default this archive groups entries by the second slug segment under `/howto/`.",
+      "Short guides for running the publishing flow and understanding how the system behaves.",
     description:
-      "published how-to articles generated from the live site index.",
+      "Guides for running PageQuarry and understanding the publishing flow.",
     emptyBody:
-      "there are no published how-to articles yet. once they are accepted into the live archive, they will appear here automatically.",
+      "There are no published guides yet.",
     groupOrder: ["editorial", "platform", "migration", "operations"],
     groupPrefix: "topic",
+    heroAction: {
+      href: "/how-it-works",
+      label: "How It Works",
+    },
     pageId: "howto-archive",
     seoTitle: "how-to archive",
     slug: "/howto",
     summary:
-      "published how-to articles generated from the live site index.",
-    title: "all published how-to articles.",
+      "Guides for running PageQuarry and understanding the publishing flow.",
+    title: "Guides and Workflows.",
+    ctaAction: {
+      href: "/features",
+      label: "View Features",
+    },
   },
 } as const;
 
@@ -127,7 +143,7 @@ function buildBlocks(kind: ArchiveKind, groups: ArchiveGroup[]): ManagedPage["bl
         type: "sectionCopy" as const,
         eyebrow: config.groupPrefix,
         title: group.label,
-        body: `${group.entries.length} published ${kind === "howto" ? "guide" : "case study"}${group.entries.length === 1 ? "" : "s"} in this section.`,
+        body: `${group.entries.length} ${kind === "howto" ? "guide" : "case study"}${group.entries.length === 1 ? "" : "s"} in this section.`,
         links: group.entries.map((entry) => ({
           href: entry.href,
           label: entry.title,
@@ -147,14 +163,14 @@ function buildBlocks(kind: ArchiveKind, groups: ArchiveGroup[]): ManagedPage["bl
       eyebrow: "published archive",
       title: config.title,
       deck: config.deck,
-      action: siteConfig.contact.primaryAction,
+      action: config.heroAction,
     },
     ...groupBlocks,
     {
       type: "cta",
       title: config.ctaTitle,
       body: config.ctaBody,
-      action: siteConfig.contact.primaryAction,
+      action: config.ctaAction,
     },
   ];
 }

@@ -212,7 +212,10 @@ export function HomepageMarkdownTrigger() {
 
   return (
     <Button onClick={context.open} type="button" variant="ghost">
-      Look Under the Hood
+      <span>Look Under the Hood</span>
+      <span className="rounded-full bg-slate-900/8 px-2 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.12em] text-slate-600">
+        Markdown
+      </span>
     </Button>
   );
 }
