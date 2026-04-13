@@ -75,6 +75,35 @@ Leave these alone unless you are improving the framework itself:
 - `content/types.ts`
 - `scripts/site-content.ts`
 
+## Agent Best Practices
+
+### Styling
+
+- Use Tailwind utility classes and the existing design tokens in `app/globals.css`.
+- Do not add one-off custom CSS files, inline style blobs, or parallel styling systems unless there is a strong reason.
+- Prefer editing shared site primitives in `components/site/*` before scattering repeated class changes across many pages.
+- When doing frontend design work, use Playwright to verify real rendered behavior and take screenshots so visual changes are grounded in the actual UI, not guesswork.
+- If a visual rule is reusable, put it in the shared site layer, not in one random page.
+
+### Blocks and Templates
+
+- If you are improving the CMS for everyone, edit the canonical catalogs in `components/blocks/*` and `components/templates/*`.
+- If you are making a site-specific customization in a fork, start in `site/blocks.ts` and `site/templates.ts`.
+- Promote a block or template upstream only when it is clearly reusable across multiple sites.
+- Keep the seam boring and explicit. Avoid plugin systems, dynamic discovery, or clever abstractions.
+
+### Content and Publishing
+
+- Do not edit `content/archive/*` or `content/.state/*` directly.
+- Put new drafts in `content/submit-here/` and use the content CLI to check, submit, or edit them.
+- Treat `content/examples/seed/*` as starter examples, not as hidden runtime state.
+
+### Repo Hygiene
+
+- Normal site work should stay inside `site/*`, `components/site/*`, `app/globals.css`, and content files.
+- Core CMS changes should be intentional, small, and validated with lint, tests, build, and content CLI checks.
+- When in doubt, prefer the change that keeps future upstream merges boring.
+
 ## Content Workflow
 
 New markdown drafts only go in:

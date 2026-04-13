@@ -16,7 +16,7 @@ This system should be shaped so that a user can:
 
 The CMS should be defined as a framework plus a site implementation model, not as a single hard-coded site.
 
-### CMS framework responsibilities
+### CMS Framework Responsibilities
 
 The CMS framework should own:
 - the markdown content submission and validation pipeline
@@ -29,7 +29,7 @@ The CMS framework should own:
 - publication rules for draft vs published content
 - documentation for how a site author extends and customizes the system
 
-### Site repository responsibilities
+### Site Repository Responsibilities
 
 A site repository built on the CMS should own:
 - site identity and metadata
@@ -56,7 +56,7 @@ The system should continue to make publication explicit rather than allowing arb
 
 The CMS must make it obvious how a site owner adds or changes presentation capabilities.
 
-### Canonical blocks
+### Canonical Blocks
 
 The framework should ship with a small core set of canonical blocks that cover the common baseline use cases.
 
@@ -65,7 +65,7 @@ These canonical blocks should be:
 - stable enough to build real sites on
 - implemented in a way that makes future additions straightforward
 
-### Site-level custom blocks
+### Site-level Custom Blocks
 
 A site repo should be able to define additional blocks beyond the canonical set.
 
@@ -105,7 +105,7 @@ A user evaluating the CMS should be able to understand:
 
 The system should support a healthy upstream/downstream workflow.
 
-### Downstream site work
+### Downstream Site Work
 
 A site repo should be the normal place to:
 - add site-specific blocks
@@ -113,7 +113,7 @@ A site repo should be the normal place to:
 - add content types or page structures that are unique to that site
 - evolve the design and editorial behavior of that site
 
-### Upstream CMS contributions
+### Upstream CMS Contributions
 
 The framework repo should accept contributions for improvements that are broadly reusable, such as:
 - new canonical blocks

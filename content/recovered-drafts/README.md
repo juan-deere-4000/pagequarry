@@ -1,23 +1,23 @@
-# recovered drafts
+# Recovered Drafts
 
-this directory is the safety net.
+This directory is the safety net.
 
-if a draft was written to the wrong place, or if accepted/generated content was edited directly, the system moves that work here instead of deleting it.
+If a draft was written to the wrong place, or if accepted or generated content was edited directly, the system moves that work here instead of deleting it.
 
-if something vanished, look here first.
+If something vanished, look here first.
 
-## why files end up here
+## Why Files End Up Here
 
-common reasons:
+Common reasons:
 
 - a draft was written outside `content/submit-here/`
 - `content/archive/` was edited directly
 - hidden state under `content/.state/` was edited directly
 - generated files were tampered with
 
-the system preserves the work here, then restores the trusted accepted state.
+The system preserves the work here, then restores the trusted accepted state.
 
-## what to do when you find a file here
+## What to Do When You Find a File Here
 
 1. list recovery entries:
 
@@ -49,10 +49,10 @@ or, if it is a revision to an existing page:
 npm run content -- edit content/submit-here/<restored-file>.md
 ```
 
-## important behavior
+## Important Behavior
 
-- files here are preserved on purpose
-- nothing here is live
-- restoring a file does not publish it
-- restore only moves a copy back into `content/submit-here/`
-- you still need to run `check` and `submit` or `edit`
+- Files here are preserved on purpose
+- Nothing here is live
+- Restoring a file does not publish it
+- Restore only moves a copy back into `content/submit-here/`
+- You still need to run `check` and `submit` or `edit`

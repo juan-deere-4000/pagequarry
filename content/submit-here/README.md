@@ -1,41 +1,41 @@
-# submit here
+# Submit Here
 
-this directory is the only approved place for new draft markdown.
+This directory is the only approved place for new draft markdown.
 
-if you are writing content, start here.
+If you are writing content, start here.
 
-read this first:
+Read this first:
 
 - `content/AUTHORING.md`
 
-## the short version
+## The Short Version
 
 1. put a draft markdown file here
 2. run `check`
 3. fix any errors
 4. run `submit` for a new page or `edit` for a revision
 
-## exact commands
+## Exact Commands
 
-new page:
+New page:
 
 ```bash
 npm run content -- check content/submit-here/<file>.md
 npm run content -- submit content/submit-here/<file>.md
 ```
 
-revision to an existing page:
+Revision to an existing page:
 
 ```bash
 npm run content -- check content/submit-here/<file>.md
 npm run content -- edit content/submit-here/<file>.md
 ```
 
-`edit` is an alias of `submit`. it exists so revisions read clearly in logs and agent traces.
+`edit` is an alias of `submit`. It exists so revisions read clearly in logs and agent traces.
 
-## before you write
+## Before You Write
 
-inspect the current system first:
+Inspect the current system first:
 
 ```bash
 npm run content -- pages
@@ -43,14 +43,14 @@ npm run content -- list-templates
 npm run content -- list-blocks
 ```
 
-that tells you:
+That tells you:
 
 - which pages already exist
 - which template each page uses
 - which blocks are allowed
 - what block order each template requires
 
-## minimum valid frontmatter
+## Minimum Valid Frontmatter
 
 ```yaml
 ---
@@ -61,7 +61,7 @@ description: how to validate and publish a page safely through the content pipel
 ---
 ```
 
-## full metadata example
+## Full Metadata Example
 
 ```yaml
 ---
@@ -91,14 +91,14 @@ redirect_from:
 ---
 ```
 
-allowed values:
+Allowed values:
 
 - `status`: `published` or `draft`
 - `robots`: `index` or `noindex`
 - `social_image`: `site`, `home`, `hub`, `guide`, `caseStudy`, `narrative`
 - `twitter_card`: `summary` or `summary_large_image`
 
-## exact replacement flow for an existing page
+## Exact Replacement Flow for an Existing Page
 
 1. list the live pages:
 
@@ -117,33 +117,33 @@ npm run content -- check content/submit-here/<file>.md
 npm run content -- edit content/submit-here/<file>.md
 ```
 
-## common block examples
+## Common Block Examples
 
-### normal internal button
+### Normal Internal Button
 
 ```md
 {% hero eyebrow="features" title="one framework, several page families." deck="..." actionHref="/contact" actionLabel="contact" /%}
 ```
 
-### email button
+### Email Button
 
 ```md
 {% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@pagequarry.com" actionLabel="email" /%}
 ```
 
-### email button with subject
+### Email Button With Subject
 
 ```md
 {% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@pagequarry.com?subject=hello%20from%20the%20starter%20site" actionLabel="email" /%}
 ```
 
-important:
+Important:
 
 - use `mailto:` inside `actionHref`
 - the same pattern works in `cta` blocks
 - spaces in email subjects must be `%20`
 
-## important behavior
+## Important Behavior
 
 - `draft` revisions are accepted and archived, but do not replace the last published page on the live site
 - if a page has never had a published revision, `draft` keeps it off the live site entirely
@@ -152,7 +152,7 @@ important:
 - if you expose the cli through agent tools, map them narrowly to `content_templates`, `content_blocks`, `content_stage`, `content_check`, `content_submit`, `content_edit`, `content_pages`, `content_recovery_list`, and `content_recovery_restore`
 - `content_stage` should stay the entry point because it writes drafts here without guessing paths
 
-## do not do these things
+## Do Not Do These Things
 
 - do not write drafts anywhere except `content/submit-here/`
 - do not edit `content/archive/` directly
@@ -160,24 +160,24 @@ important:
 - do not invent extra frontmatter keys
 - do not invent new block names or attrs
 
-## if something goes wrong
+## If Something Goes Wrong
 
-if `check` or `submit` fails:
+If `check` or `submit` fails:
 
 - read the lint output carefully
 - fix the markdown
 - run `check` again
 
-if your work seems to disappear:
+If your work seems to disappear:
 
 - check `content/recovered-drafts/`
 - run `npm run content -- recovery-list`
 - run `npm run content -- recovery-restore <id>`
 
-for maintainers and migration work only:
+For maintainers and migration work only:
 
 ```bash
 npm run content -- seed <directory-of-md-files>
 ```
 
-normal page writing should still happen one draft at a time in `content/submit-here/`.
+Normal page writing should still happen one draft at a time in `content/submit-here/`.

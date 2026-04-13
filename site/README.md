@@ -1,6 +1,6 @@
-# site customization boundary
+# Site Customization Boundary
 
-this directory is the site-owned seam for an upstream-fork workflow.
+This directory is the site-owned seam for an upstream fork workflow.
 
 - `config.ts`
   site identity, canonical url, navigation, footer copy, manifest defaults, and metadata defaults
@@ -9,7 +9,7 @@ this directory is the site-owned seam for an upstream-fork workflow.
 - `templates.ts`
   explicit composition point for site-owned template registry changes
 
-canonical cms core stays in the existing core directories:
+Canonical CMS core stays in the existing core directories:
 
 - `components/blocks/*` and `components/templates/*`
   canonical block and template implementations
@@ -18,4 +18,4 @@ canonical cms core stays in the existing core directories:
 - `components/site/*`
   shared layout primitives
 
-`content/site.ts` remains as a compatibility shim so older references do not break, but new site customization work should start here.
+`content/site.ts` remains a compatibility shim so older references do not break, but new site customization work should start here.

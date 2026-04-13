@@ -1,19 +1,19 @@
-# examples
+# Examples
 
-this directory holds maintainer-owned starter fixtures and example content.
+This directory holds maintainer-owned starter fixtures and example content.
 
-use it when you need to:
+Use it when you need to:
 
 - reseed the default public starter site
 - test the content pipeline against known-good examples
 - inspect one example for each template family
 
-the seedable markdown fixtures live in `content/examples/seed/`.
+The seedable markdown fixtures live in `content/examples/seed/`.
 
-to reseed from them:
+To reseed from them:
 
 ```bash
 npm run content -- seed content/examples/seed
 ```
 
-normal writing should not happen here. new drafts still belong in `content/submit-here/`.
+Normal writing should not happen here. New drafts still belong in `content/submit-here/`.
