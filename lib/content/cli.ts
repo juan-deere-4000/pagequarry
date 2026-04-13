@@ -218,14 +218,28 @@ function submitResult(filePath: string, context: CliContext) {
 
 function auditResult(context: CliContext) {
   const audit = rebuildContentState(context.rootDir);
+  const lines = [
+    "audit complete",
+    `live pages: ${audit.livePages}`,
+    `quarantined: ${audit.quarantined.length}`,
+    `regenerated: ${audit.regenerated.length}`,
+  ];
+
+  if (audit.bootstrappedHiddenState) {
+    lines.push(
+      "note: hidden state was missing, so audit rebuilt it from content/archive/. regenerated files are normal on a fresh clone."
+    );
+  }
+
+  if (audit.quarantined.length > 0) {
+    lines.push(
+      "note: quarantined files mean audit found misplaced markdown or direct edits to generated files. inspect content/recovered-drafts/."
+    );
+  }
+
   return ok(
     { ok: true, ...audit },
-    [
-      "audit complete",
-      `live pages: ${audit.livePages}`,
-      `quarantined: ${audit.quarantined.length}`,
-      `regenerated: ${audit.regenerated.length}`,
-    ].join("\n")
+    lines.join("\n")
   );
 }
 

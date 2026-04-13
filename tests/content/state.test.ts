@@ -140,11 +140,22 @@ describe("content state pipeline", () => {
     const audit = rebuildContentState(rootDir);
     const livePages = listPages(rootDir);
 
+    expect(audit.bootstrappedHiddenState).toBe(true);
     expect(audit.quarantined).toEqual([]);
     expect(audit.livePages).toBe(1);
+    expect(audit.regenerated.length).toBeGreaterThan(0);
     expect(livePages).toHaveLength(1);
     expect(livePages[0]!.slug).toBe("/contact");
     expect(fs.existsSync(path.join(paths.pagesDir, "contact", "current.json"))).toBe(true);
+  });
+
+  it("does not report bootstrap when hidden state is already present", () => {
+    const rootDir = createTempRoot();
+    submitDraftFile({ filePath: copyFixture(rootDir, "contact.md"), rootDir });
+
+    const audit = rebuildContentState(rootDir);
+
+    expect(audit.bootstrappedHiddenState).toBe(false);
   });
 
   it("rehydrates published live state from archive revisions even when archive current is a draft", () => {

@@ -38,7 +38,7 @@ npm run test
 npm run build
 ```
 
-`npm run content -- audit` matters on a fresh clone because `content/.state/` is ignored and rebuilt from the accepted archive.
+`npm run content -- audit` matters on a fresh clone because `content/.state/` is ignored and rebuilt from the accepted archive. in that case, `regenerated` can be non-zero without meaning anything is wrong. `quarantined` should stay at `0` unless the audit found misplaced markdown or direct edits to generated files.
 
 ## Where Agents Should Edit
 
@@ -55,9 +55,9 @@ Start here for normal site customization:
   - metadata defaults
   - social card registry
 - `site/blocks.ts`
-  - site-level block registry composition
+  - site-level renderer overrides for the existing block keys
 - `site/templates.ts`
-  - site-level template registry composition
+  - site-level renderer overrides for the existing template keys
 - `app/globals.css`
   - tokens and global styling
 - `components/site/*`
@@ -89,6 +89,7 @@ Leave these alone unless you are improving the framework itself:
 
 - If you are improving the CMS for everyone, edit the canonical catalogs in `components/blocks/*` and `components/templates/*`.
 - If you are making a site-specific customization in a fork, start in `site/blocks.ts` and `site/templates.ts`.
+- Today that site seam is for swapping existing renderer keys. adding new block or template names still requires contract changes in `lib/content/*`.
 - Promote a block or template upstream only when it is clearly reusable across multiple sites.
 - Keep the seam boring and explicit. Avoid plugin systems, dynamic discovery, or clever abstractions.
 

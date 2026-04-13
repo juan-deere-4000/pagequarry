@@ -4,6 +4,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { runContentCli } from "@/lib/content/cli";
+import { resolveContentPaths } from "@/lib/content/paths";
 import { createTempRoot, copyFixture } from "@/tests/helpers/temp-root";
 
 describe("content cli", () => {
@@ -152,6 +153,26 @@ describe("content cli", () => {
     expect(recoveryPayload.recovery).toHaveLength(1);
     expect(restored.exitCode).toBe(0);
     expect(restoredPayload.restored[0]).toContain("content/submit-here/");
+  });
+
+  it("explains bootstrap regeneration when hidden state is missing", async () => {
+    const rootDir = createTempRoot();
+    const filePath = copyFixture(rootDir, "contact.md");
+    await runContentCli(["--json", "--root", rootDir, "submit", filePath]);
+    const paths = resolveContentPaths(rootDir);
+
+    fs.rmSync(paths.stateDir, { force: true, recursive: true });
+    const auditJson = await runContentCli(["--json", "--root", rootDir, "audit"]);
+    const auditPayload = JSON.parse(auditJson.output);
+
+    fs.rmSync(paths.stateDir, { force: true, recursive: true });
+    const auditPlain = await runContentCli(["--root", rootDir, "audit"]);
+
+    expect(auditPayload.bootstrappedHiddenState).toBe(true);
+    expect(auditPayload.quarantined).toEqual([]);
+    expect(auditPayload.regenerated.length).toBeGreaterThan(0);
+    expect(auditPlain.output).toContain("hidden state was missing");
+    expect(auditPlain.output).toContain("fresh clone");
   });
 
   it("returns command errors for missing args and unknown commands", async () => {

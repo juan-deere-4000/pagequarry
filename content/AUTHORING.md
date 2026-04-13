@@ -30,7 +30,7 @@ Use these when you need to change global behavior:
 - `site/config.ts`
   site identity, canonical site url, nav, footer copy, manifest defaults, contact defaults, social image variants
 - `site/blocks.ts` and `site/templates.ts`
-  site-owned registry composition points for a fork that needs to extend the core catalogs
+  site-owned registry composition points for swapping the existing block and template renderers in a fork
 - `lib/content/metadata.ts`
   page, template, and site metadata resolution plus schema, sitemap, and redirects
 - `components/blocks/registry.ts`
@@ -41,6 +41,8 @@ Use these when you need to change global behavior:
   shared layout primitives and styling rules
 
 If you need a new block, a new template, a new metadata rule, or a styling change, that is a coding task, not a writing task.
+
+today, only renderer overrides live cleanly in `site/blocks.ts` and `site/templates.ts`. adding a brand-new block or template name still requires core contract work in `lib/content/contracts.ts` and `lib/content/markdown.ts`.
 
 Important:
 
@@ -54,6 +56,8 @@ Important:
 ### Template-Level
 
 Template choice controls the allowed page structure.
+
+In this starter, templates are intentionally thin page families over shared block flow, not radically different app shells.
 
 Before writing a page, inspect the current contracts:
 
@@ -123,6 +127,8 @@ Maintainer-only commands:
 
 - `npm run content -- audit`
 - `npm run content -- seed <dir>`
+
+On a fresh clone, `audit` will usually regenerate hidden state from `content/archive/`. That bootstrap path is normal. Quarantined files are the suspicious case.
 
 Normal writing should not use `seed`.
 
