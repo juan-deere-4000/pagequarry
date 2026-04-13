@@ -10,43 +10,47 @@ import { siteConfig } from "@/site/config";
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <header className="sticky top-0 z-30 border-b border-border/60 bg-background/78 backdrop-blur-xl">
-        <PageContainer className="flex items-center justify-between gap-6 py-4 sm:py-5">
-          <Text as={Link} href="/" variant="brand">
-            {siteConfig.identity.name}
-          </Text>
+      <header className="sticky top-0 z-30 px-4 pt-4 sm:px-6">
+        <PageContainer width="full">
+          <div className="site-panel flex items-center justify-between gap-6 rounded-[1.75rem] px-5 py-4 sm:px-6 sm:py-5">
+            <Text as={Link} href="/" variant="brand">
+              {siteConfig.identity.name}
+            </Text>
 
-          <DesktopNavigation items={siteConfig.navigation} />
+            <DesktopNavigation items={siteConfig.navigation} />
 
-          <Button asChild className="hidden md:inline-flex" variant="solid">
-            <Link href={siteConfig.contact.primaryAction.href} target="_blank" rel="noreferrer">
-              {siteConfig.contact.primaryAction.label}
-            </Link>
-          </Button>
+            <Button asChild className="hidden md:inline-flex" variant="solid">
+              <Link href={siteConfig.contact.primaryAction.href} target="_blank" rel="noreferrer">
+                {siteConfig.contact.primaryAction.label}
+              </Link>
+            </Button>
 
-          <MobileMenu />
+            <MobileMenu />
+          </div>
         </PageContainer>
       </header>
 
       <main className="flex-1">{children}</main>
 
-      <footer className="border-t border-border/60 py-8 sm:py-10">
-        <PageContainer className="flex flex-col gap-3 text-sm text-muted md:flex-row md:items-end md:justify-between">
-          <div>
-            <Text as="p" variant="brand">
-              {siteConfig.identity.name}
-            </Text>
-            <Text as="p" variant="bodySmall">
-              {siteConfig.footer.tagline}
-            </Text>
-          </div>
-          <div className="space-y-1 text-left md:text-right">
-            <Text as="p" variant="bodySmall">
-              {siteConfig.footer.meta}
-            </Text>
-            <Text as="p" variant="bodySmall">
-              {siteConfig.footer.note}
-            </Text>
+      <footer className="py-10 sm:py-14">
+        <PageContainer>
+          <div className="site-panel flex flex-col gap-4 rounded-[1.75rem] px-6 py-6 text-sm text-muted md:flex-row md:items-end md:justify-between">
+            <div className="max-w-lg space-y-2">
+              <Text as="p" variant="brand">
+                {siteConfig.identity.name}
+              </Text>
+              <Text as="p" variant="bodySmall">
+                {siteConfig.footer.tagline}
+              </Text>
+            </div>
+            <div className="space-y-1 text-left md:max-w-md md:text-right">
+              <Text as="p" variant="bodySmall">
+                {siteConfig.footer.meta}
+              </Text>
+              <Text as="p" variant="bodySmall">
+                {siteConfig.footer.note}
+              </Text>
+            </div>
           </div>
         </PageContainer>
       </footer>

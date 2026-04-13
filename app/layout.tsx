@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { IBM_Plex_Mono, Manrope, Space_Grotesk } from "next/font/google";
 
 import { StructuredData } from "@/components/site/structured-data";
 import { SiteChrome } from "@/components/site/site-chrome";
@@ -6,6 +7,25 @@ import { buildSiteStructuredData } from "@/lib/content/metadata";
 import { siteConfig } from "@/site/config";
 
 import "./globals.css";
+
+const bodyFont = Manrope({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-pagequarry-body",
+});
+
+const displayFont = Space_Grotesk({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-pagequarry-display",
+});
+
+const utilityFont = IBM_Plex_Mono({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-pagequarry-utility",
+  weight: ["400", "500", "600"],
+});
 
 export const metadata: Metadata = {
   applicationName: siteConfig.manifest.name,
@@ -45,10 +65,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      className={`${bodyFont.variable} ${displayFont.variable} ${utilityFont.variable}`}
+      lang="en"
+    >
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <StructuredData items={buildSiteStructuredData()} />
-        <div className="relative isolate min-h-screen overflow-hidden">
+        <div className="site-shell relative isolate min-h-screen overflow-hidden">
           <div className="relative flex min-h-screen flex-col">
             <SiteChrome>{children}</SiteChrome>
           </div>

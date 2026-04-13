@@ -6,31 +6,34 @@ import { cn } from "@/lib/cn";
 export const textVariants = cva("", {
   variants: {
     variant: {
-      brand: "font-serif text-xl font-semibold tracking-tight text-foreground",
-      eyebrow: "text-xs uppercase tracking-[0.22em] text-muted-foreground",
+      brand:
+        "font-serif text-sm font-semibold uppercase tracking-[0.34em] text-foreground",
+      eyebrow:
+        "font-mono text-[0.72rem] uppercase tracking-[0.28em] text-muted-foreground",
       display:
-        "font-serif text-5xl leading-none tracking-tight text-foreground sm:text-6xl lg:text-7xl",
-      lead: "text-lg leading-8 text-muted-foreground sm:text-xl",
+        "font-serif text-5xl font-medium leading-[0.92] tracking-[-0.05em] text-foreground sm:text-6xl lg:text-7xl",
+      lead: "text-lg leading-8 text-muted-foreground sm:text-[1.22rem] sm:leading-9",
       sectionTitle:
-        "font-serif text-3xl leading-tight tracking-tight text-foreground sm:text-4xl",
-      body: "text-base leading-8 text-muted-foreground sm:text-lg",
+        "font-serif text-3xl font-medium leading-[1.02] tracking-[-0.04em] text-foreground sm:text-5xl",
+      body: "text-base leading-8 text-muted-foreground sm:text-[1.05rem]",
       bodySmall: "text-sm leading-6 text-muted-foreground",
-      subhead: "font-serif text-xl leading-tight text-foreground",
+      subhead:
+        "font-serif text-2xl font-medium leading-tight tracking-[-0.03em] text-foreground",
       link:
         "font-medium text-accent underline decoration-current underline-offset-4",
       inlineLink:
         "text-accent underline decoration-current underline-offset-4",
       metricLabel:
-        "text-xs uppercase tracking-[0.18em] text-muted-foreground",
+        "font-mono text-[0.72rem] uppercase tracking-[0.24em] text-muted-foreground",
       metricValue:
-        "font-serif text-3xl leading-none tracking-tight text-foreground",
+        "font-serif text-4xl font-medium leading-none tracking-[-0.05em] text-foreground",
       quote:
-        "font-serif text-3xl leading-tight tracking-tight text-foreground sm:text-4xl",
-      nav: "text-sm text-muted-foreground hover:text-accent",
+        "font-serif text-3xl font-medium leading-[1.04] tracking-[-0.05em] text-foreground sm:text-[3.2rem]",
+      nav: "font-mono text-[0.72rem] uppercase tracking-[0.2em] text-muted-foreground hover:text-accent",
       navTop:
-        "text-sm font-medium tracking-tight text-foreground hover:text-accent",
+        "font-mono text-[0.72rem] uppercase tracking-[0.24em] text-muted-foreground hover:text-foreground",
       navSection:
-        "text-xs uppercase tracking-[0.18em] text-muted-foreground",
+        "font-mono text-[0.72rem] uppercase tracking-[0.2em] text-muted-foreground",
       navChild: "text-sm text-muted-foreground hover:text-foreground",
     },
   },

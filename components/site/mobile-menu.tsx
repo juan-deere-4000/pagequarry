@@ -42,9 +42,9 @@ export function MobileMenu() {
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm md:hidden" />
+        <Dialog.Overlay className="fixed inset-0 z-40 bg-foreground/14 backdrop-blur-sm md:hidden" />
 
-        <Dialog.Content className="fixed inset-y-0 right-0 z-50 w-full max-w-sm overflow-y-auto border-l border-border bg-background shadow-lg md:hidden">
+        <Dialog.Content className="site-panel fixed inset-y-3 right-3 z-50 w-[calc(100%-1.5rem)] max-w-sm overflow-y-auto rounded-[1.75rem] border border-border shadow-lg md:hidden">
           <Dialog.Title className="sr-only">navigation menu</Dialog.Title>
 
           <div className="border-b border-border/80">

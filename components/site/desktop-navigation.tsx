@@ -10,14 +10,14 @@ export function DesktopNavigation({
   items: readonly SiteNavigationItem[];
 }) {
   return (
-    <nav aria-label="primary" className="hidden items-center gap-6 md:flex">
+    <nav aria-label="primary" className="hidden items-center gap-2 md:flex">
       {items.map((item) => {
         const external = item.href.startsWith("http");
         return (
           <Link
             className={cn(
               textVariants({ variant: "navTop" }),
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              "rounded-full px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             )}
             href={item.href}
             key={item.href}
