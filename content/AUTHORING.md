@@ -1,8 +1,8 @@
 # Authoring Guide
 
-this is the plain-language map of the content system.
+This is the plain-language map of the content system.
 
-if you are writing page content, you should mostly care about four places:
+If you are writing page content, you should mostly care about four places:
 
 - `content/submit-here/`
   where new draft markdown goes
@@ -13,19 +13,19 @@ if you are writing page content, you should mostly care about four places:
 - `npm run content -- ...`
   the cli used to validate and publish drafts
 
-if you are not doing a coding task, do not touch anything else.
+If you are not doing a coding task, do not touch anything else.
 
-## One-sentence Rule
+## One-Sentence Rule
 
-writers only write markdown drafts into `content/submit-here/`, validate them, then publish them through the content CLI or a thin automation wrapper around it.
+Writers should only place markdown drafts in `content/submit-here/`, validate them, then publish them through the content CLI or a thin automation wrapper around it.
 
 ## The Three Editing Layers
 
-### Site-level
+### Site-Level
 
-site-level changes live in code, not markdown.
+Site-level changes live in code, not markdown.
 
-use these when you need to change global behavior:
+Use these when you need to change global behavior:
 
 - `site/config.ts`
   site identity, canonical site url, nav, footer copy, manifest defaults, contact defaults, social image variants
@@ -40,9 +40,9 @@ use these when you need to change global behavior:
 - `components/site/*` and `app/globals.css`
   shared layout primitives and styling rules
 
-if you need a new block, a new template, a new metadata rule, or a styling change, that is a coding task, not a writing task.
+If you need a new block, a new template, a new metadata rule, or a styling change, that is a coding task, not a writing task.
 
-important:
+Important:
 
 - the header and mobile menu are code-owned in `site/config.ts`
 - the header is flat. top-level links are `home`, `features`, `how it works`, `how-to`, `case studies`, and `contact`
@@ -51,39 +51,39 @@ important:
 - if a page should appear as a top-level nav item, a coding agent must update `site/config.ts`
 - `content/site.ts` still exists as a compatibility shim, but new site customization work should not start there
 
-### Template-level
+### Template-Level
 
-template choice controls the allowed page structure.
+Template choice controls the allowed page structure.
 
-before writing a page, inspect the current contracts:
+Before writing a page, inspect the current contracts:
 
 ```bash
 npm run content -- list-templates
 npm run content -- list-blocks
 ```
 
-each template has a fixed block order. each block has fixed attrs. writers should pick from that catalog instead of inventing new markup.
+Each template has a fixed block order. Each block has fixed attrs. Writers should pick from that catalog instead of inventing new markup.
 
-### Page-level
+### Page-Level
 
-page writing happens through markdown drafts in `content/submit-here/`.
+Page writing happens through markdown drafts in `content/submit-here/`.
 
-normal cli flow:
+Normal CLI flow:
 
 ```bash
 npm run content -- check content/submit-here/<file>.md
 npm run content -- submit content/submit-here/<file>.md
 ```
 
-accepted drafts are mirrored into `content/archive/`. rejected drafts stay visible and return structured lint feedback. misplaced work is moved into `content/recovered-drafts/`.
+Accepted drafts are mirrored into `content/archive/`. Rejected drafts stay visible and return structured lint feedback. Misplaced work is moved into `content/recovered-drafts/`.
 
-page-level markdown can control:
+Page-level markdown can control:
 
 - the page url via `slug`
 - page metadata
 - page body blocks
 
-page-level markdown cannot control:
+Page-level markdown cannot control:
 
 - the global nav or footer
 - which pages appear in the header or mobile menu
@@ -98,7 +98,7 @@ page-level markdown cannot control:
 - `public/_redirects`
   generated from accepted page metadata
 
-if you edit those directly, the system will quarantine the change and restore the accepted state.
+If you edit those directly, the system will quarantine the change and restore the accepted state.
 
 ## Commands You Actually Need
 
@@ -119,18 +119,18 @@ if you edit those directly, the system will quarantine the change and restore th
 - `npm run content -- recovery-restore <id>`
   restore a quarantined file into `content/submit-here/`
 
-maintainer-only commands:
+Maintainer-only commands:
 
 - `npm run content -- audit`
 - `npm run content -- seed <dir>`
 
-normal writing should not use `seed`.
+Normal writing should not use `seed`.
 
 ## Exact Writer Workflows
 
 ### Create a New Page
 
-1. inspect the current system:
+1. Inspect the current system:
 
 ```bash
 npm run content -- pages
@@ -138,20 +138,20 @@ npm run content -- list-templates
 npm run content -- list-blocks
 ```
 
-2. write a new draft in `content/submit-here/<file>.md`
-3. validate it:
+2. Write a new draft in `content/submit-here/<file>.md`
+3. Validate it:
 
 ```bash
 npm run content -- check content/submit-here/<file>.md
 ```
 
-4. if it passes, publish it:
+4. If it passes, publish it:
 
 ```bash
 npm run content -- submit content/submit-here/<file>.md
 ```
 
-5. confirm it is live:
+5. Confirm it is live:
 
 ```bash
 npm run content -- pages
@@ -159,47 +159,47 @@ npm run content -- pages
 
 ### Replace an Existing Live Page
 
-1. list live pages:
+1. List live pages:
 
 ```bash
 npm run content -- pages
 ```
 
-2. find the current accepted source in `content/archive/.../current.md`
-3. keep the same `page_id` and same `slug`
-4. write the revised markdown to `content/submit-here/<file>.md`
-5. validate it:
+2. Find the current accepted source in `content/archive/.../current.md`
+3. Keep the same `page_id` and the same `slug`
+4. Write the revised markdown to `content/submit-here/<file>.md`
+5. Validate it:
 
 ```bash
 npm run content -- check content/submit-here/<file>.md
 ```
 
-6. publish the revision:
+6. Publish the revision:
 
 ```bash
 npm run content -- edit content/submit-here/<file>.md
 ```
 
-`edit` is the same acceptance path as `submit`. it exists so revision logs are obvious.
+`edit` is the same acceptance path as `submit`. It exists to make revision logs obvious.
 
 ### Recover Missing Work
 
-if your draft seems to have vanished, look here first:
+If your draft seems to have vanished, look here first:
 
 - `content/recovered-drafts/`
 
-then run:
+Then run:
 
 ```bash
 npm run content -- recovery-list
 npm run content -- recovery-restore <id>
 ```
 
-that restores the quarantined file into `content/submit-here/` so you can validate and submit it correctly.
+That restores the quarantined file into `content/submit-here/` so you can validate and submit it correctly.
 
 ## Frontmatter Rules
 
-minimum valid frontmatter:
+Minimum valid frontmatter:
 
 ```yaml
 ---
@@ -210,7 +210,7 @@ description: how to validate and publish a page safely through the content pipel
 ---
 ```
 
-full metadata example:
+Full metadata example:
 
 ```yaml
 ---
@@ -283,7 +283,7 @@ common patterns:
 {% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@pagequarry.com?subject=hello%20from%20the%20starter%20site" actionLabel="email" /%}
 ```
 
-important:
+Important:
 
 - use `mailto:` inside `actionHref`
 - separate query params with `&`

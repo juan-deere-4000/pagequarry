@@ -2,9 +2,9 @@
 
 ## Objective
 
-ship a content pipeline that assumes the writer automation is unreliable, impatient, and bad at following directions.
+Ship a content pipeline that assumes the writer automation is unreliable, impatient, and bad at following directions.
 
-the site must stay stable if it:
+The site must stay stable if it:
 
 - writes markdown into random folders
 - edits accepted files directly
@@ -12,11 +12,11 @@ the site must stay stable if it:
 - submits malformed markdown
 - ignores the cli and guesses
 
-the pipeline is complete only when those failures are either rejected cleanly or quarantined without losing work.
+The pipeline is complete only when those failures are rejected cleanly or quarantined without losing work.
 
-## Non-negotiables
+## Non-Negotiables
 
-- the app trusts only generated state under `content/.state/`
+- The app trusts only generated state under `content/.state/`
 - the documented authoring path is `content/submit-here/`
 - rescued mistakes land in `content/recovered-drafts/`
 - the app never renders raw markdown directly
@@ -31,7 +31,7 @@ the pipeline is complete only when those failures are either rejected cleanly or
 - make the runtime read only from generated state
 - seed example markdown fixtures that match the contract
 
-exit condition:
+Exit condition:
 - one valid markdown example exists for each page family the site currently uses
 
 ### 2. Go Red on Tests
@@ -40,7 +40,7 @@ exit condition:
 - add missing tests before fixing code if an important failure mode is not covered
 - keep the tests honest: no fake success expectations, no vague assertion text, no brittle snapshots as the primary guardrail
 
-exit condition:
+Exit condition:
 - failures describe real gaps, not test mistakes
 
 ### 3. Fix the System Until Green
@@ -49,7 +49,7 @@ exit condition:
 - seed content through the cli and make the app boot from generated state
 - keep rerunning `test`, `lint`, `build`, `content:audit`, and `content:seed` as needed
 
-exit condition:
+Exit condition:
 - tests, lint, build, audit, and seed are all green
 
 ### 4. Wrap It for Automation
@@ -59,7 +59,7 @@ exit condition:
 - document only the public authoring and recovery paths
 - do not mention internal state paths in plugin-facing docs
 
-exit condition:
+Exit condition:
 - the wrapper can list templates, list blocks, check drafts, submit drafts, inspect recovery, and restore drafts
 
 ### 5. Tighten Coverage
@@ -68,7 +68,7 @@ exit condition:
 - add tests for any low-coverage branches that matter to correctness
 - prioritize direct-write quarantine, revision repair, malformed markdown, and bad edit flows
 
-exit condition:
+Exit condition:
 - coverage thresholds are met without padding the suite with bullshit tests
 
 ### 6. Functional Testing as a Sloppy Writer
@@ -80,7 +80,7 @@ exit condition:
 - tamper with accepted content and generated state
 - verify the system preserves work and keeps the site stable
 
-exit condition:
+Exit condition:
 - real shell usage matches the designed safety model
 
 ### 7. Adversarial Testing as a Dumb Toddler
@@ -89,7 +89,7 @@ exit condition:
 - keep anything valuable in recovery instead of losing it
 - confirm the runtime still serves the last good content
 
-exit condition:
+Exit condition:
 - the easiest wrong move is still recoverable and non-destructive
 
 ### 8. Ship
@@ -98,16 +98,16 @@ exit condition:
 - deploy the site update to the chosen static host
 - summarize the exact guarantees, the recovery path, and any remaining edge risk
 
-exit condition:
+Exit condition:
 - repo, deploy, and docs all describe the same system
 
-## Once-over Before Execution
+## Once-Over Before Execution
 
-the failure mode the maintainer actually cares about is not “the markdown linter caught a typo.”
+The failure mode the maintainer actually cares about is not “the markdown linter caught a typo.”
 
-it is “an unreliable agent had shell access, did the wrong thing for an hour, and still did not break production or lose the draft.”
+It is “an unreliable agent had shell access, did the wrong thing for an hour, and still did not break production or lose the draft.”
 
-that means the critical path is:
+That means the critical path is:
 
 1. generated-state-only runtime
 2. quarantine and recovery
@@ -115,4 +115,4 @@ that means the critical path is:
 4. narrow wrapper surface
 5. real-world abuse testing
 
-that is the order i’m following.
+That is the order I’m following.

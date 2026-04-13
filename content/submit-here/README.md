@@ -1,10 +1,10 @@
 # Submit Here
 
-this directory is the only approved place for new draft markdown.
+This directory is the only approved place for new draft markdown.
 
-if you are writing content, start here.
+If you are writing content, start here.
 
-read this first:
+Read this first:
 
 - `content/AUTHORING.md`
 
@@ -17,25 +17,25 @@ read this first:
 
 ## Exact Commands
 
-new page:
+New page:
 
 ```bash
 npm run content -- check content/submit-here/<file>.md
 npm run content -- submit content/submit-here/<file>.md
 ```
 
-revision to an existing page:
+Revision to an existing page:
 
 ```bash
 npm run content -- check content/submit-here/<file>.md
 npm run content -- edit content/submit-here/<file>.md
 ```
 
-`edit` is an alias of `submit`. it exists so revisions read clearly in logs and agent traces.
+`edit` is an alias of `submit`. It exists so revisions read clearly in logs and agent traces.
 
 ## Before You Write
 
-inspect the current system first:
+Inspect the current system first:
 
 ```bash
 npm run content -- pages
@@ -43,7 +43,7 @@ npm run content -- list-templates
 npm run content -- list-blocks
 ```
 
-that tells you:
+That tells you:
 
 - which pages already exist
 - which template each page uses
@@ -91,7 +91,7 @@ redirect_from:
 ---
 ```
 
-allowed values:
+Allowed values:
 
 - `status`: `published` or `draft`
 - `robots`: `index` or `noindex`
@@ -137,7 +137,7 @@ npm run content -- edit content/submit-here/<file>.md
 {% hero eyebrow="contact" title="replace this page before launch." deck="..." actionHref="mailto:hello@pagequarry.com?subject=hello%20from%20the%20starter%20site" actionLabel="email" /%}
 ```
 
-important:
+Important:
 
 - use `mailto:` inside `actionHref`
 - the same pattern works in `cta` blocks
@@ -162,22 +162,22 @@ important:
 
 ## If Something Goes Wrong
 
-if `check` or `submit` fails:
+If `check` or `submit` fails:
 
 - read the lint output carefully
 - fix the markdown
 - run `check` again
 
-if your work seems to disappear:
+If your work seems to disappear:
 
 - check `content/recovered-drafts/`
 - run `npm run content -- recovery-list`
 - run `npm run content -- recovery-restore <id>`
 
-for maintainers and migration work only:
+For maintainers and migration work only:
 
 ```bash
 npm run content -- seed <directory-of-md-files>
 ```
 
-normal page writing should still happen one draft at a time in `content/submit-here/`.
+Normal page writing should still happen one draft at a time in `content/submit-here/`.

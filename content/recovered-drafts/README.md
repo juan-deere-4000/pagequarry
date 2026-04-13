@@ -2,7 +2,7 @@
 
 This directory is the safety net.
 
-if a draft was written to the wrong place, or if accepted/generated content was edited directly, the system moves that work here instead of deleting it.
+If a draft was written to the wrong place, or if accepted or generated content was edited directly, the system moves that work here instead of deleting it.
 
 If something vanished, look here first.
 
@@ -15,7 +15,7 @@ Common reasons:
 - hidden state under `content/.state/` was edited directly
 - generated files were tampered with
 
-the system preserves the work here, then restores the trusted accepted state.
+The system preserves the work here, then restores the trusted accepted state.
 
 ## What to Do When You Find a File Here
 

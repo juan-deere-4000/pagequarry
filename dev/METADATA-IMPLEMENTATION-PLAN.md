@@ -2,9 +2,9 @@
 
 ## Goal
 
-extend the managed markdown pipeline so accepted content carries enough page, template, and site metadata to behave like a serious editorial cms without giving the writer agent too much rope.
+Extend the managed markdown pipeline so accepted content carries enough page, template, and site metadata to behave like a serious editorial CMS without giving the writer agent too much rope.
 
-the system should cover:
+The system should cover:
 
 - page-level seo and social fields
 - template-level defaults and schema behavior
@@ -14,15 +14,15 @@ the system should cover:
 
 ## Design Rules
 
-- markdown stays the authoring surface
-- frontmatter stays narrow and typed
-- most fields are optional because code supplies defaults
-- the writer agent chooses from defined values instead of inventing raw html or one-off meta tags
-- the app still trusts generated state, not arbitrary markdown paths
+- Markdown stays the authoring surface
+- Frontmatter stays narrow and typed
+- Most fields are optional because code supplies defaults
+- The writer agent chooses from defined values instead of inventing raw HTML or one-off meta tags
+- The app still trusts generated state, not arbitrary markdown paths
 
 ## Authoring Model
 
-new frontmatter fields:
+New frontmatter fields:
 
 ```yaml
 template: guide
@@ -50,7 +50,7 @@ redirect_from:
   - /guides/publishing-workflow
 ```
 
-validation rules:
+Validation rules:
 
 - `status` is `published` or `draft`
 - `robots` is `index` or `noindex`
@@ -62,14 +62,14 @@ validation rules:
 
 ## Resolution Model
 
-add a metadata resolution layer in code:
+Add a metadata resolution layer in code:
 
 - site defaults live in one place
 - template defaults live in one place
 - page frontmatter overrides them narrowly
 - accepted pages store resolved metadata, not half-resolved raw fields
 
-resolved page metadata should include:
+Resolved page metadata should include:
 
 - visible title
 - seo title
@@ -85,19 +85,19 @@ resolved page metadata should include:
 
 ## Publication Model
 
-accepted revisions remain versioned in hidden state and mirrored into `content/archive/`.
+Accepted revisions remain versioned in hidden state and mirrored into `content/archive/`.
 
-for live publication:
+For live publication:
 
 - only the newest accepted `published` revision per `page_id` should appear in the live index
 - newer `draft` revisions should stay accepted and archived, but should not replace the last published page on the live site
 - if a page has never had a published revision, it should stay out of the live index
 
-this gives us a useful draft status without accidentally yanking a page off the site just because a draft revision was submitted.
+This gives us a useful draft status without accidentally yanking a page off the site just because a draft revision was submitted.
 
 ## Generated Outputs
 
-in addition to the live page index, the pipeline should generate:
+In addition to the live page index, the pipeline should generate:
 
 - `public/_redirects`
   contains 301 redirects from `redirect_from` aliases to canonical slugs for published pages
@@ -108,11 +108,11 @@ in addition to the live page index, the pipeline should generate:
 - `app/manifest.ts`
   emits a basic app/site manifest from site config
 
-direct edits to generated outputs should be overwritten on audit/build.
+Direct edits to generated outputs should be overwritten on audit or build.
 
 ## Runtime Model
 
-runtime helpers should resolve:
+Runtime helpers should resolve:
 
 - next `Metadata` objects from managed pages
 - template-aware open graph and twitter metadata
@@ -121,7 +121,7 @@ runtime helpers should resolve:
 - breadcrumb schema for non-root pages
 - organization/web site schema from site config
 
-template defaults:
+Template defaults:
 
 - `home` => website-style metadata, `WebSite`
 - `hub` => service-oriented defaults
@@ -131,23 +131,23 @@ template defaults:
 
 ## Asset Model
 
-social image choices should be code-owned:
+Social image choices should be code-owned:
 
 - a fixed registry of social image variants
 - static assets under `public/og/`
 - frontmatter only references the variant key
 
-the writer agent should never hand-author image urls.
+The writer agent should never hand-author image URLs.
 
 ## Test Plan
 
-contracts and parser:
+Contracts and parser:
 
 - accepts the expanded metadata schema
 - rejects invalid robots, status, dates, twitter cards, social image keys, canonical urls, and redirect aliases
 - resolves defaults when optional metadata is omitted
 
-state and publication:
+State and publication:
 
 - published pages enter the live index
 - draft-only pages stay out of the live index
@@ -156,13 +156,13 @@ state and publication:
 - redirect collisions are rejected
 - tampered `_redirects` file is regenerated
 
-runtime:
+Runtime:
 
 - generated page metadata contains canonical, robots, open graph, twitter, and article fields
 - sitemap excludes drafts and `noindex` pages
 - structured data matches template defaults
 
-functional and adversarial:
+Functional and adversarial:
 
 - submit valid published and draft fixtures through the cli
 - edit a published page with a draft revision and confirm the live page stays published
@@ -171,8 +171,8 @@ functional and adversarial:
 
 ## Commit Plan
 
-1. plan doc and failing tests
-2. metadata types/contracts/parser/defaults
-3. publication and redirect generation
-4. next runtime metadata, sitemap, robots, manifest, schema
-5. docs, functional runs, and adversarial fixes
+1. Plan doc and failing tests
+2. Metadata types, contracts, parser, and defaults
+3. Publication and redirect generation
+4. Next runtime metadata, sitemap, robots, manifest, and schema
+5. Docs, functional runs, and adversarial fixes

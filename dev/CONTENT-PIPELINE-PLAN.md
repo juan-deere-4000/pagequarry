@@ -2,9 +2,9 @@
 
 ## Goal
 
-build a content system that assumes the writer agent is unreliable.
+Build a content system that assumes the writer agent is unreliable.
 
-the live site must stay stable even if an agent:
+The live site must stay stable even if an agent:
 
 - writes markdown into the wrong folder
 - edits accepted content directly
@@ -12,30 +12,30 @@ the live site must stay stable even if an agent:
 - submits malformed or structurally invalid markdown
 - ignores docs and guesses paths
 
-the system must preserve work, quarantine mistakes, and only publish validated content.
+The system must preserve work, quarantine mistakes, and only publish validated content.
 
 ## Key Decisions
 
 ### 1. Obvious Public Paths, Hidden Trusted State
 
-document only:
+Document only:
 
 - `content/submit-here/`
 - `content/recovered-drafts/`
 
-hide the trusted runtime state under:
+Hide the trusted runtime state under:
 
 - `content/.state/`
 
-the app will trust only a generated manifest inside `.state/`.
+The app will trust only a generated manifest inside `.state/`.
 
 ### 2. Runtime Trusts Generated State, Never Raw Markdown
 
-the site will render only from generated page records.
+The site will render only from generated page records.
 
-raw markdown in the repo is never a routable source of truth.
+Raw markdown in the repo is never a routable source of truth.
 
-that means:
+That means:
 
 - stray `.md` files cannot become live
 - broken markdown cannot break styling at runtime
@@ -43,25 +43,25 @@ that means:
 
 ### 3. Accepted Content Is Revisioned
 
-each accepted page gets a stable `page_id` and a revision history under `.state/pages/<page_id>/revisions/`.
+Each accepted page gets a stable `page_id` and a revision history under `.state/pages/<page_id>/revisions/`.
 
-each accepted revision stores:
+Each accepted revision stores:
 
 - the accepted source markdown
 - the normalized page json derived from that markdown
 - metadata such as source hash, slug, template, accepted timestamp
 
-generated convenience files like `current.json` and the aggregate live index are rebuilt from accepted revisions.
+Generated convenience files like `current.json` and the aggregate live index are rebuilt from accepted revisions.
 
 ### 4. Quarantine Instead of Delete
 
-bad writes are never discarded.
+Bad writes are never discarded.
 
-anything found in the wrong place, or any direct tampering with generated/accepted files, gets moved into:
+Anything found in the wrong place, or any direct tampering with generated or accepted files, gets moved into:
 
 - `content/recovered-drafts/<timestamp>-<slug>/`
 
-with a note explaining:
+With a note explaining:
 
 - where it came from
 - why it was quarantined
@@ -69,7 +69,7 @@ with a note explaining:
 
 ### 5. Closed Block Grammar
 
-authoring uses `Markdoc` with:
+Authoring uses `Markdoc` with:
 
 - yaml frontmatter for page metadata
 - custom tags for approved blocks only
@@ -79,11 +79,11 @@ authoring uses `Markdoc` with:
 - no custom classes
 - no inline style control
 
-the writer agent is choosing from a fixed block library, not styling pages.
+The writer agent is choosing from a fixed block library, not styling pages.
 
 ### 6. CLI Owns Publication
 
-the cli will provide:
+The CLI will provide:
 
 - `usage`
 - `list-templates`
@@ -100,16 +100,16 @@ the cli will provide:
 
 ### 7. Agent Tooling Is a Narrow Wrapper
 
-build a dedicated wrapper that exposes focused `content_*` tools for writers and keeps admin actions separate.
+Build a dedicated wrapper that exposes focused `content_*` tools for writers and keeps admin actions separate.
 
-the plugin will surface structured validation failures in a highly readable format, following the same strong-formatting pattern that works well in the hk plugin.
+The plugin will surface structured validation failures in a readable format, following the same strong-formatting pattern that works well in the hk plugin.
 
-the plugin docs will mention only:
+The plugin docs will mention only:
 
 - `content/submit-here/`
 - `content/recovered-drafts/`
 
-they will not mention `.state/`.
+They will not mention `.state/`.
 
 ## Implementation Order
 
@@ -128,7 +128,7 @@ they will not mention `.state/`.
 
 ## Testing Standard
 
-tests must cover:
+Tests must cover:
 
 - valid acceptance for each template family
 - invalid tags and invalid attributes
@@ -142,7 +142,7 @@ tests must cover:
 - manifest regeneration
 - runtime route generation from generated state only
 
-manual testing must include:
+Manual testing must include:
 
 - happy-path submit
 - edit existing page
@@ -153,6 +153,6 @@ manual testing must include:
 
 ## Review Before Execution
 
-the only reliable way to make an unreliable writer safe is to make direct writes inert and publication explicit.
+The only reliable way to make an unreliable writer safe is to make direct writes inert and publication explicit.
 
-that is what this plan does.
+That is what this plan does.
