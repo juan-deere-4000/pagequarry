@@ -82,6 +82,7 @@ Leave these alone unless you are improving the framework itself:
 - Use Tailwind utility classes and the existing design tokens in `app/globals.css`.
 - Do not add one-off custom CSS files, inline style blobs, or parallel styling systems unless there is a strong reason.
 - Prefer editing shared site primitives in `components/site/*` before scattering repeated class changes across many pages.
+- When doing frontend design work, use Playwright to verify real rendered behavior and take screenshots so visual changes are grounded in the actual UI, not guesswork.
 - If a visual rule is reusable, put it in the shared site layer, not in one random page.
 
 ### Blocks and Templates
